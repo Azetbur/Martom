@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upozornění</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: justify;
+            margin: 15px;
+        }
+
+        h2 {
+            margin-top: 5px;
+            margin-bottom: 0px;
+        }
+
+        p {
+            margin-top: 5px;
+        }
+
+        button {
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: black;             /* Sets the text color to black */
+            background-color: lightgray;   /* Sets the background color to grey */
+        }
+
+        .bottom-text {
+            font-size: 12px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h2>Upozornění</h2>
+    <p>Právě jste se připojili k internímu serveru společnosti Holewka s.r.o. Jakékoli zneužití informací nebo neautorizovaný přístup k tomuto systému může vést k trestnímu stíhání dle platné legislativy. Vaše aktivita může být monitorována.</p>
+    <button onclick="continueToSite()">Pokračovat</button>
+    <p class="bottom-text">Vzorkovna-ESP32-1</p>
+
+    <script>
+        function continueToSite() {
+            // Add your logic to continue to the main content or another page
+            alert("Vítejte!"); // Placeholder action, typically here you'd navigate to another page or reveal more content
+        }
+    </script>
+</body>
+</html>
