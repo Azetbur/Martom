@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upozornění</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: justify;
+            margin: 15px;
+        }
+
+        h2 {
+            margin-top: 5px;
+            margin-bottom: 0px;
+        }
+
+        p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: black;             /* Sets the text color to black */
+            background-color: lightgray;   /* Sets the background color to grey */
+        }
+
+        .bottom-text {
+            font-size: 12px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h2>Vyberte Wi-Fi síť pro připojení ESP32</h2>
+    <p>Pokud požadovaná síť není v seznamu, zkuste několik sekund počkat, načež aktualizujte tuto stránku.</p>
+    <form action="/connect_to_wifi" method="post">
+        <div class="wifi-list">
+            <i>
+            <input type="radio" id="wifi1" name="wifi" value="Network1">
+            <label for="wifi1">Network 1</label><br>
+            <input type="radio" id="wifi2" name="wifi" value="Network2">
+            <label for="wifi2">Network 2</label><br>
+            <input type="radio" id="wifi3" name="wifi" value="Network3">
+            <label for="wifi3">Network 3</label>
+            </i>
+        </div>
+        <button type="submit">Připojit</button>
+    </form>
+    <p class="bottom-text">Vzorkovna-ESP32-1</p>
+</body>
+</html>
