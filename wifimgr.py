@@ -114,6 +114,18 @@ def send_response(client, payload, status_code=200):
     if content_length > 0:
         client.sendall(payload)
     client.close()
+    
+    
+def display_warning_html(client):
+    
+    # Load HTML template
+    with open('warning.html', 'r') as file:
+        html_template = file.read()
+        
+    # Send the header and HTML content
+    send_header(client)
+    client.sendall(html_template)
+
 
 def display_selection_html(client):
     
@@ -299,6 +311,8 @@ def start(port=80):
             print("URL is {}".format(url))
 
             if url == "":
+                display_warning_html(client)
+            elif url == "go_to_selection":
                 display_selection_html(client)
             elif url == "connect_to_wifi":
                 display_password_html(client)

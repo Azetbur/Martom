@@ -39,14 +39,9 @@
 <body>
     <h2>Upozornění</h2>
     <p>Právě jste se připojili k internímu serveru společnosti Holewka s.r.o. Jakékoli zneužití informací nebo neautorizovaný přístup k tomuto systému může vést k trestnímu stíhání dle platné legislativy. Vaše aktivita může být monitorována.</p>
-    <button onclick="continueToSite()">Pokračovat</button>
+    <form action="go_to_selection" method="post">
+        <button type="submit">Pokračovat</button>
+    </form>
     <p class="bottom-text">Vzorkovna-ESP32-1</p>
-
-    <script>
-        function continueToSite() {
-            // Add your logic to continue to the main content or another page
-            alert("Vítejte!"); // Placeholder action, typically here you'd navigate to another page or reveal more content
-        }
-    </script>
 </body>
 </html>
