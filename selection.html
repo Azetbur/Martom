@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -46,15 +45,10 @@
 <body>
     <h2>Vyberte Wi-Fi síť pro připojení ESP32</h2>
     <p>Pokud požadovaná síť není v seznamu, zkuste několik sekund počkat, načež aktualizujte tuto stránku.</p>
-    <form action="/connect_to_wifi" method="post">
+    <form action="connect_to_wifi" method="post">
         <div class="wifi-list">
             <i>
-            <input type="radio" id="wifi1" name="wifi" value="Network1">
-            <label for="wifi1">Network 1</label><br>
-            <input type="radio" id="wifi2" name="wifi" value="Network2">
-            <label for="wifi2">Network 2</label><br>
-            <input type="radio" id="wifi3" name="wifi" value="Network3">
-            <label for="wifi3">Network 3</label>
+                {html_insert}
             </i>
         </div>
         <button type="submit">Připojit</button>
