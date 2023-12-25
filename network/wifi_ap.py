@@ -3,13 +3,13 @@
 @brief Creates and manages an access point with a web server.
 
 @details
-This script includes functions to asynchronously create and run an access point with a given SSID and password,
+This file includes functions to asynchronously create and run an access point with a given SSID and password,
 using the ESP32's networking capabilities. It also contains functionality to start a simple web server that can serve
 web pages and handle HTTP requests.
 
 Primary Functions:
-- ap_create_and_run: Sets up and runs the access point and web server.
-- ap_stop: Stops the access point and server, deactivating the network interface.
+- create_and_run: Sets up and runs the access point and web server.
+- stop: Stops the access point and server, deactivating the network interface.
 
 Project name: Martom
 Author:

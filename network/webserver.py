@@ -1,3 +1,24 @@
+"""
+@file webserver.py
+@brief Asynchronous web server for handling Wi-Fi connections and HTTP requests on ESP32.
+
+@details
+This file includes asynchronous functions to handle incoming HTTP client connections, process requests,
+and serve HTML content. The webserver itself facilitates Wi-Fi network management, allowing the ESP32
+to connect to existing networks.
+
+Primary Functions:
+- handle_client: Handles incoming HTTP requests and serves responses.
+- display_warning_html: Serves the 'warning.html' page.
+- display_selection_html: Serves the 'selection.html' page.
+- display_password_html: Serves the 'password.html' page.
+- display_success_or_failure_html: Serves either the 'selection.html' page or the 'success.html' page.
+
+Project name: Martom
+Author:
+  - Jindřich Kocman
+"""
+
 import network
 import uasyncio as asyncio
 import ure

@@ -1,3 +1,22 @@
+"""
+@file wifi_client.py
+@brief Asynchronous Wi-Fi client management for ESP32.
+
+@details
+This file provides functions for the ESP32 to connect to a Wi-Fi network, disconnect from it,
+and retrieve network configuration details.
+
+Primary Functions:
+- connect: Connects the ESP32 to a specified Wi-Fi network.
+- stop: Disconnects the ESP32 from the current Wi-Fi network and deactivates the station interface.
+- get_default_gateway: Retrieves the default gateway IP address from the current network configuration.
+
+
+Project name: Martom
+Author:
+  - Jindřich Kocman
+"""
+
 import network
 import uasyncio as asyncio
 
@@ -45,8 +64,6 @@ async def connect(ssid, password):
 async def stop():
     """
     Asynchronously disconnects the ESP32 from the Wi-Fi network and deactivates the station interface.
-
-    :return: None
     """
     global wlan_sta
 
@@ -70,4 +87,12 @@ async def stop():
         print("wifi_client: Station interface deactivated.\n")
 
 def get_default_gateway():
+    """
+    Retrieves the default gateway IP address from the ESP32's active Wi-Fi connection.
+    
+    :return: A string representing the default gateway IP address.
+    """
+    
     return wlan_sta.ifconfig()[0]
+
+#EOF
