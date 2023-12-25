@@ -32,8 +32,8 @@
             margin-bottom: 20px;
             font-size: 16px;
             cursor: pointer;
-            color: black;             /* Sets the text color to black */
-            background-color: lightgray;   /* Sets the background color to grey */
+            color: black;
+            background-color: lightgray; 
         }
 
         .bottom-text {
@@ -50,9 +50,15 @@
             <i>
                 {html_insert}
             </i>
+            <button type="submit">Připojit</button>
+    </form>
+    <form action="go_to_selection" method="post" style="display: inline-block;">
+            <button type="submit">Aktualizovat</button>
         </div>
-        <button type="submit">Připojit</button>
     </form>
     <p class="bottom-text">Vzorkovna-ESP32-1</p>
+    <script>
+        {script_insert}
+    </script>
 </body>
 </html>

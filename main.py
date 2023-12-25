@@ -1,3 +1,7 @@
+
+# Announce successfull boot completion
+print("\nmain       : ESP32 boot cycle completed successfully\n")
+
 import uasyncio as asyncio
 import wifi_ap
 

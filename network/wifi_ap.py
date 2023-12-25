@@ -21,10 +21,10 @@ import uasyncio as asyncio
 import webserver
 
 # Global variable declarations
-global ap, server, is_shutting_down
+global ap, server
 ap = None           # Will hold the access point interface
 server = None       # Will hold the server object
-is_shutting_down = False    # Flag to indicate shutdown
+
 
 async def create_and_run(ssid, password):
     """
@@ -59,23 +59,24 @@ async def create_and_run(ssid, password):
     # Wait until the AP is active
     while not ap.active():
         await asyncio.sleep(1)
+        
+    # Retrieve the default gateway (usually the AP's own IP)
+    ip, subnet, gateway, dns = ap.ifconfig()
 
     # Announce access point activation
-    print("Acess point created with successfully with the following parameters:")
-    print("  ssid: " + ssid)
-    print("  password: " + password)
-    print("  default gateway: ")
+    print("wifi_ap    : Access point created with successfully with the following parameters:")
+    print("               ssid           : " + ssid)
+    print("               password       : " + password)
+    print("               IP address     : " + ip)
+    print("               Default gateway: " + gateway + "\n")
 
-    """
-    # Setup socket server for handling webpages
-    server = await asyncio.start_server(webserver.handle_client, '0.0.0.0', 80)
-    async with server:
-        await server.serve_forever()
-    """
     
     loop = asyncio.get_event_loop()
     coro = asyncio.start_server(webserver.handle_client, '0.0.0.0', 80)
     server = loop.run_until_complete(coro)
+
+    # Announce server activation
+    print("wifi_ap    : Web server started.\n")
 
     loop.run_forever()
 
@@ -104,6 +105,6 @@ async def stop():
     if ap:
         ap.active(False)
 
-    print("Server and Access Point have been stopped.")
+    print("wifi_ap    : Access Point and Web server stopped.\n")
 
 # EOF

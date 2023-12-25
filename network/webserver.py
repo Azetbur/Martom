@@ -4,27 +4,20 @@ import ure
 import wifi_ap
 import wifi_client
 
-# Global variable declarations
-global ssid, active_tasks
-ssid = ''             # Will hold SSID
+# Will hold the SSID of the Wi-Fi the ESP32 will be connecting to as station
+global ssid
+ssid = ''
 
 async def handle_client(reader, writer):
     """
-    Handles incoming client connections and serves different web pages or responses
-    based on the URL path from POST requests.
-    """
+    Asynchronously handle an incoming client connection, processing the HTTP requests and dispatching 
+    to appropriate handlers based on the method and path.
     
-    print("In handle_client")
-    print("wifi_ap.is_shutting_down: " + str(wifi_ap.is_shutting_down))
+    :param reader: The stream to read data from the client.
+    :param writer: The stream to write data to the client.
+    """
    
     try:
-
-        # Check if the server is shutting down
-        if wifi_ap.is_shutting_down:
-            print("Server is shutting down. Closing connection.")
-            writer.close()
-            await writer.wait_closed()
-            return  # Exit the function early
 
         # Read the request line and headers
         request_line = await reader.readline()
@@ -46,7 +39,12 @@ async def handle_client(reader, writer):
         # Determine request type
         request_method, path, _ = request.split(' ')
 
-        print("Path: " + path)
+         # Get client's address information
+        client_address = writer.get_extra_info('peername')  # Returns a tuple (host, port)
+        client_host, client_port = client_address if client_address else ("Unknown", "Unknown")
+
+        # Print the path and client address
+        print(f"web_server : Request: '{path}' from {client_host}:{client_port}\n")
 
         # Initialize variable to hold POST data
         post_data = ""
@@ -56,10 +54,7 @@ async def handle_client(reader, writer):
             post_data_bytes = await reader.readexactly(content_length)
             post_data = post_data_bytes.decode('utf-8')
 
-        # Debug print to see the POST data
-        print("POST Data:", post_data)
-
-        # Call display_warning_html if not a POST request
+        # Go to 'warning.html' if not a POST request
         if request_method != "POST":
             await display_warning_html(writer)
         else:
@@ -67,19 +62,20 @@ async def handle_client(reader, writer):
             if path == "/":
                 await display_warning_html(writer)
             elif path == "/go_to_selection":
-                await display_selection_html(writer)
+                await display_selection_html(writer, None)
             elif path == "/go_to_password":
                 await display_password_html(writer, post_data)
             elif path == "/go_to_success_or_failure":
                 await display_success_or_failure_html(writer, post_data)
             else:
-                #await handle_not_found(writer, path)
                 await display_warning_html(writer)
 
     except Exception as e:
-        print(f"Error in handle_client: {e}")
+
+        print(f"web_server : Error in handle_client: {e}\n")
+
     finally:
-        print("In finally")
+
         # Close the client connection after handling the request
         await writer.drain()
         writer.close()
@@ -89,7 +85,7 @@ async def handle_client(reader, writer):
 # Helper function to extract information from an URL request
 def url_extract(request, key):
     """
-    Helper function which asynchronously extracts a value for a given key
+    Helper function which extracts a value for a given key
     from a URL-encoded request string.
 
     :param request: The URL-encoded request string.
@@ -137,7 +133,7 @@ async def display_warning_html(writer):
     await send_html_response(writer, html_template)
 
 
-async def display_selection_html(writer):
+async def display_selection_html(writer, alert):
     """
     Asynchronously scans for available Wi-Fi networks using the station interface, 
     constructs an HTML page with the network list and the 'selection.html' page,
@@ -174,10 +170,14 @@ async def display_selection_html(writer):
                 <label for="{ssid_id}">{ssid}</label><br>
             """.format(ssid_id=ssid_id, ssid=ssid)
     else:
-        html_insert = '<p>No Wi-Fi networks found.</p>'
+        html_insert = '<p>Nebyla nalezena žádná síť Wi-Fi.</p>'
 
-    # Replace the placeholders with the actual content
+    # Replace the '{html_insert}' placeholder with actual content
     html_output = html_template.replace('{html_insert}', html_insert)
+    
+    # Replace '{script_insert}' placeholder with actual content
+    if alert:
+        html_output = html_output.replace('{script_insert}', 'alert("' + alert + '");')
 
     # Send the HTML content using the send_html_response function
     await send_html_response(writer, html_output)
@@ -202,8 +202,6 @@ async def display_password_html(writer, post_data):
     if ssid is None:
         await display_warning_html(writer)
         return
-    
-    print("Selected ssid: " + ssid)
 
     # Load HTML template
     with open('password.html', 'r') as file:
@@ -231,11 +229,9 @@ async def display_success_or_failure_html(writer, post_data):
     if not password:
         await display_warning_html(writer)
         return
-
-    print("Trying to connect to SSID: " + ssid)
     
     # Assuming do_connect is an existing function that attempts to connect to a network
-    if await wifi_client.client_connect(ssid, password):
+    if await wifi_client.connect(ssid, password):
         
         # Load HTML template
         with open('success.html', 'r') as file:
@@ -252,23 +248,11 @@ async def display_success_or_failure_html(writer, post_data):
         await asyncio.sleep(1)
     
         await wifi_ap.stop()
-        
-        """
-        try:
-            profiles = await read_profiles()  # Assuming read_profiles is async or fast enough not to block
-        except OSError:
-            profiles = {}
-            
-        profiles[ssid] = password
-        await write_profiles(profiles)  # Assuming write_profiles is async or fast enough not to block
-
-        await asyncio.sleep(5)
-
-        return True
-        """
     
     else:
-        # Assuming send_response is async or you might replace it with send_html_response
-        await send_response(writer, "<html></html>")  # Populate with failure message
-        return False
 
+        await wifi_client.stop()
+        
+        await display_selection_html(writer, "Nepodařilo se připojit k síti " + ssid + ". Zkuste to prosím znovu.")
+
+#EOF
