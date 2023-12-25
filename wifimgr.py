@@ -14,62 +14,10 @@ wlan_sta = network.WLAN(network.STA_IF)
 
 server_socket = None
 
-
-def get_connection():
-    """return a working WLAN(STA_IF) instance or None"""
-
-    # First check if there already is any connection:
-    if wlan_sta.isconnected():
-        return wlan_sta
-
-    connected = False
-    try:
-        # ESP connecting to WiFi takes time, wait a bit and try again:
-        time.sleep(3)
-        if wlan_sta.isconnected():
-            return wlan_sta
-
-        # Read known network profiles from file
-        profiles = read_profiles()
-
-        # Search WiFis in range
-        wlan_sta.active(True)
-        networks = wlan_sta.scan()
-
-        AUTHMODE = {0: "open", 1: "WEP", 2: "WPA-PSK", 3: "WPA2-PSK", 4: "WPA/WPA2-PSK"}
-        for ssid, bssid, channel, rssi, authmode, hidden in sorted(networks, key=lambda x: x[3], reverse=True):
-            ssid = ssid.decode('utf-8')
-            encrypted = authmode > 0
-            print("ssid: %s chan: %d rssi: %d authmode: %s" % (ssid, channel, rssi, AUTHMODE.get(authmode, '?')))
-            if encrypted:
-                if ssid in profiles:
-                    password = profiles[ssid]
-                    connected = do_connect(ssid, password)
-                else:
-                    print("skipping unknown encrypted network")
-            else:  # open
-                connected = do_connect(ssid, None)
-            if connected:
-                break
-
-    except OSError as e:
-        print("exception", str(e))
-
-    # start web server for connection manager:
-    if not connected:
-        connected = start()
-
-    return wlan_sta if connected else None
+# SSID of the network the ESP32 will be connecting to
+ssid = ''
 
 
-def read_profiles():
-    with open(NETWORK_PROFILES) as f:
-        lines = f.readlines()
-    profiles = {}
-    for line in lines:
-        ssid, password = line.strip("\n").split(";")
-        profiles[ssid] = password
-    return profiles
 
 
 def write_profiles(profiles):
@@ -114,6 +62,21 @@ def send_response(client, payload, status_code=200):
     if content_length > 0:
         client.sendall(payload)
     client.close()
+
+# Helper function to extract information from an URL request
+def url_extract(request, key):
+    
+    # Decode the byte string to a regular string
+    decoded_request = request.decode()
+    
+    # Search for the key in the request
+    search = ure.search(key + "=([^&\s]+)", decoded_request)
+    
+    # Check if an SSID was found
+    if search:
+        return search.group(1)
+    else:
+        return
     
     
 def display_warning_html(client):
@@ -166,82 +129,83 @@ def display_selection_html(client):
     client.sendall(html_output)
 
 
-def display_password_html(client):
+def display_password_html(client, request):
     
+    global ssid
+    
+    # Get SSID from HTML request
+    ssid = url_extract(request, "wifi")
+    
+    # Check if an SSID was found
+    if ssid is None:
+        # Go to the start of the control flow
+        display_warning_html(client)
+        return
+    
+    print("Selected ssid: " + ssid)
+
     # Load HTML template
     with open('password.html', 'r') as file:
         html_template = file.read()
         
+    # Replace placeholder in HTML with actual content
+    html_output = html_template.replace('{address_insert}', ssid)
+        
     # Send the header and HTML content
     send_header(client)
-    client.sendall(html_template)
+    client.sendall(html_output)
 
-def handle_configure(client, request):
-    match = ure.search("ssid=([^&]*)&password=(.*)", request)
 
-    if match is None:
-        send_response(client, "Parameters not found", status_code=400)
-        return False
-    # version 1.9 compatibility
-    try:
-        ssid = match.group(1).decode("utf-8").replace("%3F", "?").replace("%21", "!")
-        password = match.group(2).decode("utf-8").replace("%3F", "?").replace("%21", "!")
-    except Exception:
-        ssid = match.group(1).replace("%3F", "?").replace("%21", "!")
-        password = match.group(2).replace("%3F", "?").replace("%21", "!")
+def display_success_or_failure_html(client, request):
+    
+    # Get password from HTML request
+    password = url_extract(request, "password")
+    
+    # Check if a password was found
+    if not password:
+        # Go to the start of the control flow
+        display_warning_html(client)
+        return
         
-    print("Password: " + password)
-
-    if len(ssid) == 0:
-        send_response(client, "SSID must be provided", status_code=400)
-        return False
-
+    print("Trying to connect to SSID: " + ssid)
+    
     if do_connect(ssid, password):
-        response = """\
-            <html>
-                <center>
-                    <br><br>
-                    <h1 style="color: #5e9ca0; text-align: center;">
-                        <span style="color: #ff0000;">
-                            ESP successfully connected to WiFi network %(ssid)s.
-                        </span>
-                    </h1>
-                    <br><br>
-                </center>
-            </html>
-        """ % dict(ssid=ssid)
-        send_response(client, response)
+        
+        # Load HTML template
+        with open('success.html', 'r') as file:
+            html_template = file.read()
+        
+        # Replace placeholders in HTML with actual content
+        html_output = html_template.replace('{network_insert}', ssid)
+        html_output = html_output.replace('{address_insert}', wlan_sta.ifconfig()[0])
+        
+        # Send the header and HTML content
+        send_header(client)
+        client.sendall(html_output)
+        
         time.sleep(1)
+    
         wlan_ap.active(False)
+        
         try:
             profiles = read_profiles()
         except OSError:
             profiles = {}
+            
         profiles[ssid] = password
         write_profiles(profiles)
 
         time.sleep(5)
 
         return True
+    
     else:
         response = """\
             <html>
-                <center>
-                    <h1 style="color: #5e9ca0; text-align: center;">
-                        <span style="color: #ff0000;">
-                            ESP could not connect to WiFi network %(ssid)s.
-                        </span>
-                    </h1>
-                    <br><br>
-                    <form>
-                        <input type="button" value="Go back!" onclick="history.back()"></input>
-                    </form>
-                </center>
             </html>
         """ % dict(ssid=ssid)
         send_response(client, response)
         return False
-
 
 def handle_not_found(client, url):
     send_response(client, "Path not found: {}".format(url), status_code=404)
@@ -314,9 +278,10 @@ def start(port=80):
                 display_warning_html(client)
             elif url == "go_to_selection":
                 display_selection_html(client)
-            elif url == "connect_to_wifi":
-                display_password_html(client)
-                # handle_configure(client, request)
+            elif url == "go_to_password":
+                display_password_html(client, request)
+            elif url == "go_to_success_or_failure":
+                display_success_or_failure_html(client, request)
             else:
                 handle_not_found(client, url)
 
