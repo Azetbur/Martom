@@ -22,8 +22,8 @@ Author:
 import network
 import uasyncio as asyncio
 import ure
-import wifi_ap
-import wifi_client
+from my_network import wifi_ap
+from my_network import wifi_client
 
 # Will hold the SSID of the Wi-Fi the ESP32 will be connecting to as station
 global ssid
@@ -147,7 +147,7 @@ async def display_warning_html(writer):
     :param writer: The writer stream associated with the client connection.
     """
     # Load HTML template
-    with open('warning.html', 'r') as file:
+    with open('websites/warning.html', 'r') as file:
         html_template = file.read()
     
     # Send the HTML content using the send_html_response function
@@ -174,7 +174,7 @@ async def display_selection_html(writer, alert):
     wlan_sta.active(False)
 
     # Load HTML template
-    with open('selection.html', 'r') as file:
+    with open('websites/selection.html', 'r') as file:
         html_template = file.read()
 
     # Determine what to display based on the availability of networks
@@ -225,7 +225,7 @@ async def display_password_html(writer, post_data):
         return
 
     # Load HTML template
-    with open('password.html', 'r') as file:
+    with open('websites/password.html', 'r') as file:
         html_template = file.read()
         
     # Replace placeholder in HTML with the actual SSID
@@ -255,7 +255,7 @@ async def display_success_or_failure_html(writer, post_data):
     if await wifi_client.connect(ssid, password):
         
         # Load HTML template
-        with open('success.html', 'r') as file:
+        with open('websites/success.html', 'r') as file:
             html_template = file.read()
         
         # Replace placeholders in HTML with actual content

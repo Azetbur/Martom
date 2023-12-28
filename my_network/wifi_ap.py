@@ -18,7 +18,7 @@ Author:
 
 import network
 import uasyncio as asyncio
-import webserver
+from my_network import webserver
 
 # Global variable declarations
 global ap, server
