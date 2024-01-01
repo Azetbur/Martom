@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200&family=Nunito:wght@300&display=swap" rel="stylesheet">
     <title>Vzorkovna-ESP32-1</title>
     <style>
-        @keyframes shadowTopGrow {
+        /*@keyframes shadowTopGrow {
             from {
                 box-shadow: 0px 0px 0px 0px rgba(161.53, 207.81, 233.85, 0.34);
             }
@@ -24,6 +24,22 @@
             to {
                 box-shadow: 0px 0px 0.5px 75px rgba(202.94, 225.75, 238.57, 0.11);
             }
+        }
+
+        .shadowTopAnimation {
+            animation: shadowTopGrow 5s;
+        }
+
+        .shadowBottomAnimation {
+            animation: shadowBottomGrow 5s;
+        }*/
+
+        .shadowTop {
+            box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);
+        }
+
+        .shadowBottom {
+            box-shadow: 0px 0px 0.5px 5.25vw rgba(202.94, 225.75, 238.57, 0.11);
         }
 
 
@@ -87,7 +103,6 @@
         .shelf {
             position: absolute;
             border-radius: 12.5px;
-
         }
 
         @media (max-width: 900px) {
@@ -107,7 +122,10 @@
 
         .shelf-layer-top {
             background: #D9D9D9;
-            box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);
+            /*box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);*/
+            /*box-shadow: 0px 0px 20px 0px rgba(161.53, 207.81, 233.85, 0.34); /* Initial state of box-shadow */
+            transition: box-shadow 5s ease; /* Smooth transition for shadow */
+            transition-delay: var(--animation-delay, 0s);
         }
 
         .shelf-layer-middle {
@@ -117,7 +135,10 @@
 
         .shelf-layer-bottom {
             background: rgba(255, 255, 255, 0.18);
-            box-shadow: 0px 0px 0.5px 5.25vw rgba(202.94, 225.75, 238.57, 0.11);
+            /*box-shadow: 0px 0px 0.5px 5.25vw rgba(202.94, 225.75, 238.57, 0.11);*/
+            /*box-shadow: 0px 0px 0.5px 0vw rgba(202.94, 225.75, 238.57, 0.11); /* Initial state of box-shadow */
+            transition: box-shadow 5s ease; /* Smooth transition for shadow */
+            transition-delay: var(--animation-delay, 0s);
         }
 
         .hider {
@@ -138,50 +159,50 @@
             z-index: 4;
         }
 
-        #s1 {
+        .s1 {
             top: 1%;
             left: 1.7%; 
             width: 43.8%;
         }
 
-        #s2 {
+        .s2 {
             top: 1%;
             left: 54.6%;
             width: 36.5%;
         }
     
-        #s3 {
+        .s3 {
             top: 21.6%;
             left: 1.7%; 
         }
 
-        #s4 {
+        .s4 {
             top: 21.6%;
             left: 16.6%; 
         }
 
-        #s5 {
+        .s5 {
             top: 21.6%;
             left: 31.5%; 
         }
 
-        #s6 {
+        .s6 {
             top: 21.6%;
             left: 46.4%; 
         }
 
-        #s7 {
+        .s7 {
             top: 21.6%;
             left: 61.3%; 
         }
 
-        #s8 {
+        .s8 {
             top: 11.5%;
             left: 91.3%;
             height: 53.9%;
         }
 
-        #s9 {
+        .s9 {
             top: 86.4%;
             left: 1.7%;
             width: 40.5%;
@@ -249,7 +270,6 @@
         .column {
             width: 32%; /* Each column takes up roughly a third of the container width */
             padding: 10px; /* Optional: Adds some space inside the columns */
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin: 5px; /* Optional: Adds space between columns */
             z-index: 3;
             flex: 1;
@@ -270,19 +290,41 @@
             /*background-color: #666d72; */
             opacity: 100%;
             /*box-shadow: 0px 0px 1px 0.13vw #666d72;*/
+            cursor: pointer;
         }
 
         img {
-            position: relative;
+            -webkit-user-drag: none; /* WebKit browsers like Safari and Chrome */
+            user-select: none; /* Supported by most modern browsers */
+            pointer-events: none; /* Disables pointer events like clicking and dragging */
+
+            position: absolute;
             width: 120%;
             height: 120%;
             z-index: 4;
             opacity: 100%;
-            
-            margin-bottom: 2vw;
+            margin-bottom: 2.5vw;
+        }
+
+        #i1-turnOn {
+            opacity: 1; /* Start invisible */
+            transition: opacity 0.5s ease-in-out; /* Smooth transition for opacity change */
+        }
+
+        #i1-turnOff {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #skip-image {
+            top: 25%;
+            left: 5.25%;
+            width: 25%;
+            height: 25%;
         }
 
         #i2 {
+            position: relative;
             top: 0%;
             left: 0%;
             width: 70%;
@@ -290,6 +332,7 @@
         }
 
         #i3 {
+            position: relative;
             top: 9%;
             left: 0%;
             width: 70%;
@@ -307,8 +350,11 @@
         
     
         </style>
+        
 </head>
 <body>
+    
+
     <h1>
         VZORKOVNA
     </h1>
@@ -327,41 +373,41 @@
             <div class="font-blurrer" id="fb1"></div>
             <div class="button-blurrer" id="bb1"></div>
 
-            <div class="shelf shelf-horizontal shelf-layer-top" id="s1"></div>
-            <div class="shelf shelf-horizontal shelf-layer-middle" id="s1"></div>
-            <div class="shelf shelf-horizontal shelf-layer-bottom" id="s1"></div>
+            <div class="shelf shelf-horizontal shelf-layer-top s1" id="s1-top"></div>
+            <div class="shelf shelf-horizontal shelf-layer-middle s1" id="s1-middle"></div>
+            <div class="shelf shelf-horizontal shelf-layer-bottom s1" id="s1-bottom"></div>
 
-            <div class="shelf shelf-horizontal shelf-layer-top" id="s2"></div>
-            <div class="shelf shelf-horizontal shelf-layer-middle" id="s2"></div>
-            <div class="shelf shelf-horizontal shelf-layer-bottom" id="s2"></div>
+            <div class="shelf shelf-horizontal shelf-layer-top s2" id="s2-top"></div>
+            <div class="shelf shelf-horizontal shelf-layer-middle s2" id="s2-middle"></div>
+            <div class="shelf shelf-horizontal shelf-layer-bottom s2" id="s2-bottom"></div>
 
-            <div class="shelf shelf-vertical shelf-layer-top" id="s3"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle" id="s3"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom" id="s3"></div>
+            <div class="shelf shelf-vertical shelf-layer-top s3" id="s3-top"></div>
+            <div class="shelf shelf-vertical shelf-layer-middle s3" id="s3-middle"></div>
+            <div class="shelf shelf-vertical shelf-layer-bottom s3" id="s3-bottom"></div>
 
-            <div class="shelf shelf-vertical shelf-layer-top" id="s4"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle" id="s4"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom" id="s4"></div>
+            <div class="shelf shelf-vertical shelf-layer-top s4" id="s4-top"></div>
+            <div class="shelf shelf-vertical shelf-layer-middle s4" id="s4-middle"></div>
+            <div class="shelf shelf-vertical shelf-layer-bottom s4" id="s4-bottom"></div>
 
-            <div class="shelf shelf-vertical shelf-layer-top" id="s5"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle" id="s5"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom" id="s5"></div>
+            <div class="shelf shelf-vertical shelf-layer-top s5" id="s5-top"></div>
+            <div class="shelf shelf-vertical shelf-layer-middle s5" id="s5-middle"></div>
+            <div class="shelf shelf-vertical shelf-layer-bottom s5" id="s5-bottom"></div>
 
-            <div class="shelf shelf-vertical shelf-layer-top" id="s6"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle" id="s6"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom" id="s6"></div>
+            <div class="shelf shelf-vertical shelf-layer-top s6" id="s6-top"></div>
+            <div class="shelf shelf-vertical shelf-layer-middle s6" id="s6-middle"></div>
+            <div class="shelf shelf-vertical shelf-layer-bottom s6" id="s6-bottom"></div>
 
-            <div class="shelf shelf-vertical shelf-layer-top" id="s7"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle" id="s7"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom" id="s7"></div>
+            <div class="shelf shelf-vertical shelf-layer-top s7" id="s7-top"></div>
+            <div class="shelf shelf-vertical shelf-layer-middle s7" id="s7-middle"></div>
+            <div class="shelf shelf-vertical shelf-layer-bottom s7" id="s7-bottom"></div>
 
-            <div class="shelf shelf-vertical shelf-layer-top" id="s8"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle" id="s8"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom" id="s8"></div>
+            <div class="shelf shelf-vertical shelf-layer-top s8" id="s8-top"></div>
+            <div class="shelf shelf-vertical shelf-layer-middle s8" id="s8-middle"></div>
+            <div class="shelf shelf-vertical shelf-layer-bottom s8" id="s8-bottom"></div>
 
-            <div class="shelf shelf-horizontal shelf-layer-top" id="s9"></div>
-            <div class="shelf shelf-horizontal shelf-layer-middle" id="s9"></div>
-            <div class="shelf shelf-horizontal shelf-layer-bottom" id="s9"></div>
+            <div class="shelf shelf-horizontal shelf-layer-top s9" id="s9-top"></div>
+            <div class="shelf shelf-horizontal shelf-layer-middle s9" id="s9-middle"></div>
+            <div class="shelf shelf-horizontal shelf-layer-bottom s9" id="s9-bottom"></div>
 
         </div>
     </div>
@@ -369,22 +415,26 @@
     <div class="flex-wrapper">
         <div class="container">
             <div class="column">
-                <div class="button">
-                    <img src="/Users/jindrichkocman/Documents/Martom/websites/lightbulb_white_white.svg" alt="Description">
+                <div class="button" id="b1">
+                    <img src="/Users/jindrichkocman/Documents/Martom/websites/lightbulb_on.svg" id="i1-turnOn">
+                    <img src="/Users/jindrichkocman/Documents/Martom/websites/lightbulb_off.svg" id="i1-turnOff">
+                    <img src="/Users/jindrichkocman/Documents/Martom/websites/fast_forward.svg" id="skip-image">
+                </div>
+            </div>
+            <div class="column">
+                <div class="button" id="b2">
+                    <img src="/Users/jindrichkocman/Documents/Martom/websites/clock.svg" id="i2">
                 </div>
             </div>
             <div class="column">
                 <div class="button">
-                    <img src="/Users/jindrichkocman/Documents/Martom/websites/clock.svg" id="i2" alt="Description">
-                </div>
-            </div>
-            <div class="column">
-                <div class="button">
-                    <img src="/Users/jindrichkocman/Documents/Martom/websites/cog.svg" id="i3" alt="Description">
+                    <img src="/Users/jindrichkocman/Documents/Martom/websites/cog.svg" id="i3">
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="/Users/jindrichkocman/Documents/Martom/websites/top-down.js"></script>
 
 </body>
 </html>
