@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200&family=Nunito:wght@300&display=swap" rel="stylesheet">
-    <title>Vzorkovna-ESP32-1</title>
-    <style>
-        /*@keyframes shadowTopGrow {
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200&family=Nunito:wght@300&display=swap"
+            rel="stylesheet"
+        />
+        <title>Vzorkovna-ESP32-1</title>
+        <style>
+            /*@keyframes shadowTopGrow {
             from {
                 box-shadow: 0px 0px 0px 0px rgba(161.53, 207.81, 233.85, 0.34);
             }
@@ -34,407 +37,472 @@
             animation: shadowBottomGrow 5s;
         }*/
 
-        .shadowTop {
-            box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);
-        }
+            .shadowTop {
+                box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);
+            }
 
-        .shadowBottom {
-            box-shadow: 0px 0px 0.5px 5.25vw rgba(202.94, 225.75, 238.57, 0.11);
-        }
+            .shadowBottom {
+                box-shadow: 0px 0px 0.5px 5.25vw
+                    rgba(202.94, 225.75, 238.57, 0.11);
+            }
 
+            body {
+                background-color: #1e1e1e;
+                overflow: hidden;
+            }
 
-        body {
-            background-color: #1E1E1E;
-            overflow: hidden;
-        }
+            h1 {
+                position: relative;
+                font-family: "Nunito", sans-serif;
+                font-size: 4vw;
+                margin-top: -0.05vw;
+                margin-left: 1vw;
+                color: white;
+                text-align: center; /* Centers text horizontally within its container */
+                width: 100%; /* Ensures the h2 element occupies the full width of its container */
+                z-index: 3;
+                letter-spacing: 0.65em;
+            }
 
-        h1 {
-            position: relative;
-            font-family: 'Nunito', sans-serif;
-            font-size: 4vw;
-            margin-top: -0.05vw;
-            margin-left: 1vw;
-            color: white;
-            text-align: center; /* Centers text horizontally within its container */
-            width: 100%; /* Ensures the h2 element occupies the full width of its container */
-            z-index: 3;
-            letter-spacing: 0.65em;
-
-        }
-
-        .grid-wrapper {
-            width: 50%;
-            margin: 0 auto;
-            position: relative;
-            overflow: visible;
-        }
-
-        @media (orientation: portrait) {
             .grid-wrapper {
-                width: 80%; /* half width in landscape */
+                width: 50%;
+                margin: 0 auto;
+                position: relative;
+                overflow: visible;
             }
-        }
-    
-        .grid-layout {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            display: grid;
-            grid-template-columns: 4fr 39fr 39fr 39fr 39fr 19fr 60fr 19fr 4fr;
-            grid-template-rows: 19fr 2fr 15fr 74fr 33fr 19fr 6fr;
-        }
-    
-        .grid-wrapper::before {
-            content: '';
-            display: block;
-            width: 100%;
-            padding-top: 69.44%;
-        }
-    
-        .section {
-            position: relative; /* Added relative positioning */
-            overflow: visible; /* Changed to allow overflow */
-            min-width: 0;
-            min-height: 0;
-        }
 
-        .shelf {
-            position: absolute;
-            border-radius: 12.5px;
-        }
+            @media (orientation: portrait) {
+                .grid-wrapper {
+                    width: 80%; /* half width in landscape */
+                }
+            }
 
-        @media (max-width: 900px) {
+            .grid-layout {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                display: grid;
+                grid-template-columns: 4fr 39fr 39fr 39fr 39fr 19fr 60fr 19fr 4fr;
+                grid-template-rows: 19fr 2fr 15fr 74fr 33fr 19fr 6fr;
+            }
+
+            .grid-wrapper::before {
+                content: "";
+                display: block;
+                width: 100%;
+                padding-top: 69.44%;
+            }
+
+            .section {
+                position: relative; /* Added relative positioning */
+                overflow: visible; /* Changed to allow overflow */
+                min-width: 0;
+                min-height: 0;
+            }
+
             .shelf {
-                border-radius: 4px; /* smaller radius for small rectangles */
+                position: absolute;
+                border-radius: 12.5px;
             }
-        }
 
-        .shelf-vertical {
-            width: 7.25%;
-            height: 43.8%;
-        }
+            @media (max-width: 900px) {
+                .shelf {
+                    border-radius: 4px; /* smaller radius for small rectangles */
+                }
+            }
 
-        .shelf-horizontal {
-            height: 10%;
-        }
+            .shelf-vertical {
+                width: 7.25%;
+                height: 43.8%;
+            }
 
-        .shelf-layer-top {
-            background: #D9D9D9;
-            /*box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);*/
-            /*box-shadow: 0px 0px 20px 0px rgba(161.53, 207.81, 233.85, 0.34); /* Initial state of box-shadow */
-            transition: box-shadow 5s ease; /* Smooth transition for shadow */
-            transition-delay: var(--animation-delay, 0s);
-        }
+            .shelf-horizontal {
+                height: 10%;
+            }
 
-        .shelf-layer-middle {
-            background: rgba(142.84, 134.34, 240.52, 0.20);
-            box-shadow: 0px 0px 15px 25px rgba(0, 0, 0, 0.22);
-        }
+            .shelf-layer-top {
+                background: #d9d9d9;
+                /*box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);*/
+                /*box-shadow: 0px 0px 20px 0px rgba(161.53, 207.81, 233.85, 0.34); /* Initial state of box-shadow */
+                transition: box-shadow 5s ease; /* Smooth transition for shadow */
+                transition-delay: var(--animation-delay, 0s);
+            }
 
-        .shelf-layer-bottom {
-            background: rgba(255, 255, 255, 0.18);
-            /*box-shadow: 0px 0px 0.5px 5.25vw rgba(202.94, 225.75, 238.57, 0.11);*/
-            /*box-shadow: 0px 0px 0.5px 0vw rgba(202.94, 225.75, 238.57, 0.11); /* Initial state of box-shadow */
-            transition: box-shadow 5s ease; /* Smooth transition for shadow */
-            transition-delay: var(--animation-delay, 0s);
-        }
+            .shelf-layer-middle {
+                background: rgba(142.84, 134.34, 240.52, 0.2);
+                box-shadow: 0px 0px 15px 25px rgba(0, 0, 0, 0.22);
+            }
 
-        .hider {
-            position: relative;
-            box-shadow: 0px 0px 30px 5vw #1E1E1E;
-            z-index: 2;
-        }
+            .shelf-layer-bottom {
+                background: rgba(255, 255, 255, 0.18);
+                /*box-shadow: 0px 0px 0.5px 5.25vw rgba(202.94, 225.75, 238.57, 0.11);*/
+                /*box-shadow: 0px 0px 0.5px 0vw rgba(202.94, 225.75, 238.57, 0.11); /* Initial state of box-shadow */
+                transition: box-shadow 5s ease; /* Smooth transition for shadow */
+                transition-delay: var(--animation-delay, 0s);
+            }
 
-        .font-blurrer {
-            position: relative;
-            box-shadow: 0px 0px 30px 2vw #1E1E1E;
-            z-index: 4;
-        }
+            .hider {
+                position: relative;
+                box-shadow: 0px 0px 30px 5vw #1e1e1e;
+                z-index: 2;
+            }
 
-        .button-blurrer {
-            position: relative;
-            box-shadow: 0px 130px 1130px 17.5vw #1E1E1E;
-            z-index: 4;
-        }
+            .font-blurrer {
+                position: relative;
+                box-shadow: 0px 0px 30px 2vw #1e1e1e;
+                z-index: 4;
+            }
 
-        .s1 {
-            top: 1%;
-            left: 1.7%; 
-            width: 43.8%;
-        }
+            .button-blurrer {
+                position: relative;
+                box-shadow: 0px 130px 1130px 17.5vw #1e1e1e;
+                z-index: 4;
+            }
 
-        .s2 {
-            top: 1%;
-            left: 54.6%;
-            width: 36.5%;
-        }
-    
-        .s3 {
-            top: 21.6%;
-            left: 1.7%; 
-        }
+            .s1 {
+                top: 1%;
+                left: 1.7%;
+                width: 43.8%;
+            }
 
-        .s4 {
-            top: 21.6%;
-            left: 16.6%; 
-        }
+            .s2 {
+                top: 1%;
+                left: 54.6%;
+                width: 36.5%;
+            }
 
-        .s5 {
-            top: 21.6%;
-            left: 31.5%; 
-        }
+            .s3 {
+                top: 21.6%;
+                left: 1.7%;
+            }
 
-        .s6 {
-            top: 21.6%;
-            left: 46.4%; 
-        }
+            .s4 {
+                top: 21.6%;
+                left: 16.6%;
+            }
 
-        .s7 {
-            top: 21.6%;
-            left: 61.3%; 
-        }
+            .s5 {
+                top: 21.6%;
+                left: 31.5%;
+            }
 
-        .s8 {
-            top: 11.5%;
-            left: 91.3%;
-            height: 53.9%;
-        }
+            .s6 {
+                top: 21.6%;
+                left: 46.4%;
+            }
 
-        .s9 {
-            top: 86.4%;
-            left: 1.7%;
-            width: 40.5%;
-        }
+            .s7 {
+                top: 21.6%;
+                left: 61.3%;
+            }
 
-        /* Left hider. */
-        #h1 {
-            height: 2000%;
-            width: 0%;
-            top: -100%;
-            left: -650%;
-            
-        }
+            .s8 {
+                top: 11.5%;
+                left: 91.3%;
+                height: 53.9%;
+            }
 
-        /* Bottom hider. */
-        #h2 {
-            width: 900%;
-            height: 0%;
-            top: 1020%;
-            left: -120%;
-            z-index: 3;
-        }
+            .s9 {
+                top: 86.4%;
+                left: 1.7%;
+                width: 40.5%;
+            }
 
-        /* Right hider. */
-        #h3 {
-            height: 2000%;
-            width: 0%;
-            top: -100%;
-            left: 630%;
-        }
+            /* Left hider. */
+            #h1 {
+                height: 2000%;
+                width: 0%;
+                top: -100%;
+                left: -650%;
+            }
 
-        /* Top hider. */
-        #h4 {
-            width: 800%;
-            height: 0%;
-            top: -150%;
-            left: -250%;
-        }
+            /* Bottom hider. */
+            #h2 {
+                width: 900%;
+                height: 0%;
+                top: 1020%;
+                left: -120%;
+                z-index: 3;
+            }
 
-        #fb1 {
-            width: 700%;
-            height: 0%;
-            top: -235%;
-            left: -325%;
-            background-color: greenyellow;
-        }
+            /* Right hider. */
+            #h3 {
+                height: 2000%;
+                width: 0%;
+                top: -100%;
+                left: 630%;
+            }
 
-        .flex-wrapper {
-            width: 50%;
-            margin: 0 auto;
-            position: relative;
-            overflow: visible;
-            padding-top: 2vw;
+            /* Top hider. */
+            #h4 {
+                width: 800%;
+                height: 0%;
+                top: -150%;
+                left: -250%;
+            }
 
-            max-width: 100%; /* Ensures it doesn't exceed the screen size */
-            margin: 0 auto; /* Center the flex container */
-            padding: 0; /* Adjust padding as necessary */
-        }
+            #fb1 {
+                width: 700%;
+                height: 0%;
+                top: -235%;
+                left: -325%;
+                background-color: greenyellow;
+            }
 
-        .container {
-            display: flex; /* Enables flexbox */
-            justify-content: space-between; /* Distributes space evenly */
-        }
+            .flex-wrapper {
+                width: 50%;
+                margin: 0 auto;
+                position: relative;
+                overflow: visible;
+                padding-top: 2vw;
 
-        .column {
-            width: 32%; /* Each column takes up roughly a third of the container width */
-            padding: 10px; /* Optional: Adds some space inside the columns */
-            margin: 5px; /* Optional: Adds space between columns */
-            z-index: 3;
-            flex: 1;
-            display: flex;
-            justify-content: center; /* Centers children (the button) horizontally */
-            align-items: center; /* Optional: If you also want to center it vertically */
-        }
+                max-width: 100%; /* Ensures it doesn't exceed the screen size */
+                margin: 0 auto; /* Center the flex container */
+                padding: 0; /* Adjust padding as necessary */
+            }
 
-        .button {
-            z-index: 3;
-            width: 15vw;
-            height: 15vw;
-            border-radius: 20px;
-            /*border: 2.5px #D9D9D9 solid;*/
-            display: flex;
-            justify-content: center; /* Centers children (the button) horizontally */
-            align-items: center; /* Optional: If you also want to center it vertically */
-            /*background-color: #666d72; */
-            opacity: 100%;
-            /*box-shadow: 0px 0px 1px 0.13vw #666d72;*/
-            cursor: pointer;
-        }
+            .container {
+                display: flex; /* Enables flexbox */
+                justify-content: space-between; /* Distributes space evenly */
+            }
 
-        img {
-            -webkit-user-drag: none; /* WebKit browsers like Safari and Chrome */
-            user-select: none; /* Supported by most modern browsers */
-            pointer-events: none; /* Disables pointer events like clicking and dragging */
+            .column {
+                width: 32%; /* Each column takes up roughly a third of the container width */
+                padding: 10px; /* Optional: Adds some space inside the columns */
+                margin: 5px; /* Optional: Adds space between columns */
+                z-index: 3;
+                flex: 1;
+                display: flex;
+                justify-content: center; /* Centers children (the button) horizontally */
+                align-items: center; /* Optional: If you also want to center it vertically */
+            }
 
-            position: absolute;
-            width: 120%;
-            height: 120%;
-            z-index: 4;
-            opacity: 100%;
-            margin-bottom: 2.5vw;
-        }
+            .button {
+                z-index: 3;
+                width: 15vw;
+                height: 15vw;
+                border-radius: 20px;
+                /*border: 2.5px #D9D9D9 solid;*/
+                display: flex;
+                justify-content: center; /* Centers children (the button) horizontally */
+                align-items: center; /* Optional: If you also want to center it vertically */
+                /*background-color: #666d72; */
+                opacity: 100%;
+                /*box-shadow: 0px 0px 1px 0.13vw #666d72;*/
+                cursor: pointer;
+            }
 
-        #i1-turnOn {
-            opacity: 1; /* Start invisible */
-            transition: opacity 0.5s ease-in-out; /* Smooth transition for opacity change */
-        }
+            img {
+                -webkit-user-drag: none; /* WebKit browsers like Safari and Chrome */
+                user-select: none; /* Supported by most modern browsers */
+                pointer-events: none; /* Disables pointer events like clicking and dragging */
 
-        #i1-turnOff {
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
+                position: absolute;
+                width: 120%;
+                height: 120%;
+                z-index: 4;
+                opacity: 100%;
+                margin-bottom: 2.5vw;
+            }
 
-        #skip-image {
-            top: 25%;
-            left: 5.25%;
-            width: 25%;
-            height: 25%;
-        }
+            #i1-turnOn {
+                opacity: 1; /* Start invisible */
+                transition: opacity 0.5s ease-in-out; /* Smooth transition for opacity change */
+            }
 
-        #i2 {
-            position: relative;
-            top: 0%;
-            left: 0%;
-            width: 70%;
-            height: 70%;
-        }
+            #i1-turnOff {
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+            }
 
-        #i3 {
-            position: relative;
-            top: 9%;
-            left: 0%;
-            width: 70%;
-            height: 70%;
-        }
+            #skip-image {
+                top: 25%;
+                left: 5.25%;
+                width: 25%;
+                height: 25%;
+            }
 
-        #bb1 {
-            width: 1600%;
-            height: 0%;
-            top: 1470%;
-            left: -900%;
-            background-color: greenyellow;
-        }
+            #i2 {
+                position: relative;
+                top: 0%;
+                left: 0%;
+                width: 70%;
+                height: 70%;
+            }
 
-        
-    
+            #i3 {
+                position: relative;
+                top: 9%;
+                left: 0%;
+                width: 70%;
+                height: 70%;
+            }
+
+            #bb1 {
+                width: 1600%;
+                height: 0%;
+                top: 1470%;
+                left: -900%;
+                background-color: greenyellow;
+            }
         </style>
-        
-</head>
-<body>
-    
+    </head>
+    <body>
+        <h1>VZORKOVNA</h1>
 
-    <h1>
-        VZORKOVNA
-    </h1>
+        <div class="grid-wrapper">
+            <div class="grid-layout">
+                <div class="hider" id="h1"></div>
+                <div class="hider" id="h2"></div>
+                <div class="hider" id="h3"></div>
+                <div class="hider" id="h4"></div>
 
+                <div class="font-blurrer" id="fb1"></div>
+                <div class="button-blurrer" id="bb1"></div>
 
-    <div class="grid-wrapper">
-        <div class="grid-layout">
+                <div
+                    class="shelf shelf-horizontal shelf-layer-top s1"
+                    id="s1-top"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-middle s1"
+                    id="s1-middle"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-bottom s1"
+                    id="s1-bottom"
+                ></div>
 
-            
+                <div
+                    class="shelf shelf-horizontal shelf-layer-top s2"
+                    id="s2-top"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-middle s2"
+                    id="s2-middle"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-bottom s2"
+                    id="s2-bottom"
+                ></div>
 
-            <div class="hider" id="h1"></div>
-            <div class="hider" id="h2"></div>
-            <div class="hider" id="h3"></div>
-            <div class="hider" id="h4"></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s3"
+                    id="s3-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s3"
+                    id="s3-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s3"
+                    id="s3-bottom"
+                ></div>
 
-            <div class="font-blurrer" id="fb1"></div>
-            <div class="button-blurrer" id="bb1"></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s4"
+                    id="s4-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s4"
+                    id="s4-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s4"
+                    id="s4-bottom"
+                ></div>
 
-            <div class="shelf shelf-horizontal shelf-layer-top s1" id="s1-top"></div>
-            <div class="shelf shelf-horizontal shelf-layer-middle s1" id="s1-middle"></div>
-            <div class="shelf shelf-horizontal shelf-layer-bottom s1" id="s1-bottom"></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s5"
+                    id="s5-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s5"
+                    id="s5-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s5"
+                    id="s5-bottom"
+                ></div>
 
-            <div class="shelf shelf-horizontal shelf-layer-top s2" id="s2-top"></div>
-            <div class="shelf shelf-horizontal shelf-layer-middle s2" id="s2-middle"></div>
-            <div class="shelf shelf-horizontal shelf-layer-bottom s2" id="s2-bottom"></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s6"
+                    id="s6-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s6"
+                    id="s6-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s6"
+                    id="s6-bottom"
+                ></div>
 
-            <div class="shelf shelf-vertical shelf-layer-top s3" id="s3-top"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle s3" id="s3-middle"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom s3" id="s3-bottom"></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s7"
+                    id="s7-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s7"
+                    id="s7-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s7"
+                    id="s7-bottom"
+                ></div>
 
-            <div class="shelf shelf-vertical shelf-layer-top s4" id="s4-top"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle s4" id="s4-middle"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom s4" id="s4-bottom"></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s8"
+                    id="s8-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s8"
+                    id="s8-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s8"
+                    id="s8-bottom"
+                ></div>
 
-            <div class="shelf shelf-vertical shelf-layer-top s5" id="s5-top"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle s5" id="s5-middle"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom s5" id="s5-bottom"></div>
-
-            <div class="shelf shelf-vertical shelf-layer-top s6" id="s6-top"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle s6" id="s6-middle"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom s6" id="s6-bottom"></div>
-
-            <div class="shelf shelf-vertical shelf-layer-top s7" id="s7-top"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle s7" id="s7-middle"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom s7" id="s7-bottom"></div>
-
-            <div class="shelf shelf-vertical shelf-layer-top s8" id="s8-top"></div>
-            <div class="shelf shelf-vertical shelf-layer-middle s8" id="s8-middle"></div>
-            <div class="shelf shelf-vertical shelf-layer-bottom s8" id="s8-bottom"></div>
-
-            <div class="shelf shelf-horizontal shelf-layer-top s9" id="s9-top"></div>
-            <div class="shelf shelf-horizontal shelf-layer-middle s9" id="s9-middle"></div>
-            <div class="shelf shelf-horizontal shelf-layer-bottom s9" id="s9-bottom"></div>
-
+                <div
+                    class="shelf shelf-horizontal shelf-layer-top s9"
+                    id="s9-top"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-middle s9"
+                    id="s9-middle"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-bottom s9"
+                    id="s9-bottom"
+                ></div>
+            </div>
         </div>
-    </div>
 
-    <div class="flex-wrapper">
-        <div class="container">
-            <div class="column">
-                <div class="button" id="b1">
-                    <img src="./lightbulb_on.svg" id="i1-turnOn">
-                    <img src="./lightbulb_off.svg" id="i1-turnOff">
-                    <img src="./fast_forward.svg" id="skip-image">
+        <div class="flex-wrapper">
+            <div class="container">
+                <div class="column">
+                    <div class="button" id="b1">
+                        <img src="./lightbulb_on.svg" id="i1-turnOn" />
+                        <img src="./lightbulb_off.svg" id="i1-turnOff" />
+                        <img src="./fast_forward.svg" id="skip-image" />
+                    </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="button" id="b2">
-                    <img src="./clock.svg" id="i2">
+                <div class="column">
+                    <div class="button" id="b2">
+                        <img src="./clock.svg" id="i2" />
+                    </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="button">
-                    <img src="./cog.svg" id="i3">
+                <div class="column">
+                    <div class="button">
+                        <img src="./cog.svg" id="i3" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="./top-down.js"></script>
-
-</body>
+        <script src="./top-down.js"></script>
+    </body>
 </html>

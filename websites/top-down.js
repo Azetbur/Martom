@@ -1,18 +1,16 @@
-document.addEventListener("DOMContentLoaded", function() {
-
-    var bulb_with_rays_img = document.getElementById('i1-turnOn');
-    var bulb_wo_rays_img = document.getElementById('i1-turnOff');
-    var skip_img = document.getElementById('skip-image')
+document.addEventListener("DOMContentLoaded", function () {
+    var bulb_with_rays_img = document.getElementById("i1-turnOn");
+    var bulb_wo_rays_img = document.getElementById("i1-turnOff");
+    var skip_img = document.getElementById("skip-image");
 
     // Pre-setting the initial state of images via JavaScript
     bulb_with_rays_img.style.opacity = "1";
     bulb_wo_rays_img.style.opacity = "0";
 
-
     var onButtonDisabled = false; // Track whether the lightbulb button is disabled
 
     var button = document.getElementById("b1");
-    
+
     // Manually specify each element
     var top_elements = [
         document.getElementById("s8-top"),
@@ -43,24 +41,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var increment = 2.5; // Assuming 5s total animation time, so half is 2.5s
 
-    button.addEventListener("click", function() {
-
+    button.addEventListener("click", function () {
         // Calculate total animation time
         // Last element's delay + animation duration (assuming 5s total per element)
-        var totalAnimationTime = (top_elements.length - 1) * increment * 1000 + 5000;
+        var totalAnimationTime =
+            (top_elements.length - 1) * increment * 1000 + 5000;
 
-
-
-        
         if (true) {
-
             // Animate the lightbulb button
             if (bulb_with_rays_img.style.opacity == "1") {
-                console.log("if")
+                console.log("if");
                 bulb_with_rays_img.style.opacity = "0";
                 bulb_wo_rays_img.style.opacity = "1";
             } else {
-                console.log("else")
+                console.log("else");
                 bulb_with_rays_img.style.opacity = "1";
                 bulb_wo_rays_img.style.opacity = "0";
             }
@@ -72,67 +66,52 @@ document.addEventListener("DOMContentLoaded", function() {
             onButtonDisabled = true;
 
             if (!shadowShown) {
-
                 top_elements.forEach((element, index) => {
-
                     let delay = index * increment; // Half of your animation time (assuming 5s total)
 
-                    element.style.setProperty('--animation-delay', `${delay}s`);
-                    
+                    element.style.setProperty("--animation-delay", `${delay}s`);
+
                     element.classList.add("shadowTop");
-                    
                 });
 
                 bottom_elements.forEach((element, index) => {
-
                     let delay = index * increment; // Half of your animation time (assuming 5s total)
 
-                    element.style.setProperty('--animation-delay', `${delay}s`);
+                    element.style.setProperty("--animation-delay", `${delay}s`);
 
                     element.classList.add("shadowBottom");
-
                 });
-
             } else {
-
-                top_elements.reverse()
-                bottom_elements.reverse()
+                top_elements.reverse();
+                bottom_elements.reverse();
 
                 top_elements.forEach((element, index) => {
-
                     let delay = index * increment;
 
-                    element.style.setProperty('--animation-delay', `${delay}s`);
+                    element.style.setProperty("--animation-delay", `${delay}s`);
 
                     element.classList.remove("shadowTop");
-
                 });
 
                 bottom_elements.forEach((element, index) => {
-
                     let delay = index * increment;
 
-                    element.style.setProperty('--animation-delay', `${delay}s`);
+                    element.style.setProperty("--animation-delay", `${delay}s`);
 
                     element.classList.remove("shadowBottom");
-
                 });
 
-                top_elements.reverse()
-                bottom_elements.reverse()
-
+                top_elements.reverse();
+                bottom_elements.reverse();
             }
-            
+
             shadowShown = !shadowShown;
 
             // Re-enable the button after the total animation time has passed
-            setTimeout(function() {
+            setTimeout(function () {
                 onButtonDisabled = false;
-                console.log("Button re-enabled")
+                console.log("Button re-enabled");
             }, totalAnimationTime);
-            
-
         }
     });
 });
-

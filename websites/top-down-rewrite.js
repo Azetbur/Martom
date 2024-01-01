@@ -6,13 +6,11 @@ const LightState = {
     ON: "on",
     OFF: "off",
     TURNING_ON: "turning on",
-    TURNING_OFF: "turning off"
+    TURNING_OFF: "turning off",
 };
 
 class LightController {
-
     constructor(lightbulbButton) {
-
         // Sets the light initial state of lights to off.
         this.currentState = LightState.OFF;
 
@@ -24,13 +22,12 @@ class LightController {
 
         // Initializing an object of the class which represents the actual lights
         this.lights = new Lights();
-
     }
 
     press() {
         switch (this.currentState) {
             case LightState.OFF:
-                this.currentState = LightState.TURNING_ON
+                this.currentState = LightState.TURNING_ON;
                 this.timeout_changeState = setTimeout(() => {
                     this.currentState = LightState.ON;
 
@@ -40,7 +37,6 @@ class LightController {
 
                 this.lightbulbButton.offerSkip(true);
                 this.lights.turnOn();
-
 
                 break;
             case LightState.TURNING_ON:
@@ -79,9 +75,7 @@ class LightController {
 }
 
 class LightbulbButton {
-
     constructor(with_rays, without_rays, skip) {
-
         console.log("created lightbulb button");
         console.log(with_rays);
 
@@ -94,7 +88,6 @@ class LightbulbButton {
         this.skip_img.addEventListener("click", () => {
             this.lightController.press();
             console.log("pressed");
-
         });
 
         this.bulb_with_rays.addEventListener("click", () => {
@@ -105,9 +98,7 @@ class LightbulbButton {
         this.bulb_wo_rays.addEventListener("click", () => {
             this.lightController.press();
             console.log("pressed");
-
         });
-
     }
 
     offerSkip(offer) {
@@ -127,13 +118,10 @@ class LightbulbButton {
             this.bulb_wo_rays.style.opacity = "1";
         }
     }
-
 }
 
 class Lights {
-
     constructor() {
-
         // Manually specifying each light element
         this.top_elements = [
             document.getElementById("s8-top"),
@@ -159,75 +147,59 @@ class Lights {
             document.getElementById("s3-bottom"),
             document.getElementById("s9-bottom"),
         ];
-
     }
 
     turnOn() {
-
         top_elements.forEach((element, index) => {
-
             let delay = index * INCREMENT; // Half of animation time
 
-            element.style.setProperty('--animation-delay', `${delay}s`);
-            
+            element.style.setProperty("--animation-delay", `${delay}s`);
+
             element.classList.add("shadowTop");
-            
         });
 
         bottom_elements.forEach((element, index) => {
-
             let delay = index * INCREMENT; // Half of your animation time (assuming 5s total)
 
-            element.style.setProperty('--animation-delay', `${delay}s`);
+            element.style.setProperty("--animation-delay", `${delay}s`);
 
             element.classList.add("shadowBottom");
-
         });
-
     }
 
-    jumpOn() {
-
-    }
+    jumpOn() {}
 
     turnOff() {
-
-        top_elements.reverse()
-        bottom_elements.reverse()
+        top_elements.reverse();
+        bottom_elements.reverse();
 
         top_elements.forEach((element, index) => {
-
             let delay = index * INCREMENT;
 
-            element.style.setProperty('--animation-delay', `${delay}s`);
+            element.style.setProperty("--animation-delay", `${delay}s`);
 
             element.classList.remove("shadowTop");
-
         });
 
         bottom_elements.forEach((element, index) => {
-
             let delay = index * INCREMENT;
 
-            element.style.setProperty('--animation-delay', `${delay}s`);
+            element.style.setProperty("--animation-delay", `${delay}s`);
 
             element.classList.remove("shadowBottom");
-
         });
 
-        top_elements.reverse()
-        bottom_elements.reverse()
-
+        top_elements.reverse();
+        bottom_elements.reverse();
     }
 
-    jumpOff() {
-
-    }
-
+    jumpOff() {}
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-
-    let lightbulbButton = new LightbulbButton('i1-turnOn', 'i1-turnOff', 'skip-image');
-
+document.addEventListener("DOMContentLoaded", function () {
+    let lightbulbButton = new LightbulbButton(
+        "i1-turnOn",
+        "i1-turnOff",
+        "skip-image"
+    );
 });
