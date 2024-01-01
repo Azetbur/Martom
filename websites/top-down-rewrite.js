@@ -150,7 +150,7 @@ class Lights {
     }
 
     turnOn() {
-        top_elements.forEach((element, index) => {
+        this.top_elements.forEach((element, index) => {
             let delay = index * INCREMENT; // Half of animation time
 
             element.style.setProperty("--animation-delay", `${delay}s`);
@@ -158,7 +158,7 @@ class Lights {
             element.classList.add("shadowTop");
         });
 
-        bottom_elements.forEach((element, index) => {
+        this.bottom_elements.forEach((element, index) => {
             let delay = index * INCREMENT; // Half of your animation time (assuming 5s total)
 
             element.style.setProperty("--animation-delay", `${delay}s`);
@@ -170,10 +170,10 @@ class Lights {
     jumpOn() {}
 
     turnOff() {
-        top_elements.reverse();
-        bottom_elements.reverse();
+        this.top_elements.reverse();
+        this.bottom_elements.reverse();
 
-        top_elements.forEach((element, index) => {
+        this.top_elements.forEach((element, index) => {
             let delay = index * INCREMENT;
 
             element.style.setProperty("--animation-delay", `${delay}s`);
@@ -181,7 +181,7 @@ class Lights {
             element.classList.remove("shadowTop");
         });
 
-        bottom_elements.forEach((element, index) => {
+        this.bottom_elements.forEach((element, index) => {
             let delay = index * INCREMENT;
 
             element.style.setProperty("--animation-delay", `${delay}s`);
@@ -189,8 +189,8 @@ class Lights {
             element.classList.remove("shadowBottom");
         });
 
-        top_elements.reverse();
-        bottom_elements.reverse();
+        this.top_elements.reverse();
+        this.bottom_elements.reverse();
     }
 
     jumpOff() {}
