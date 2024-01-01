@@ -85,20 +85,17 @@ class LightbulbButton {
 
         this.lightController = new LightController(this);
 
-        this.skip_img.addEventListener("click", () => {
-            this.lightController.press();
-            console.log("pressed");
-        });
-
-        this.bulb_with_rays.addEventListener("click", () => {
-            this.lightController.press();
-            console.log("pressed");
-        });
-
-        this.bulb_wo_rays.addEventListener("click", () => {
-            this.lightController.press();
-            console.log("pressed");
-        });
+        try {
+            document.querySelector("#b1").addEventListener("click", (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                console.log("pressed");
+                this.lightController.press();
+            });
+        } catch (error) {
+            console.error("Register listener for #b1", error);
+            alert("Nastala chyba.");
+        }
     }
 
     offerSkip(offer) {
