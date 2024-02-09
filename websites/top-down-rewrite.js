@@ -11,6 +11,9 @@ const LightState = {
 
 class LightController {
     constructor(lightbulbButton) {
+
+        console.log("LightController constructor");
+
         // Sets the light initial state of lights to off.
         this.currentState = LightState.OFF;
 
@@ -81,7 +84,7 @@ class LightbulbButton {
 
         this.bulb_with_rays = document.getElementById(with_rays);
         this.bulb_wo_rays = document.getElementById(without_rays);
-        this.skip_img = document.getElementById(skip);
+        this.skip_img = document.getElementById(skip-image);
 
         this.lightController = new LightController(this);
 
@@ -99,6 +102,10 @@ class LightbulbButton {
     }
 
     offerSkip(offer) {
+
+        console.log("In offerSkip")
+        console.log(this.skip_img.style);
+
         if (offer) {
             this.skip_img.style.opacity = "1";
         } else {
@@ -107,6 +114,9 @@ class LightbulbButton {
     }
 
     showRays(show) {
+
+        console.log("In showRays");
+
         if (show) {
             this.bulb_with_rays.style.opacity = "1";
             this.bulb_wo_rays.style.opacity = "0";
