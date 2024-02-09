@@ -30,7 +30,10 @@ class LightController {
     press() {
         switch (this.currentState) {
             case LightState.OFF:
+
                 this.currentState = LightState.TURNING_ON;
+                console.log("Changing 'LightState' to 'TURNING_ON'.");
+
                 this.timeout_changeState = setTimeout(() => {
                     this.currentState = LightState.ON;
 
@@ -43,16 +46,22 @@ class LightController {
 
                 break;
             case LightState.TURNING_ON:
+
                 this.currentState = LightState.ON;
+                console.log("Changing 'LightState' to 'ON'.");
+
                 clearTimeout(this.timeout_changeState);
 
                 this.lightbulbButton.offerSkip(false);
                 this.lightbulbButton.showRays(false);
-                this.lights.jumpOn();
+                this.lights.jumpOnOff();
 
                 break;
             case LightState.ON:
+
                 this.currentState = LightState.TURNING_OFF;
+                console.log("Changing 'LightState' to 'TURNING_OFF'.");
+
                 this.timeout_changeState = setTimeout(() => {
                     this.currentState = LightState.OFF;
 
@@ -65,12 +74,15 @@ class LightController {
 
                 break;
             case LightState.TURNING_OFF:
+
                 this.currentState = LightState.OFF;
+                console.log("Changing 'LightState' to 'OFF'.");
+
                 clearTimeout(this.timeout_changeState);
 
                 this.lightbulbButton.offerSkip(false);
                 this.lightbulbButton.showRays(true);
-                this.lights.jumpOff();
+                this.lights.jumpOnOff();
 
                 break;
         }
@@ -78,13 +90,13 @@ class LightController {
 }
 
 class LightbulbButton {
-    constructor(with_rays, without_rays, skip) {
+    constructor(bulb_with_rays_image, bulb_without_rays_image, skip_overlay_image) {
         console.log("created lightbulb button");
-        console.log(with_rays);
+        console.log(bulb_with_rays_image);
 
-        this.bulb_with_rays = document.getElementById(with_rays);
-        this.bulb_wo_rays = document.getElementById(without_rays);
-        this.skip_img = document.getElementById(skip-image);
+        this.bulb_with_rays = document.getElementById(bulb_with_rays_image);
+        this.bulb_wo_rays = document.getElementById(bulb_without_rays_image);
+        this.skip_img = document.getElementById(skip_overlay_image);
 
         this.lightController = new LightController(this);
 
@@ -102,10 +114,6 @@ class LightbulbButton {
     }
 
     offerSkip(offer) {
-
-        console.log("In offerSkip")
-        console.log(this.skip_img.style);
-
         if (offer) {
             this.skip_img.style.opacity = "1";
         } else {
@@ -158,23 +166,23 @@ class Lights {
 
     turnOn() {
         this.top_elements.forEach((element, index) => {
-            let delay = index * INCREMENT; // Half of animation time
+            let delay = index * INCREMENT;
 
-            element.style.setProperty("--animation-delay", `${delay}s`);
+            element.style.transition = 'box-shadow 5s ease';
+            element.style.transitionDelay = `${delay}s`;
 
             element.classList.add("shadowTop");
         });
 
         this.bottom_elements.forEach((element, index) => {
-            let delay = index * INCREMENT; // Half of your animation time (assuming 5s total)
+            let delay = index * INCREMENT;
 
-            element.style.setProperty("--animation-delay", `${delay}s`);
+            element.style.transition = 'box-shadow 5s ease';
+            element.style.transitionDelay = `${delay}s`;
 
             element.classList.add("shadowBottom");
         });
     }
-
-    jumpOn() {}
 
     turnOff() {
         this.top_elements.reverse();
@@ -183,24 +191,43 @@ class Lights {
         this.top_elements.forEach((element, index) => {
             let delay = index * INCREMENT;
 
-            element.style.setProperty("--animation-delay", `${delay}s`);
+            element.style.transition = 'box-shadow 5s ease';
+            element.style.transitionDelay = `${delay}s`;
 
-            element.classList.remove("shadowTop");
+            element.classList.remove('shadowTop');
         });
 
         this.bottom_elements.forEach((element, index) => {
             let delay = index * INCREMENT;
 
-            element.style.setProperty("--animation-delay", `${delay}s`);
+            element.style.transition = 'box-shadow 5s ease';
+            element.style.transitionDelay = `${delay}s`;
 
-            element.classList.remove("shadowBottom");
+            element.classList.remove('shadowBottom');
         });
 
         this.top_elements.reverse();
         this.bottom_elements.reverse();
     }
 
-    jumpOff() {}
+    // Immidiatelly finish the transition currently in progress
+    jumpOnOff() {
+
+        this.top_elements.forEach(element => {
+        
+            // Overwrite transition to none so it stops
+            element.style.transition = 'none';
+
+        });
+    
+        this.bottom_elements.forEach(element => {
+
+            // Overwrite transition to none so it stops
+            element.style.transition = 'none';
+
+        });
+    }
+
 }
 
 document.addEventListener("DOMContentLoaded", function () {

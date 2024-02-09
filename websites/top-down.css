@@ -1,28 +1,3 @@
-/*@keyframes shadowTopGrow {
-            from {
-                box-shadow: 0px 0px 0px 0px rgba(161.53, 207.81, 233.85, 0.34);
-            }
-            to {
-                box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);
-            }
-        }
-        @keyframes shadowBottomGrow {
-            from {
-                box-shadow: 0px 0px 0.5px 0px rgba(202.94, 225.75, 238.57, 0.11);
-            }
-            to {
-                box-shadow: 0px 0px 0.5px 75px rgba(202.94, 225.75, 238.57, 0.11);
-            }
-        }
-
-        .shadowTopAnimation {
-            animation: shadowTopGrow 5s;
-        }
-
-        .shadowBottomAnimation {
-            animation: shadowBottomGrow 5s;
-        }*/
-
 .shadowTop {
     box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);
 }
@@ -112,7 +87,7 @@ h1 {
     /*box-shadow: 0px 0px 20px 20px rgba(161.53, 207.81, 233.85, 0.34);*/
     /*box-shadow: 0px 0px 20px 0px rgba(161.53, 207.81, 233.85, 0.34); /* Initial state of box-shadow */
     transition: box-shadow 5s ease; /* Smooth transition for shadow */
-    transition-delay: var(--animation-delay, 0s);
+    transition-delay: var(transition-delay, 0s);
 }
 
 .shelf-layer-middle {
@@ -125,7 +100,7 @@ h1 {
     /*box-shadow: 0px 0px 0.5px 5.25vw rgba(202.94, 225.75, 238.57, 0.11);*/
     /*box-shadow: 0px 0px 0.5px 0vw rgba(202.94, 225.75, 238.57, 0.11); /* Initial state of box-shadow */
     transition: box-shadow 5s ease; /* Smooth transition for shadow */
-    transition-delay: var(--animation-delay, 0s);
+    transition-delay: var(transition-delay, 0s);
 }
 
 .hider {
