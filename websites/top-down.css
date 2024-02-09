@@ -267,24 +267,21 @@ img {
     margin-bottom: 2.5vw;
 }
 
-#i1-turnOn {
-    opacity: 1; /* Start invisible */
-    transition: opacity 0.5s ease-in-out; /* Smooth transition for opacity change */
+#lightbulb_ray_image {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+    width: 200%;
+    height: 200%;
 }
 
-#i1-turnOff {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-#skip-image {
+#skip_image {
     opacity: 0;
     position: relative;
     top: -5%;
     left: 1%;
     width: 25%;
     height: 25%;
-    transition: opacity 1s ease;
+    transition: opacity 0.5s ease;
 }
 
 #i2 {

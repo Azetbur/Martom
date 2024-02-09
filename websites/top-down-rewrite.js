@@ -90,12 +90,12 @@ class LightController {
 }
 
 class LightbulbButton {
-    constructor(bulb_with_rays_image, bulb_without_rays_image, skip_overlay_image) {
-        console.log("created lightbulb button");
-        console.log(bulb_with_rays_image);
+    constructor(lightbulb, lightbulb_rays, skip_overlay_image) {
 
-        this.bulb_with_rays = document.getElementById(bulb_with_rays_image);
-        this.bulb_wo_rays = document.getElementById(bulb_without_rays_image);
+        this.bulb = document.getElementById(lightbulb);
+        this.rays = document.getElementById(lightbulb_rays);
+        console.log(lightbulb_rays);
+        console.log('log');
         this.skip_img = document.getElementById(skip_overlay_image);
 
         this.lightController = new LightController(this);
@@ -126,11 +126,9 @@ class LightbulbButton {
         console.log("In showRays");
 
         if (show) {
-            this.bulb_with_rays.style.opacity = "1";
-            this.bulb_wo_rays.style.opacity = "0";
+            this.rays.style.opacity = "1";
         } else {
-            this.bulb_with_rays.style.opacity = "0";
-            this.bulb_wo_rays.style.opacity = "1";
+            this.rays.style.opacity = "0";
         }
     }
 }
@@ -232,8 +230,8 @@ class Lights {
 
 document.addEventListener("DOMContentLoaded", function () {
     let lightbulbButton = new LightbulbButton(
-        "i1-turnOn",
-        "i1-turnOff",
-        "skip-image"
+        "lightbulb_image",
+        "lightbulb_ray_image",
+        "skip_image"
     );
 });
