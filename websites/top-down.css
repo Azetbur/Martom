@@ -278,10 +278,13 @@ img {
 }
 
 #skip-image {
-    top: 25%;
-    left: 5.25%;
+    opacity: 0;
+    position: relative;
+    top: -5%;
+    left: 1%;
     width: 25%;
     height: 25%;
+    transition: opacity 1s ease;
 }
 
 #i2 {
