@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200&family=Nunito:wght@300&display=swap"
+            rel="stylesheet"
+        />
+        <title>Vzorkovna-ESP32-1</title>
+        <link rel="stylesheet" href="./timer.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h2 class="no-background"><span>TIMER</span></h2>
+            <div class="line">
+                <div class="timepicker-container">
+                    <input type="text" class="timePicker"/>
+                </div>
+                <b>&emsp; - &emsp;</b>
+                <div class="timepicker-container">
+                    <input type="text" class="timePicker"/>
+                </div>
+            </div>
+        </div>
+        <script src="./time-pick.js"></script>
+        <script>
+            var timepicker = new TimePick('#timePick');
+            var timepickerz = new TimePick('.timePicker');
+        </script> 
+    </body>
+</html>

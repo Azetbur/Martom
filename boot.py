@@ -32,7 +32,37 @@ DISPLAY_COLUMNS = 20
 
 # Object initialization
 i2c = SoftI2C(scl=Pin(DISPLAY_SCL_PIN), sda=Pin(DISPLAY_SDA_PIN), freq=10000)
-display = I2cLcd(i2c, DISPLAY_ADDR, DISPLAY_ROWS, DISPLAY_COLUMNS)
+
+try:
+    display = I2cLcd(i2c, DISPLAY_ADDR, DISPLAY_ROWS, DISPLAY_COLUMNS)
+except Exception as e:
+    
+    # Log or print the exception if needed
+    print("Failed to initialize the real display due to:", str(e))
+    
+    # Define a fake display class with the same methods as the real one but with dummy implementations
+    class FakeDisplay:
+        def __init__(self, *args, **kwargs):
+            print("Fake display initialized with args:", args, "and kwargs:", kwargs)
+        
+        def clear(self):
+            print("Fake display cleared")
+        
+        def print(self, string):
+            print("Fake display print:", string)
+            
+        def move_to(self, x, y):
+            # Assuming x and y are the coordinates to move the cursor to
+            print(f"Fake display cursor moved to ({x}, {y})")
+            
+        def putstr(self, string):
+            # Mimic displaying a string on the display
+            print(f"Fake display putstr: {string}")
+        
+        # Add other necessary methods that your actual display uses
+        
+    # Initialize the fake display as the display object
+    display = FakeDisplay(i2c, DISPLAY_ADDR, DISPLAY_ROWS, DISPLAY_COLUMNS)
 
 
 ###################################################
@@ -77,7 +107,7 @@ on_btn3 = Pin(ON_BTN3_PIN, Pin.IN, Pin.PULL_UP)
 OUTPUT_PINS = [15, 2, 0, 4, 16, 17, 5, 18, 19, 23]
 
 # PWM parameters
-frequency = 5000
+frequency = 22000
 
 # Object inicialization
 outputs = [PWM(Pin(pin), frequency) for pin in OUTPUT_PINS]

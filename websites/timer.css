@@ -1,0 +1,70 @@
+body {
+    background-color: #1e1e1e;
+}
+
+h2 {
+    font-family: "Nunito", sans-serif;
+    font-size: 2vw;
+    letter-spacing: 0.45em;
+    margin-top: 30px;
+    text-align: left;
+    text-transform: uppercase;
+    color: white;
+}
+
+.container {
+
+    width: 50%; /* Sets the width of the container */
+    margin: 0 auto; /* Centers the container on the page */
+    padding: 20px; /* Adds some space inside the container */
+    /*background-color: #f0f0f0; /* Sets a background color for the container */
+    border-radius: 8px; /* Optional: rounds the corners of the container */
+}
+
+.line {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+span {
+    padding: 2vw;
+    margin: 2vw;
+    margin-bottom: 0vw;
+}
+
+h2.no-background {
+    position: relative;
+    overflow: hidden;
+    
+    span {
+        display: inline-block;
+        vertical-align: baseline;
+        zoom: 1;
+        *display: inline;
+        *vertical-align: auto;
+        position: relative;
+        padding: 0 1vw;
+
+        &:before, &:after {
+            content: '';
+            display: block;
+            width: 33vw;
+            position: absolute;
+            top: 0.73em;
+            border-top: 0.2vw solid white;
+        }
+
+        &:before { right: 100%; }
+        &:after { left: 100%; }
+    }
+}
+
+.timepicker-container {
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center (if needed) */
+    width: 5vw;
+    float: left;
+    padding-right: 2vw;
+}

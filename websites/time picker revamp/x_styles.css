@@ -1,0 +1,30 @@
+.grid-wrapper {
+    width: 50%;
+    margin: 0 auto;
+    position: relative;
+    overflow: visible;
+}
+
+.grid-wrapper::before {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-top: 69.44%;
+}
+
+.timeInput_container {
+    position: absolute;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    width: 10vw;
+}
+
+.timeInput_input {
+    grid-area: 1 / 1 / 2 / 4; /* Spans from columns 1 to 3 */
+}
+
+.timeInput_button {
+    grid-area: 1 / 3 / 2 / 4; /* Overlaps with the input in the third column */
+}
