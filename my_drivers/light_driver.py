@@ -16,11 +16,34 @@ TURNING_OFF = 3
     
 # Class used to control all light circuits simultaneously.
 class lightArray:
-    def __init__(self):
+    def def __init__(self, pin_number_array, frequency, fps, brightness_percentage, startup_time_seconds, shutdown_time_seconds):
+        
+        self.circuits = []
+        
+        # Creates a lightCircuit for each pin number in the pin_number_array
+        for pin_number in pin_number_array:
+            circuit = lightCircuit(pin_number, frequency, fps, brightness_percentage, startup_time_seconds, shutdown_time_seconds)
+            self.circuits.append(circuit)
+        
+        
         self.state = OFF
         
+    def array_update(self, brightness_percentage, startup_time_seconds, shutdown_time_seconds):
+        """Update all light circuits' properties in the array.
+
+        Parameters:
+        - brightness_percentage (float): The new brightness percentage.
+        - startup_time_seconds (float): The new startup time in seconds.
+        - shutdown_time_seconds (float): The new shutdown time in seconds.
+        """
+        
+        # Update each circuit in the array with the new parameters
+        for circuit in self.circuits:
+            circuit.circuit_update(brightness_percentage, startup_time_seconds, shutdown_time_seconds)
+        
+        
     # Turns all light circuits on or off based on the value of 'self.state'.
-    def toggle(self):
+    def array_toggle(self):
         if self.state == OFF:
             self.state = TURNING_ON
             
