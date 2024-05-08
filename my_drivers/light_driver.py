@@ -2,12 +2,6 @@ import uasyncio
 from machine import Pin, PWM
 import utime
 
-# Stores the name of this file
-# Used in order to maintain the correct indentation of debugging messages in the console
-FILE = __file__ + " : "
-
-# 
-
 # Constants representing the possible states of the 'lightArray' and 'lightCircuit' objects.
 OFF = 0
 ON = 1
@@ -26,7 +20,13 @@ class lightArray:
             self.circuits.append(circuit)
         
         
+        self.startup_time_seconds = startup_time_seconds
+        self.shutdown_time_seconds = shutdown_time_seconds
+        
         self.state = OFF
+        
+        self.interrupt = False
+        self.interrupt_confirm = False
         
     def array_update(self, brightness_percentage, startup_time_seconds, shutdown_time_seconds):
         """Update all light circuits' properties in the array.
@@ -40,21 +40,66 @@ class lightArray:
         # Update each circuit in the array with the new parameters
         for circuit in self.circuits:
             circuit.circuit_update(brightness_percentage, startup_time_seconds, shutdown_time_seconds)
+            
+    async def _interrupt_toggle(self):
+        # 
+        print("setting interrupt to true")
+        self.interrupt = True
+            
+        # Await propagation of interrupt
+        print("self.interrupt_confirm: " + str(self.interrupt_confirm))
+        while not self.interrupt_confirm:
+            await uasyncio.sleep(0.01)
+                
+        # Reset interrupt and interrupt confirmation
+        self.interrupt = False
+        self.interrupt_confirm = False
         
         
     # Turns all light circuits on or off based on the value of 'self.state'.
-    def array_toggle(self):
+    def toggle(self):
+        
+        # Prevents the function from executing if the state is already being changed
+        # Present in case the function is toggled multiple times in short succession
+        if self.interrupt:
+            print("circuit toggle dropped")
+            return
+        
         if self.state == OFF:
             self.state = TURNING_ON
+            # Turn all circuits on gradually, one by one
+            for circuit in self.circuits:
+                await circuit.nudge_on()
+                #await uasyncio.sleep(self.startup_time_seconds)
+                if self.interrupt:
+                    self.interrupt_confirm = True;
+                    break
+                
+            self.state = ON
             
         elif self.state == TURNING_ON:
-            self.state = ON
+            # Interrupt the turning on off the array
+            self._interrupt_toggle()
+            # Turn all circuits on instantaneously
+            await uasyncio.gather(*(circuit.jump_on() for circuit in self.circuits))
             
         elif self.state == ON:
             self.state = TURNING_OFF
+            # Turn all circuits off gradually, one by one
+            for circuit in reversed(self.circuits):
+                await circuit.nudge_off()
+                if self.interrupt:
+                    self.interrupt_confirm = True;
+                    break
+                
+            self.state = OFF
             
         elif self.state == TURNING_OFF:
-            self.state = OFF
+            # Interrupt the turning off of the array
+            self._interrupt_toggle()
+            # Turn all circuits off instantaneously
+            for circuit in self.circuits:
+                await circuit.jump_off()
             
 # Class used to control individual light circuits separatelly
 class lightCircuit:
@@ -62,6 +107,8 @@ class lightCircuit:
         
         self.pwm_object = PWM(Pin(pin_number), freq=frequency)
         self.pwm_object.duty(0)
+        
+        self.pin_number = pin_number
         
         # The virtual duty variable is used to have precision control over the length of each brightness step
         # This is desirable in order to achieve precise timing of the turn-on sequence, as it is in fact timed by the number of steps
@@ -86,6 +133,8 @@ class lightCircuit:
         self.interrupt = False
         self.interrupt_confirm = False
         
+        print("circuit created")
+        
     def circuit_update(self, brightness_percentage, startup_time_seconds, shutdown_time_seconds):
         """Update the light circuit's properties.
 
@@ -103,9 +152,14 @@ class lightCircuit:
         
         self.brightness = brighntess_percentage
         
+    def _log(self, message):
+        print(__file__ + " : Circuit " + str(self.pin_number) + " : " + str(message))
+        return
+        
+    # Turns the circuit on gradually, taking startup_time_seconds if beginning from the OFF state
     async def _turn_on(self):
-        print(FILE + "Circuit 1 : Changed state to 'TURNING_ON'.\n")
-        start_time = utime.ticks_ms()
+        self._log("Changed state to 'TURNING_ON'.")
+        #start_time = utime.ticks_ms()
         self.state = TURNING_ON
             
         while not self.pwm_object.duty() >= self.target_brightness:
@@ -114,21 +168,21 @@ class lightCircuit:
             await uasyncio.sleep(1 / self.fps)
             if self.interrupt:
                 self.interrupt_confirm = True;
-                print("interrupted")
                 break
                 
-        print(FILE + "Circuit 1 : Changed state to 'ON'.\n")
-        end_time = utime.ticks_ms()
-        elapsed_time = utime.ticks_diff(end_time, start_time)  # Calculates the difference in a wrap-around safe manner
-        print("Elapsed Time:", elapsed_time, "milliseconds")
+        self._log("Changed state to 'ON'.")
+        #end_time = utime.ticks_ms()
+        #elapsed_time = utime.ticks_diff(end_time, start_time)  # Calculates the difference in a wrap-around safe manner
+        #print("Elapsed Time:", elapsed_time, "milliseconds")
         self.state = ON
         
+    # Turns the circuit off gradually, taking shutdown_time_seconds if beginning from the ON state
     async def _turn_off(self):
-        print(FILE + "Circuit 1 : Changed state to 'TURNING_OFF'.\n")
-        start_time = utime.ticks_ms()
+        self._log("Changed state to 'TURNING_OFF'.")
+        #start_time = utime.ticks_ms()
         self.state = TURNING_OFF
         
-        print("self.shutdown_brightness_step = " + str(self.shutdown_brightness_step))
+        #print("self.shutdown_brightness_step = " + str(self.shutdown_brightness_step))
             
         while not self.pwm_object.duty() <= 0:
             self.virtual_duty = max(self.virtual_duty - self.shutdown_brightness_step, 0)
@@ -136,23 +190,31 @@ class lightCircuit:
             await uasyncio.sleep(1 / self.fps)
             if self.interrupt:
                 self.interrupt_confirm = True;
-                print("interrupted")
                 break
             
-        print(FILE + "Circuit 1 : Changed state to 'OFF'.\n")
-        end_time = utime.ticks_ms()
-        elapsed_time = utime.ticks_diff(end_time, start_time)  # Calculates the difference in a wrap-around safe manner
-        print("Elapsed Time:", elapsed_time, "milliseconds")
+        self._log("Changed state to 'OFF'.")
+        #end_time = utime.ticks_ms()
+        #elapsed_time = utime.ticks_diff(end_time, start_time)  # Calculates the difference in a wrap-around safe manner
+        #print("Elapsed Time:", elapsed_time, "milliseconds")
         self.state = OFF
         self.pwm_object.duty(0)
         
+    # Turns the circuit on instantaneously
+    async def _instant_on(self):
+        self.pwm_object.duty(int(1023 / 100 * self.brightness))
+        self.virtual_duty = int(1023 / 100 * self.brightness)
+        
+    # Turns the circuit off instantaneously
+    async def _instant_off(self):
+        self.pwm_object.duty(0)
+        self.virtual_duty = 0
+        
+    # When called, interrupts the execution of the turn_on() or turn_off() functions
     async def _interrupt_turn_on_off(self):
         # Interrupt the starting up of the light
-        print("setting interrupt to true")
         self.interrupt = True
             
         # Await propagation of interrupt
-        print("self.interrupt_confirm: " + str(self.interrupt_confirm))
         while not self.interrupt_confirm:
             await uasyncio.sleep(0.01)
                 
@@ -161,6 +223,12 @@ class lightCircuit:
         self.interrupt_confirm = False
         
     async def toggle_gradual(self):
+        
+        # Prevents the function from executing if the state is already being changed
+        # Present in case the function is toggled multiple times in short succession
+        if self.interrupt:
+            print("circuit toggle dropped")
+            return
         
         if self.state == OFF:
             # Begin turning on the circuit gradually
@@ -182,7 +250,7 @@ class lightCircuit:
             # Begin turning on the circuit gradually
             await self._turn_on()
         
-    # Turns the circuit on or off based on the value of 'self.state'.
+    # 
     async def toggle_with_skip(self):
         
         # Prevents the function from executing if the state is already being changed
@@ -201,8 +269,7 @@ class lightCircuit:
             # Interrupt the turning on of the circuit
             await self._interrupt_turn_on_off()
             # Turn the circuit on instantaneously
-            self.pwm_object.duty(int(1023 / 100 * self.brightness))
-            self.virtual_duty = int(1023 / 100 * self.brightness)
+            await self._instant_on()
             
         elif self.state == ON:
             # Begin turning off the circuit gradually
@@ -212,6 +279,87 @@ class lightCircuit:
             # Interrupt the turning off of the circuit
             await self._interrupt_turn_on_off()
             # Turn the circuit off instantaneously
-            self.pwm_object.duty(0)
-            self.virtual_duty = 0
+            await self._instant_off()
+            
+    # Turns the circuit on instantaneously, no matter its state
+    async def jump_on(self):
+        if self.state == OFF:
+            # Turn the circuit on instantaneously
+            await self._instant_on()
+            
+        elif self.state == TURNING_ON:
+            # Interrupt the turning on of the circuit
+            await self._interrupt_turn_on_off()
+            # Turn the circuit on instantaneously
+            await self._instant_on()
+            
+        elif self.state == ON:
+            # Do nothing
+            return
+            
+        elif self.state == TURNING_OFF:
+            # Interrupt the turning off of the circuit
+            await self._interrupt_turn_on_off()
+            # Turn the circuit on instantaneously
+            await self._instant_on()
+            
+    # Turns the circuit off instantaneously, no matter its state
+    async def jump_off(self):
+        if self.state == OFF:
+            # Do nothing
+            return
+            
+        elif self.state == TURNING_ON:
+            # Interrupt the turning on of the circuit
+            await self._interrupt_turn_on_off()
+            # Turn the circuit off instantaneously
+            await self._instant_off()
+            
+        elif self.state == ON:
+            await self._instant_off()
+            
+        elif self.state == TURNING_OFF:
+            # Interrupt the turning off of the circuit
+            await self._interrupt_turn_on_off()
+            # Turn the circuit off instantaneously
+            await self._instant_off()
+            
+    async def nudge_on(self):
+        if self.state == OFF:
+            # Begin turning on the circuit gradually
+            await self._turn_on()
+            
+        elif self.state == TURNING_ON:
+            # Do nothing
+            return
+        
+        elif self.state == ON:
+            # Do nothing
+            return
+        
+        elif self.state == TURNING_OFF:
+            # Interrupt the turning off of the circuit
+            await self._interrupt_turn_on_off()
+            # Turn the circuit on gradually
+            await self._turn_on()
+            
+    async def nudge_off(self):
+        if self.state == OFF:
+            # Do nothing
+            return
+        
+        if self.state == TURNING_ON:
+            # Interrupt the turning on of the circuit
+            await self._interrupt_turn_on_off()
+            # Begin turning the circuit off gradually
+            await self._turn_off()
+            
+        if self.state == ON:
+            # Begin turning off the circuit gradually
+            await self._turn_off()
+            
+        if self.state == TURNING_OFF:
+            # Do nothing
+            return
+            
         
