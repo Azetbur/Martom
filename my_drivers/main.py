@@ -11,7 +11,7 @@ debounce_ms = 200
 
 # Callback function to toggle the light circuit
 async def toggle_light(circuit):
-    await circuit.circuit_toggle()
+    await circuit.toggle_with_skip()
 
 # Interrupt service routine for the button press with debounce
 def button_isr(pin, circuit):
@@ -33,7 +33,7 @@ def setup_button(circuit):
 
 async def main():
     # Create a lightCircuit instance
-    circuit = lightCircuit(pin_number=15, frequency=20000, fps=60, brightness_percentage=100, startup_time_seconds=12, shutdown_time_seconds=6)
+    circuit = lightCircuit(pin_number=15, frequency=20000, fps=60, brightness_percentage=100, startup_time_seconds=4, shutdown_time_seconds=4)
     
     # Setup the button with the lightCircuit instance and debounce
     setup_button(circuit)
