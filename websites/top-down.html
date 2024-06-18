@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200&family=Nunito:wght@300&display=swap"
+            rel="stylesheet"
+        />
+        <title>Vzorkovna-ESP32-1</title>
+        <link rel="stylesheet" href="./top-down.css" />
+    </head>
+    <body>
+        <h1>VZORKOVNA</h1>
+
+        <div class="grid-wrapper">
+            <div class="grid-layout">
+                <div class="hider" id="h1"></div>
+                <div class="hider" id="h2"></div>
+                <div class="hider" id="h3"></div>
+                <div class="hider" id="h4"></div>
+
+                <div class="font-blurrer" id="fb1"></div>
+                <div class="button-blurrer" id="bb1"></div>
+
+                <div
+                    class="shelf shelf-horizontal shelf-layer-top s1"
+                    id="s1-top"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-middle s1"
+                    id="s1-middle"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-bottom s1"
+                    id="s1-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-horizontal shelf-layer-top s2"
+                    id="s2-top"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-middle s2"
+                    id="s2-middle"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-bottom s2"
+                    id="s2-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s3"
+                    id="s3-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s3"
+                    id="s3-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s3"
+                    id="s3-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s4"
+                    id="s4-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s4"
+                    id="s4-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s4"
+                    id="s4-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s5"
+                    id="s5-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s5"
+                    id="s5-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s5"
+                    id="s5-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s6"
+                    id="s6-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s6"
+                    id="s6-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s6"
+                    id="s6-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s7"
+                    id="s7-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s7"
+                    id="s7-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s7"
+                    id="s7-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s8"
+                    id="s8-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s8"
+                    id="s8-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s8"
+                    id="s8-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-horizontal shelf-layer-top s9"
+                    id="s9-top"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-middle s9"
+                    id="s9-middle"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-bottom s9"
+                    id="s9-bottom"
+                ></div>
+            </div>
+        </div>
+
+        <div class="flex-wrapper">
+            <div class="container">
+                <div class="column">
+                    <div class="button" id="b1">
+                        <img src="./lightbulb.svg" id="lightbulb_image" />
+                        <img src="./lightbulb_rays.svg" id="lightbulb_ray_image" />
+                        <img src="./skip.svg" id="skip_image" />
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="button" id="b2">
+                        <img src="./clock.svg" id="i2" />
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="button">
+                        <img src="./cog.svg" id="i3" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./top-down-rewrite.js"></script>
+    </body>
+</html>

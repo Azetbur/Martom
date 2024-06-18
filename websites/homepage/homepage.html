@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200&family=Nunito:wght@300&display=swap"
+            rel="stylesheet"
+        />
+        <title>Vzorkovna-ESP32-1</title>
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+        <link rel="stylesheet" href="./homepage.css" />
+        <link rel="stylesheet" href="./timer.css" />
+    </head>
+    <body onload="startTime()">
+            <h1>VZORKOVNA</h1>
+
+        <div id="clockdate">
+            <div class="clockdate-wrapper">
+              <div id="clock"></div>
+              <div id="date"></div>
+            </div>
+        </div>
+
+        <div class="grid-wrapper">
+            <div class="grid-layout">
+                <div class="hider" id="h1"></div>
+                <div class="hider" id="h2"></div>
+                <div class="hider" id="h3"></div>
+                <div class="hider" id="h4"></div>
+
+                <div class="font-blurrer" id="fb1"></div>
+                <div class="button-blurrer" id="bb1"></div>
+
+                <div
+                    class="shelf shelf-horizontal shelf-layer-top s1"
+                    id="s1-top"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-middle s1"
+                    id="s1-middle"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-bottom s1"
+                    id="s1-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-horizontal shelf-layer-top s2"
+                    id="s2-top"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-middle s2"
+                    id="s2-middle"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-bottom s2"
+                    id="s2-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s3"
+                    id="s3-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s3"
+                    id="s3-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s3"
+                    id="s3-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s4"
+                    id="s4-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s4"
+                    id="s4-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s4"
+                    id="s4-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s5"
+                    id="s5-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s5"
+                    id="s5-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s5"
+                    id="s5-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s6"
+                    id="s6-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s6"
+                    id="s6-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s6"
+                    id="s6-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s7"
+                    id="s7-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s7"
+                    id="s7-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s7"
+                    id="s7-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-vertical shelf-layer-top s8"
+                    id="s8-top"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-middle s8"
+                    id="s8-middle"
+                ></div>
+                <div
+                    class="shelf shelf-vertical shelf-layer-bottom s8"
+                    id="s8-bottom"
+                ></div>
+
+                <div
+                    class="shelf shelf-horizontal shelf-layer-top s9"
+                    id="s9-top"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-middle s9"
+                    id="s9-middle"
+                ></div>
+                <div
+                    class="shelf shelf-horizontal shelf-layer-bottom s9"
+                    id="s9-bottom"
+                ></div>
+            </div>
+            
+        </div>
+
+        <div class="flex-wrapper">
+            <div class="container">
+                <div class="column">
+                    <div class="button" id="b1">
+                        <img src="img/lightbulb.svg" id="lightbulb_image" />
+                        <img src="img/lightbulb_rays.svg" id="lightbulb_ray_image" />
+                        <img src="img/skip.svg" id="skip_image" />
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="button" id="b2">
+                        <img src="img/clock.svg" id="i2" />
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="button" id="b3">
+                        <img src="img/cog.svg" id="i3" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay" id="over-layer">
+            <div class="innerLayer" id="inner-layer">
+                <h2 class="no-background padder" id="NB"><span>TIMER</span></h2>
+                
+                <div class="scroller" id="scroller">
+                    <div class="grand" id="grand">
+
+                        <div class="parent-box" id="parent-box">
+                            <div class="before-line" id="before-box">
+                                <div class="line" id="line">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                                    
+                                                              
+                                </div><!--line-->
+        
+                                <div class="icon cross" id="cross">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-->
+                        </div><!--parent-box-->    
+                        <div class="icon plus"  id="add">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-->  
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-01">
+                            <div class="before-line" id="before-box-01">
+                                <div class="line" id="line-01">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-01-->
+        
+                                <div class="icon cross" id="cross-01">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-01-->
+                        </div><!--parent-box-01-->           
+                        <div class="icon plus"  id="add-01">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-01-->   
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-02">
+                            <div class="before-line" id="before-box-02">
+                                <div class="line" id="line-02">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                          
+                                </div><!--line-02-->
+        
+                                <div class="icon cross" id="cross-02">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-02-->
+                        </div><!--parent-box-02-->           
+                        <div class="icon plus"  id="add-02">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-02-->   
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-03">
+                            <div class="before-line" id="before-box-03">
+                                <div class="line" id="line-03">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                          
+                                </div><!--line-03-->
+        
+                                <div class="icon cross" id="cross-03">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-03-->
+                        </div><!--parent-box-03-->           
+                        <div class="icon plus"  id="add-03">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-03-->  
+    <!---------------------------------------------------------------------------------->                    
+                        <div class="parent-box" id="parent-box-04">
+                            <div class="before-line" id="before-box-04">
+                                <div class="line" id="line-04">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-04-->
+        
+                                <div class="icon cross" id="cross-04">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-04-->
+                        </div><!--parent-box-04-->           
+                        <div class="icon plus"  id="add-04">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-04-->  
+    <!---------------------------------------------------------------------------------->                    
+                        <div class="parent-box" id="parent-box-05">
+                            <div class="before-line" id="before-box-05">
+                                <div class="line" id="line-05">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-05-->
+        
+                                <div class="icon cross" id="cross-05">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-05-->
+                        </div><!--parent-box-05-->           
+                        <div class="icon plus"  id="add-05">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-05-->  
+    <!---------------------------------------------------------------------------------->                    
+                        <div class="parent-box" id="parent-box-06">
+                            <div class="before-line" id="before-box-06">
+                                <div class="line" id="line-06">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-06-->
+        
+                                <div class="icon cross" id="cross-06">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-06-->
+                        </div><!--parent-box-06-->           
+                        <div class="icon plus"  id="add-06">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-06-->  
+    <!---------------------------------------------------------------------------------->                    
+                        <div class="parent-box" id="parent-box-07">
+                            <div class="before-line" id="before-box-07">
+                                <div class="line" id="line-07">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-07-->
+        
+                                <div class="icon cross" id="cross-07">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-07-->
+                        </div><!--parent-box-07-->           
+                        <div class="icon plus"  id="add-07">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-07-->  
+    <!---------------------------------------------------------------------------------->                    
+                        <div class="parent-box" id="parent-box-08">
+                            <div class="before-line" id="before-box-08">
+                                <div class="line" id="line-08">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-08-->
+        
+                                <div class="icon cross" id="cross-08">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-08-->
+                        </div><!--parent-box-08-->           
+                        <div class="icon plus"  id="add-08">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-08-->  
+    <!---------------------------------------------------------------------------------->                    
+                        <div class="parent-box" id="parent-box-09">
+                            <div class="before-line" id="before-box-09">
+                                <div class="line" id="line-09">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-09-->
+        
+                                <div class="icon cross" id="cross-09">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-09-->
+                        </div><!--parent-box-09-->           
+                        <div class="icon plus"  id="add-09">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-09-->  
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-10">
+                            <div class="before-line" id="before-box-10">
+                                <div class="line" id="line-10">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-10-->
+        
+                                <div class="icon cross" id="cross-10">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-10-->
+                        </div><!--parent-box-10-->           
+                        <div class="icon plus"  id="add-10">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-10-->  
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-11">
+                            <div class="before-line" id="before-box-11">
+                                <div class="line" id="line-11">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-11-->
+        
+                                <div class="icon cross" id="cross-11">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-11-->
+                        </div><!--parent-box-11-->           
+                        <div class="icon plus"  id="add-11">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-11--> 
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-12">
+                            <div class="before-line" id="before-box-12">
+                                <div class="line" id="line-12">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-12-->
+        
+                                <div class="icon cross" id="cross-12">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-12-->
+                        </div><!--parent-box-12-->           
+                        <div class="icon plus"  id="add-12">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-12--> 
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-13">
+                            <div class="before-line" id="before-box-13">
+                                <div class="line" id="line-13">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-13-->
+        
+                                <div class="icon cross" id="cross-13">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-13-->
+                        </div><!--parent-box-13-->           
+                        <div class="icon plus"  id="add-13">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-13--> 
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-14">
+                            <div class="before-line" id="before-box-14">
+                                <div class="line" id="line-14">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-14-->
+        
+                                <div class="icon cross" id="cross-14">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-14-->
+                        </div><!--parent-box-14-->           
+                        <div class="icon plus"  id="add-14">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-14--> 
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-15">
+                            <div class="before-line" id="before-box-15">
+                                <div class="line" id="line-15">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-15-->
+        
+                                <div class="icon cross" id="cross-15">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-15-->
+                        </div><!--parent-box-15-->           
+                        <div class="icon plus"  id="add-15">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-15--> 
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-16">
+                            <div class="before-line" id="before-box-16">
+                                <div class="line" id="line-16">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-16-->
+        
+                                <div class="icon cross" id="cross-16">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-16-->
+                        </div><!--parent-box-16-->           
+                        <div class="icon plus"  id="add-16">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-16--> 
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-17">
+                            <div class="before-line" id="before-box-17">
+                                <div class="line" id="line-17">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-17-->
+        
+                                <div class="icon cross" id="cross-17">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-17-->
+                        </div><!--parent-box-17-->           
+                        <div class="icon plus"  id="add-17">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-17--> 
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-18">
+                            <div class="before-line" id="before-box-18">
+                                <div class="line" id="line-18">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-18-->
+        
+                                <div class="icon cross" id="cross-18">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-18-->
+                        </div><!--parent-box-18-->           
+                        <div class="icon plus"  id="add-18">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-18--> 
+    <!---------------------------------------------------------------------------------->
+                        <div class="parent-box" id="parent-box-19">
+                            <div class="before-line" id="before-box-19">
+                                <div class="line" id="line-19">
+                                    <div class="dropdown">
+                                        <div class="select">
+                                            <span class="selected li-span">Monday</span>
+                                            <div class="caret"></div>
+                                        </div>
+                                        <ul class="menu" id="menu-open">
+                                            <li class="active">Monday</li>
+                                            <li>Tuesday</li>
+                                            <li>Wednesday</li>
+                                            <li>Thursday</li>
+                                            <li>Friday</li>
+                                            <li>Saturday</li>
+                                            <li>Sunday</li>
+                                            <li>Workdays</li>
+                                            <li>Weekend</li>
+                                        </ul>
+                                    </div>
+                                    <div class="colon">
+                                        <span> : </span>
+                                    </div>
+                                    
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>
+                                    <div class="icon hyphen">  
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
+                                  
+                                    <div class="timepicker-container">
+                                        <input type="text" class="timePicker"/>
+                                    </div>                           
+                                </div><!--line-19-->
+        
+                                <div class="icon cross" id="cross-19">  
+                                    <i class="fa-solid fa-xmark"></i>
+                                </div>
+                            </div><!--before-line-19-->
+                        </div><!--parent-box-19-->           
+                        <div class="icon plus"  id="add-19">  
+                            <i class="fa-solid fa-plus"></i>
+                        </div><!--Add-19--> 
+    <!---------------------------------------------------------------------------------->
+                    </div>    
+                </div>
+                <div class="back-button" id="go-back">
+                    <i class="fa-solid fa-caret-down go-back"></i>
+                </div>
+            </div>
+        </div>
+
+        <script src="./homepage.js"></script>
+        <script src="./picker.js"></script>
+        <script>
+            var timepicker = new TimePick('#timePick');
+            var timepickerz = new TimePick('.timePicker');
+        </script> 
+        
+    </body>
+</html>

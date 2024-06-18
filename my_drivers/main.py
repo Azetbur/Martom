@@ -1,6 +1,6 @@
 import uasyncio
 from machine import Pin
-from light_driver import lightArray
+from light_driver import pwmArray
 import utime  # Import the utime module for handling time-related functions
 
 # Global variable to track the last button press time
@@ -48,10 +48,10 @@ def setup_button(array):
     circuit_button_pin.irq(trigger=Pin.IRQ_FALLING, handler=lambda pin: circuit_button_isr(pin, array))
 
 async def main():
-    # Create a lightCircuit instance
-    array = lightArray(pin_number_array=[15, 2, 0, 4, 16, 17, 5, 18, 19, 23], frequency=20000, fps=60, brightness_percentage=100, startup_time_seconds=2, shutdown_time_seconds=4)
+    # Create a pwmCircuit instance
+    array = pwmArray(pin_number_array=[15, 2, 0, 4, 16, 17, 5, 18, 19, 23], frequency=20000, fps=60, brightness_percentage=100, startup_time_seconds=2, shutdown_time_seconds=4)
     
-    # Setup the button with the lightCircuit instance and debounce
+    # Setup the button with the pwmCircuit instance and debounce
     setup_button(array)
     
     # Keep the script running to listen for button presses

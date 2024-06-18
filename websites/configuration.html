@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="cs">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vzorkovna-ESP32-1</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: justify;
+                margin: 15px;
+            }
+
+            h2 {
+                margin-top: 5px;
+                margin-bottom: 0px;
+            }
+
+            form {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            button {
+                padding: 10px;
+                margin-bottom: 20px;
+                font-size: 16px;
+                cursor: pointer;
+                color: black;
+                background-color: lightgray;
+            }
+
+            .show-button {
+                padding: 2px;
+                font-size: 12px;
+                width: 55px;
+                cursor: pointer;
+                color: black;
+                background-color: lightgray;
+            }
+
+            .bottom-text {
+                font-size: 12px;
+                font-style: italic;
+            }
+
+            .form-row {
+                display: flex;
+                align-items: center;
+                /* Align items vertically */
+                margin-bottom: 10px;
+                /* Spacing between rows */
+            }
+
+            .form-row label {
+                flex-basis: 10%;
+                /* Adjust width of label column */
+                margin-right: 10px;
+                /* Spacing between label and input */
+            }
+
+            .form-row .input-group {
+                flex-grow: 1;
+                /* Take up remaining space */
+                display: flex;
+                align-items: center;
+            }
+
+            .input-group input {
+                margin: 10px;
+                width: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2>Konfigurace LED osvětlení</h2>
+        <form action="go_to_success_or_failure" method="post">
+            <!-- Repeat this structure for each label-input pair -->
+            <div class="form-row">
+                <label for="brightness"><b>Jas:</b></label>
+                <div class="input-group">
+                    <input type="text" id="brightness" name="brightness" />
+                    <!-- Adjust the button as needed -->
+                    <button class="show-button" type="button">+10</button>
+                    <button class="show-button" type="button">-10</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="brightness"><b>Časovač:</b></label>
+                <div class="input-group">
+                    <input type="text" id="brightness" name="brightness" />
+                    <!-- Adjust the button as needed -->
+                    <button class="show-button" type="button">+10</button>
+                    <button class="show-button" type="button">-10</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="brightness"><b>Interval zapnutí:</b></label>
+                <div class="input-group">
+                    <input type="text" id="brightness" name="brightness" />
+                    <!-- Adjust the button as needed -->
+                    <button class="show-button" type="button">+10</button>
+                    <button class="show-button" type="button">-10</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="brightness"><b>Interval vypnutí:</b></label>
+                <div class="input-group">
+                    <input type="text" id="brightness" name="brightness" />
+                    <!-- Adjust the button as needed -->
+                    <button class="show-button" type="button">+10</button>
+                    <button class="show-button" type="button">-10</button>
+                </div>
+            </div>
+            <!-- Repeat similar structure for Časovač, Interval zapnutí, etc. -->
+
+            <!-- ... other form rows ... -->
+
+            <button type="submit">Připojit</button>
+            <!-- ... rest of your form ... -->
+        </form>
+        <form
+            action="go_to_selection"
+            method="post"
+            style="display: inline-block"
+        >
+            <button type="submit">Vybrat jinou síť</button>
+        </form>
+        <p class="bottom-text">Vzorkovna-ESP32-1</p>
+
+        <script>
+            function togglePasswordVisibility() {
+                var passwordInput = document.getElementById("password");
+                var toggleButton = document.querySelector("button");
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    toggleButton.textContent = "Skrýt";
+                } else {
+                    passwordInput.type = "password";
+                    toggleButton.textContent = "Zobrazit";
+                }
+            }
+        </script>
+    </body>
+</html>

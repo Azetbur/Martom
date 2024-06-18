@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="./temp.css" />
+<meta charset="UTF-8">
+<title>Custom Weekday Picker</title>
+<style>
+  .day-picker {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  .day-picker.visible {
+    display: block;
+  }
+  .day {
+    display: inline-block;
+    padding: 5px;
+    margin: 2px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  .day.selected {
+    background-color: lightblue;
+  }
+</style>
+</head>
+<body>
+
+<div id="calendarIcon" style="cursor: pointer;">📅</div>
+<div id="dayPicker" class="day-picker">
+  <div class="day" data-day="mon">Mon</div>
+  <div class="day" data-day="tue">Tue</div>
+  <div class="day" data-day="wed">Wed</div>
+  <div class="day" data-day="thu">Thu</div>
+  <div class="day" data-day="fri">Fri</div>
+  <div class="day" data-day="sat">Sat</div>
+  <div class="day" data-day="sun">Sun</div>
+</div>
+
+<script>
+  document.getElementById('calendarIcon').addEventListener('click', function() {
+    document.getElementById('dayPicker').classList.toggle('visible');
+  });
+
+  document.querySelectorAll('.day').forEach(function(day) {
+    day.addEventListener('click', function() {
+      this.classList.toggle('selected');
+    });
+  });
+</script>
+
+</body>
+</html>
