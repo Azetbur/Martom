@@ -28,6 +28,8 @@ class lightArray:
         self.interrupt = False
         self.interrupt_confirm = False
         
+        self._log("Array created")
+        
     def array_update(self, brightness_percentage, startup_time_seconds, shutdown_time_seconds):
         """Update all light circuits' properties in the array.
 
@@ -41,13 +43,14 @@ class lightArray:
         for circuit in self.circuits:
             circuit.circuit_update(brightness_percentage, startup_time_seconds, shutdown_time_seconds)
             
+    def _log(self, message):
+        print("\n" + __file__ + " : " + str(message))
+        return
+            
     async def _interrupt_toggle(self):
-        # 
-        print("setting interrupt to true")
         self.interrupt = True
             
         # Await propagation of interrupt
-        print("self.interrupt_confirm: " + str(self.interrupt_confirm))
         while not self.interrupt_confirm:
             await uasyncio.sleep(0.01)
                 
@@ -62,7 +65,7 @@ class lightArray:
         # Prevents the function from executing if the state is already being changed
         # Present in case the function is toggled multiple times in short succession
         if self.interrupt:
-            print("circuit toggle dropped")
+            self.log("Array toggle dropped")
             return
         
         if self.state == OFF:
@@ -133,7 +136,7 @@ class lightCircuit:
         self.interrupt = False
         self.interrupt_confirm = False
         
-        print("circuit created")
+        self._log("Circuit created")
         
     def circuit_update(self, brightness_percentage, startup_time_seconds, shutdown_time_seconds):
         """Update the light circuit's properties.
@@ -153,8 +156,10 @@ class lightCircuit:
         self.brightness = brighntess_percentage
         
     def _log(self, message):
-        print(__file__ + " : Circuit " + str(self.pin_number) + " : " + str(message))
+        log_message = "\n{} : Circuit {:>2} : {}".format(__file__, self.pin_number, message)
+        print(log_message)
         return
+
         
     # Turns the circuit on gradually, taking startup_time_seconds if beginning from the OFF state
     async def _turn_on(self):
@@ -171,18 +176,12 @@ class lightCircuit:
                 break
                 
         self._log("Changed state to 'ON'.")
-        #end_time = utime.ticks_ms()
-        #elapsed_time = utime.ticks_diff(end_time, start_time)  # Calculates the difference in a wrap-around safe manner
-        #print("Elapsed Time:", elapsed_time, "milliseconds")
         self.state = ON
         
     # Turns the circuit off gradually, taking shutdown_time_seconds if beginning from the ON state
     async def _turn_off(self):
         self._log("Changed state to 'TURNING_OFF'.")
-        #start_time = utime.ticks_ms()
         self.state = TURNING_OFF
-        
-        #print("self.shutdown_brightness_step = " + str(self.shutdown_brightness_step))
             
         while not self.pwm_object.duty() <= 0:
             self.virtual_duty = max(self.virtual_duty - self.shutdown_brightness_step, 0)
@@ -193,9 +192,6 @@ class lightCircuit:
                 break
             
         self._log("Changed state to 'OFF'.")
-        #end_time = utime.ticks_ms()
-        #elapsed_time = utime.ticks_diff(end_time, start_time)  # Calculates the difference in a wrap-around safe manner
-        #print("Elapsed Time:", elapsed_time, "milliseconds")
         self.state = OFF
         self.pwm_object.duty(0)
         
@@ -227,7 +223,6 @@ class lightCircuit:
         # Prevents the function from executing if the state is already being changed
         # Present in case the function is toggled multiple times in short succession
         if self.interrupt:
-            print("circuit toggle dropped")
             return
         
         if self.state == OFF:
@@ -256,10 +251,8 @@ class lightCircuit:
         # Prevents the function from executing if the state is already being changed
         # Present in case the function is toggled multiple times in short succession
         if self.interrupt:
-            print("circuit toggle dropped")
+            self._log("Circuit toggle dropped")
             return
-        
-        print("in circuit toggle")
         
         if self.state == OFF:
             # Begin turning on the circuit gradually
@@ -361,5 +354,3 @@ class lightCircuit:
         if self.state == TURNING_OFF:
             # Do nothing
             return
-            
-        
