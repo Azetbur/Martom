@@ -2,7 +2,11 @@ import uasyncio
 import utime
 import gc
 from machine import Pin
-from light_driver import lightArray
+
+from controller import Controller
+from my_drivers.light_driver import lightArray
+from my_drivers.display_driver import Display
+from third_party_drivers.rotary_irq_esp import RotaryIRQ
 
 # Global variable to track the last button press time
 last_press_time = 0
@@ -11,7 +15,7 @@ last_press_time = 0
 debounce_ms = 300
 
 # Stores the last known value of the encoder
-encoder_val_stored
+encoder_val_stored = 0
 
 # Garbage collection interval in seconds
 garbage_s = 600
@@ -42,11 +46,13 @@ def setup_button_pin(pin_number, circuit):
 
 # Function to check whether the encoder was turned, returns bool
 def check_encoder_turned(encoder):
-    if encoder.value != encoder_val_stored
-        encoder_val_stored = encoder.value
-        return true
+    global encoder_val_stored
+    
+    if encoder.value() != encoder_val_stored:
+        encoder_val_stored = encoder.value()
+        return True
     else:
-        return false
+        return False
     
 # Asynchronous function to periodically trigger garbage collection
 async def garbage_collector():
@@ -56,6 +62,8 @@ async def garbage_collector():
         await uasyncio.sleep(garbage_s)
 
 async def main():
+    global encoder_val_stored
+    
     _log("Initializing program")
     
     # Create a Display instance
@@ -70,13 +78,14 @@ async def main():
     encoder = RotaryIRQ(pin_num_clk=35, 
                         pin_num_dt=34, 
                         min_val=0, 
-                        max_val=controller.no_lines - 1,
+                        max_val=4,
                         reverse=False, 
                         range_mode=RotaryIRQ.RANGE_WRAP,
                         half_step=True)
+    encoder_val_stored = encoder.value()
     
     encoder_button_pin = Pin(13, Pin.IN, Pin.PULL_UP)
-    encoder_btn.irq(trigger=Pin.IRQ_FALLING, handler=controller.encoder_pressed)
+    encoder_button_pin.irq(trigger=Pin.IRQ_FALLING, handler=lambda pin: controller.encoder_pressed(array, encoder))
     _log("Encoder configured")
     
     # Create a lightCircuit instance
@@ -99,12 +108,12 @@ async def main():
     
     # Log initialization completion
     _log("Initialization complete, the program is now running")
-
+    
     # Keep the script running to listen for button presses
     while True:
         await uasyncio.sleep(1)
         if check_encoder_turned(encoder):
-            controller.encoder_turned(encoder.value)
+            controller.encoder_turned(encoder.value())
         
 
 # Run the main coroutine

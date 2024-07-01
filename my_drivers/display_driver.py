@@ -28,7 +28,7 @@ class Display:
     def __init__(self, sda_pin, scl_pin, freq, address):
 
         # Configure I2C
-        i2c = I2C(0, sda=Pin(sda_pin), scl=Pin(scl_pin), freq=freq)  # Adjust pins and frequency as needed
+        self.i2c = I2C(0, sda=Pin(sda_pin), scl=Pin(scl_pin), freq=freq)  # Adjust pins and frequency as needed
         
         self._ADDRESS = address
         
@@ -46,18 +46,18 @@ class Display:
         low_nibble = mode | ((data << 4) & 0xF0) | 0x08  # Send low nibble with backlight on
 
         # Send high nibble
-        i2c.writeto(self._ADDRESS, bytearray([high_nibble]))
+        self.i2c.writeto(self._ADDRESS, bytearray([high_nibble]))
         self._toggle_enable(high_nibble)
 
         # Send low nibble
-         i2c.writeto(self._ADDRESS, bytearray([low_nibble]))
+        self.i2c.writeto(self._ADDRESS, bytearray([low_nibble]))
         self._toggle_enable(low_nibble)
 
     def _toggle_enable(self,data):
         time.sleep_us(500)
-        i2c.writeto(self._ADDRESS, bytearray([data | 0x04]))  # Enable bit high
+        self.i2c.writeto(self._ADDRESS, bytearray([data | 0x04]))  # Enable bit high
         time.sleep_us(500)
-        i2c.writeto(self._ADDRESS, bytearray([data & ~0x04]))  # Enable bit low
+        self.i2c.writeto(self._ADDRESS, bytearray([data & ~0x04]))  # Enable bit low
         time.sleep_us(500)
 
     def _send_command(self, cmd):
@@ -71,12 +71,12 @@ class Display:
         self._send_command(LCD_CLR)
         time.sleep_ms(2)  # Clear command needs a longer delay
 
-    def cursor_set(row, col):
-        row_offsets = [0x00, 0x40, 0x14, 0x54]
-        if row > 3:
-            row = 3  # Limit to max row number
-            self._send_command(LCD_SET_DDRAM_ADDR | (col + row_offsets[row]))
+    def cursor_set(self, row, col):
+        row_offsets = [0x00, 0x14, 0x40, 0x54]
+        if row >= len(row_offsets):
+            row = len(row_offsets) - 1  # Limit to max row number
+        self._send_command(LCD_SET_DDRAM_ADDR | (col + row_offsets[row]))
 
-    def print(text):
+    def print(self, text):
         for char in text:
             self._send_data(ord(char))
