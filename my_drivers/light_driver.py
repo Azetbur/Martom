@@ -10,7 +10,8 @@ TURNING_OFF = 3
     
 # Class used to control all light circuits simultaneously.
 class lightArray:
-    def __init__(self, pin_number_array, frequency, fps, brightness_percentage, startup_time_seconds, shutdown_time_seconds):
+    def __init__(self, pin_number_array, frequency, fps, brightness_percentage, timer_active_bool, timer_time_minutes, startup_time_seconds,
+                 shutdown_time_seconds, overlap_percentage):
         
         self.circuits = []
         
@@ -19,9 +20,14 @@ class lightArray:
             circuit = lightCircuit(pin_number, frequency, fps, brightness_percentage, startup_time_seconds, shutdown_time_seconds)
             self.circuits.append(circuit)
         
-        
+        self.timer_active_bool = timer_active_bool
+        self.timer_time_minutes = timer_time_minutes
         self.startup_time_seconds = startup_time_seconds
         self.shutdown_time_seconds = shutdown_time_seconds
+        self.overlap_percentage = overlap_percentage
+        
+        # Holds the asynchronous timer task
+        self._timer_task = None
         
         self.state = OFF
         
@@ -30,7 +36,8 @@ class lightArray:
         
         self._log("Array created")
         
-    def array_update(self, brightness_percentage, startup_time_seconds, shutdown_time_seconds):
+    def array_update(self, brightness_percentage, timer_active_bool, timer_time_minutes, startup_time_seconds, shutdown_time_seconds,
+                     overlap_percentage):
         """Update all light circuits' properties in the array.
 
         Parameters:
@@ -38,6 +45,12 @@ class lightArray:
         - startup_time_seconds (float): The new startup time in seconds.
         - shutdown_time_seconds (float): The new shutdown time in seconds.
         """
+        
+        self.timer_active_bool = timer_active_bool
+        self.timer_time_minutes = timer_time_minutes
+        self.startup_time_seconds = startup_time_seconds
+        self.shutdown_time_seconds = shutdown_time_seconds
+        self.overlap_percentage = overlap_percentage
         
         # Update each circuit in the array with the new parameters
         for circuit in self.circuits:
@@ -52,44 +65,135 @@ class lightArray:
             
         # Await propagation of interrupt
         while not self.interrupt_confirm:
+            print("waiting for confirm")
             await uasyncio.sleep(0.01)
                 
         # Reset interrupt and interrupt confirmation
         self.interrupt = False
         self.interrupt_confirm = False
         
+    # Waits for the specified delay and then toggles the lightArray
+    async def _timer_function(self, delay):
+        await uasyncio.sleep(delay * 60)
+        
+        self._log("Timer countdown reached, turning off array")
+        
+        # In case the turning on period is longer than the timer time
+        if self.state == TURNING_ON:
+            await self.toggle()
+            
+        await uasyncio.sleep(1)
+        
+        print("\nBefore second toggle.")
+            
+        await self.toggle()
+        
+    async def _interrupt_function(self, tasks):
+        
+        print("\nIN INTERRUPT FUNCTION")
+        
+        while not self.interrupt:
+            await uasyncio.sleep(0.01)
+            
+        print("\nINTERRUPTING")
+            
+        self.interrupt_confirm = True
+        
+        for task in tasks:
+            print("\nCancelled")
+            task.cancel()
         
     # Turns all light circuits on or off based on the value of 'self.state'.
     def toggle(self):
         
+        print("here1")
+        
         # Prevents the function from executing if the state is already being changed
         # Present in case the function is toggled multiple times in short succession
         if self.interrupt:
-            self.log("Array toggle dropped")
+            self._log("Array toggle dropped")
             return
         
         if self.state == OFF:
             self.state = TURNING_ON
+            
+            # Begin countdown of the off-timer if it is active
+            if self.timer_active_bool:
+                self._timer_task = uasyncio.create_task(self._timer_function(self.timer_time_minutes))
+            
             # Turn all circuits on gradually, one by one
             for circuit in self.circuits:
-                await circuit.nudge_on()
-                #await uasyncio.sleep(self.startup_time_seconds)
-                if self.interrupt:
-                    self.interrupt_confirm = True;
-                    break
+               await circuit.nudge_on()
+               if self.interrupt:
+                   self.interrupt_confirm = True;
+                   break
+            
+            #tasks = [circuit.nudge_on() for circuit in self.circuits]
+            #await uasyncio.gather(*tasks)
+            
+            cumulative_startup_time = 0
+            tasks = []
+            
+            #interrupt_task = uasyncio.create_task(self._interrupt_function(tasks))
+            #
+            # Loop through circuits to start turning them on with overlap
+            #for idx, circuit in enumerate(self.circuits):
+            #    if idx > 0:
+            #        # Calculate the overlap delay based on cumulative startup time
+            #        overlap_delay = cumulative_startup_time * (1 - (self.overlap_percentage / 100.0))
+            #        tasks.append(uasyncio.create_task(circuit.nudge_on_delayed(overlap_delay)))
+            #    else:
+            #        tasks.append(uasyncio.create_task(circuit.nudge_on()))
+            #    
+            #    # Accumulate the cumulative startup time
+            #    cumulative_startup_time += self.startup_time_seconds
+            #    
+            # Wait for all tasks to complete
+            #try:
+            #    await uasyncio.gather(*tasks)
+            #except uasyncio.CancelledError:
+            #    for task in tasks:
+            #        task.cancel()
+            #    await uasyncio.gather(*tasks, return_exceptions=True)
+            #except Exception:
+            #    pass
+            #
+            #interrupt_task.cancel()
+            
+            print("Changing state to ON")
                 
             self.state = ON
             
         elif self.state == TURNING_ON:
+            
+            print("Button pressed while turning on")
+            
             # Interrupt the turning on off the array
-            self._interrupt_toggle()
+            await self._interrupt_toggle()
             # Turn all circuits on instantaneously
             await uasyncio.gather(*(circuit.jump_on() for circuit in self.circuits))
             
         elif self.state == ON:
+            
+            print("here2")
+            
             self.state = TURNING_OFF
+            
+            # Attempt cancelation of the the off-timer
+            try:
+                self._timer_task.cancel()
+                await self._timer_task  # Awaiting the cancellation to handle it gracefully
+            except (uasyncio.CancelledError, RuntimeError):
+                pass  # Ignore the cancelled error
+            
+            print("here3")
+            
+            print(str(self.circuits))
+            print(str(self.interrupt))
+            
             # Turn all circuits off gradually, one by one
             for circuit in reversed(self.circuits):
+                print("in for")
                 await circuit.nudge_off()
                 if self.interrupt:
                     self.interrupt_confirm = True;
@@ -153,7 +257,7 @@ class lightCircuit:
         self.shutdown_frames_count = shutdown_time_seconds * self.fps
         self.shutdown_brightness_step = 1023 / 100 * brightness_percentage / self.shutdown_frames_count
         
-        self.brightness = brighntess_percentage
+        self.brightness = brightness_percentage
         
     def _log(self, message):
         log_message = "\n{} : Circuit {:>2} : {}".format(__file__, self.pin_number, message)
@@ -164,7 +268,6 @@ class lightCircuit:
     # Turns the circuit on gradually, taking startup_time_seconds if beginning from the OFF state
     async def _turn_on(self):
         self._log("Changed state to 'TURNING_ON'.")
-        #start_time = utime.ticks_ms()
         self.state = TURNING_ON
             
         while not self.pwm_object.duty() >= self.target_brightness:
@@ -199,11 +302,13 @@ class lightCircuit:
     async def _instant_on(self):
         self.pwm_object.duty(int(1023 / 100 * self.brightness))
         self.virtual_duty = int(1023 / 100 * self.brightness)
+        self.state = ON
         
     # Turns the circuit off instantaneously
     async def _instant_off(self):
         self.pwm_object.duty(0)
         self.virtual_duty = 0
+        self.state = OFF
         
     # When called, interrupts the execution of the turn_on() or turn_off() functions
     async def _interrupt_turn_on_off(self):
@@ -336,9 +441,15 @@ class lightCircuit:
             # Turn the circuit on gradually
             await self._turn_on()
             
+    # Calls nudge_on after the delay passed elapses
+    async def nudge_on_delayed(self, delay):
+        await uasyncio.sleep(delay)
+        await self.nudge_on()
+            
     async def nudge_off(self):
         if self.state == OFF:
             # Do nothing
+            print("if self.state == OFF:")
             return
         
         if self.state == TURNING_ON:
@@ -352,5 +463,11 @@ class lightCircuit:
             await self._turn_off()
             
         if self.state == TURNING_OFF:
+            print("if self.state == TURNING_OFF:")
             # Do nothing
             return
+        
+    # Calls nudge_off after the delay passed elapses
+    async def nudge_off_delayed(self, delay):
+        await uasyncio.sleep(delay)
+        await self.nudge_off()

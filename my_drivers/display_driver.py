@@ -26,13 +26,11 @@ LCD_5x8DOTS = 0x00
 class Display:
     
     def __init__(self, sda_pin, scl_pin, freq, address):
-
         # Configure I2C
         self.i2c = I2C(0, sda=Pin(sda_pin), scl=Pin(scl_pin), freq=freq)  # Adjust pins and frequency as needed
-        
         self._ADDRESS = address
         
-        # Initialize the lcd
+        # Initialize the LCD
         self._send_command(0x33)  # Initialize to 8-bit mode
         self._send_command(0x32)  # Switch to 4-bit mode
         self._send_command(LCD_FUNCTION_SET | LCD_4BIT_MODE | LCD_2LINE | LCD_5x8DOTS)
@@ -53,7 +51,7 @@ class Display:
         self.i2c.writeto(self._ADDRESS, bytearray([low_nibble]))
         self._toggle_enable(low_nibble)
 
-    def _toggle_enable(self,data):
+    def _toggle_enable(self, data):
         time.sleep_us(500)
         self.i2c.writeto(self._ADDRESS, bytearray([data | 0x04]))  # Enable bit high
         time.sleep_us(500)
@@ -65,14 +63,13 @@ class Display:
 
     def _send_data(self, data):
         self._send_to_lcd(data, 0x01)
-        
 
     def clear(self):
         self._send_command(LCD_CLR)
         time.sleep_ms(2)  # Clear command needs a longer delay
 
     def cursor_set(self, row, col):
-        row_offsets = [0x00, 0x14, 0x40, 0x54]
+        row_offsets = [0x00, 0x40, 0x14, 0x54]  # Corrected row offsets
         if row >= len(row_offsets):
             row = len(row_offsets) - 1  # Limit to max row number
         self._send_command(LCD_SET_DDRAM_ADDR | (col + row_offsets[row]))
