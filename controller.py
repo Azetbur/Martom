@@ -45,7 +45,6 @@ class Controller:
         
     def _log(self, message):
         print("\n" + __file__ + "   : " + str(message))
-        return
 
     # Pads numbers with spaces to be three characters long, returning them as strings
     def _pad(self, number):

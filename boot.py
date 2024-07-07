@@ -22,7 +22,6 @@ garbage_s = 600
 
 def _log(message):
     print("\n" + "boot.py         : " + str(message))
-    return
 
 # Asynchronous function to handle the button press
 async def handle_button_press(array):
@@ -42,9 +41,6 @@ def array_button_isr(pin, array):
 
 # Function to configure button pin and attach interrupt
 def setup_button_pin(pin_number, array):
-    
-    
-    
     button_pin = Pin(pin_number, Pin.IN, Pin.PULL_UP)
     button_pin.irq(trigger=Pin.IRQ_FALLING, handler=lambda pin: array_button_isr(pin, array))
 

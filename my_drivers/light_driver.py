@@ -58,7 +58,6 @@ class lightArray:
             
     def _log(self, message):
         print("\n" + __file__ + " : " + str(message))
-        return
             
     async def _interrupt_toggle(self):
         self.interrupt = True

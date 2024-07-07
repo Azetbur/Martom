@@ -50,7 +50,6 @@ class Display:
         
     def _log(self, message):
         print("\n" + __file__ + " : " + str(message))
-        return
 
     def _send_to_lcd(self, data, mode):
         high_nibble = mode | (data & 0xF0) | 0x08  # Send high nibble with backlight on
