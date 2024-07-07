@@ -34,7 +34,7 @@ class lightArray:
         self.interrupt = False
         self.interrupt_confirm = False
         
-        self._log("Array created")
+        self._log("Light array initialized")
         
     def array_update(self, brightness_percentage, timer_active_bool, timer_time_minutes, startup_time_seconds, shutdown_time_seconds,
                      overlap_percentage):

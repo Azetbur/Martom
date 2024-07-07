@@ -30,6 +30,11 @@ class Display:
         self.i2c = I2C(0, sda=Pin(sda_pin), scl=Pin(scl_pin), freq=freq)  # Adjust pins and frequency as needed
         self._ADDRESS = address
         
+        self.initialize()
+        
+    def initialize(self):
+        self.com_error = False
+        
         # Initialize the LCD
         self._send_command(0x33)  # Initialize to 8-bit mode
         self._send_command(0x32)  # Switch to 4-bit mode
@@ -38,18 +43,31 @@ class Display:
         self._send_command(LCD_CLR)  # Clear display
         self._send_command(LCD_ENTRY_MODE | LCD_ENTRY_LEFT | LCD_ENTRY_SHIFT_DECREMENT)
         time.sleep_ms(2)  # Wait for the command to be processed
+        
+        if self.com_error == False:
+            self.initialized = True
+            self._log("Display initialized")
+        
+    def _log(self, message):
+        print("\n" + __file__ + " : " + str(message))
+        return
 
     def _send_to_lcd(self, data, mode):
         high_nibble = mode | (data & 0xF0) | 0x08  # Send high nibble with backlight on
         low_nibble = mode | ((data << 4) & 0xF0) | 0x08  # Send low nibble with backlight on
 
-        # Send high nibble
-        self.i2c.writeto(self._ADDRESS, bytearray([high_nibble]))
-        self._toggle_enable(high_nibble)
+        try:
+            # Send high nibble
+            self.i2c.writeto(self._ADDRESS, bytearray([high_nibble]))
+            self._toggle_enable(high_nibble)
 
-        # Send low nibble
-        self.i2c.writeto(self._ADDRESS, bytearray([low_nibble]))
-        self._toggle_enable(low_nibble)
+            # Send low nibble
+            self.i2c.writeto(self._ADDRESS, bytearray([low_nibble]))
+            self._toggle_enable(low_nibble)
+            
+        except OSError:
+            self.initialized = False
+            self.com_error = True
 
     def _toggle_enable(self, data):
         time.sleep_us(500)
@@ -77,3 +95,25 @@ class Display:
     def print(self, text):
         for char in text:
             self._send_data(ord(char))
+            
+    def check_connection(self, controller, encoder_value):
+        devices = self.i2c.scan()
+        if self._ADDRESS in devices:
+            if not self.initialized:
+                self._log("Display re-connected, initializing...")
+                self.initialize()
+                if not controller._edit_mode:
+                    controller.print_active_page(encoder_value)
+                    self.cursor_set(encoder_value % 4, 0)
+                    
+                else:
+                    controller.print_active_page(controller._active_line)
+                    self.cursor_set(controller._active_line % 4, 0)
+                    
+                self.print(">>")
+                
+        else:
+            if self.initialized:
+                self._log("Display disconnected")
+                self.initialized = False
+

@@ -41,6 +41,8 @@ class Controller:
         self._lcd.cursor_set(0,0)
         self._lcd.print(">>")
         
+        self._log("Controller initialized")
+        
     def _log(self, message):
         print("\n" + __file__ + "   : " + str(message))
         return
@@ -69,6 +71,12 @@ class Controller:
         self._lcd.print("   DOWNTIME(s)  :" + self._pad(self.settings_array[4]))
         self._lcd.cursor_set(1,0)
         self._lcd.print("   OVERLAP(%)   :" + self._pad(self.settings_array[5]))
+
+    def print_active_page(self, encoder_value):
+        if encoder_value in range(0,4):
+            self._print_first_page()
+        else:
+            self._print_second_page()
 
     def encoder_turned(self, encoder_value):
         

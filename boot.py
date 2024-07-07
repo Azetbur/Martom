@@ -42,6 +42,9 @@ def array_button_isr(pin, array):
 
 # Function to configure button pin and attach interrupt
 def setup_button_pin(pin_number, array):
+    
+    
+    
     button_pin = Pin(pin_number, Pin.IN, Pin.PULL_UP)
     button_pin.irq(trigger=Pin.IRQ_FALLING, handler=lambda pin: array_button_isr(pin, array))
 
@@ -72,7 +75,6 @@ async def main():
                       scl_pin=22,
                       freq=10000,
                       address=0x27)
-    _log("Display configured")
     
     # Create a Controller instance
     controller = Controller(brightness_percentage=90,
@@ -82,7 +84,6 @@ async def main():
                             downtime_time_sec=2,
                             overlap_percentage=50,
                             display=display)
-    _log("Controller configured")
     
     # Create a RotaryIRQ instance
     encoder = RotaryIRQ(pin_num_clk=35, 
@@ -108,7 +109,6 @@ async def main():
                        startup_time_seconds=controller.settings_array[3],
                        shutdown_time_seconds=controller.settings_array[4],
                        overlap_percentage=controller.settings_array[5])
-    _log("Light control configured")
 
     # Configure button pins and attach interrupts
     setup_button_pin(12, array)
@@ -127,7 +127,9 @@ async def main():
         await uasyncio.sleep(1)
         if check_encoder_turned(encoder):
             controller.encoder_turned(encoder.value())
-        
+            
+        display.check_connection(controller, encoder.value())
+
 
 # Run the main coroutine
 uasyncio.run(main())
