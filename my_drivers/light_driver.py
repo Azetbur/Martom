@@ -81,9 +81,8 @@ class lightArray:
         if self.state == TURNING_ON:
             await self.toggle()
             
+        # Spacing the two toggles in case the first triggers 
         await uasyncio.sleep(1)
-        
-        print("\nBefore second toggle.")
             
         await self.toggle()
         
@@ -93,20 +92,15 @@ class lightArray:
         while utime.ticks_diff(utime.ticks_ms(), start_time) < delay_time_seconds * 1000:
             await uasyncio.sleep(0.1)
             if self.interrupt:
-                print("INTERRUPT DETECTED")
                 self.interrupt_confirm = True;
                 bool_flag_to_break[0] = True;
                 return
         if self.interrupt:
-                print("INTERRUPT DETECTED")
                 self.interrupt_confirm = True;
                 bool_flag_to_break[0] = True;
-        print("FINISHED")
         
     # Turns all light circuits on or off based on the value of 'self.state'.
     def toggle(self):
-        
-        print("here1")
         
         # Prevents the function from executing if the state is already being changed
         # Present in case the function is toggled multiple times in short succession
@@ -144,10 +138,7 @@ class lightArray:
                 
             
             
-        elif self.state == TURNING_ON:
-            
-            print("Button pressed while turning on")
-            
+        elif self.state == TURNING_ON:  
             # Interrupt the turning on off the array
             await self._interrupt_toggle()
             # Turn all circuits on instantaneously
@@ -429,7 +420,6 @@ class lightCircuit:
     async def nudge_off(self):
         if self.state == OFF:
             # Do nothing
-            print("if self.state == OFF:")
             return
         
         if self.state == TURNING_ON:
@@ -443,6 +433,5 @@ class lightCircuit:
             await self._turn_off()
             
         if self.state == TURNING_OFF:
-            print("if self.state == TURNING_OFF:")
             # Do nothing
             return

@@ -75,12 +75,12 @@ async def main():
     _log("Display configured")
     
     # Create a Controller instance
-    controller = Controller(brightness_percentage=85,
+    controller = Controller(brightness_percentage=90,
                             timer_on_off_bool=True,
-                            timer_time_min=90,
-                            uptime_time_sec=9,
-                            downtime_time_sec=3,
-                            overlap_percentage=20,
+                            timer_time_min=60,
+                            uptime_time_sec=1,
+                            downtime_time_sec=2,
+                            overlap_percentage=50,
                             display=display)
     _log("Controller configured")
     

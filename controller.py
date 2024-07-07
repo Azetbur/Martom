@@ -35,11 +35,15 @@ class Controller:
             
         except OSError:
             # File does not exist
-            print(f"File '{JSON_FILENAME}' does not exist.")
+            self._log(f"File '{JSON_FILENAME}' does not exist, loading default settings")
 
         self._print_first_page()
         self._lcd.cursor_set(0,0)
         self._lcd.print(">>")
+        
+    def _log(self, message):
+        print("\n" + __file__ + "   : " + str(message))
+        return
 
     # Pads numbers with spaces to be three characters long, returning them as strings
     def _pad(self, number):
