@@ -1,4 +1,4 @@
-![ESP_Vzorkovna_LED_0](https://github.com/Azetbur/Martom/assets/47574514/e0093e7c-b54b-422c-9c22-f60a34a0ebe3)# ESP_Vzorkovna_LED
+# ESP_Vzorkovna_LED
 
 Tento repozitář obsahuje software pro mikrokontroler ESP32, který slouží pro ovládní LED páskového osvětlení umístěného na regálech ve vzorkovně. Software zprostředkovává postupné zapínání jednotlivých LED okruhů za účelem minimalizace zátěže na elektroinsalaci budovy, rovněž umožňuje vypnutí osvětlení po vypršení nastaveného časového intervalu, konfiguraci průběhu zapnutí jednotlivých LED okruhů, apod. Průběh těchto funkcí, tj. např. interval vypínacího časovače,  je možné konfigurovat buď přímo ve zdrojovém kódu, či za pomocí rotačního enkodéru a displeje připojených k ESP32 mikrokontroleru zkrz zakázkově vyrobenou desku, v rámci které je mikrokontrolej zakomponován.
 
