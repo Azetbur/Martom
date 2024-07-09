@@ -108,7 +108,7 @@ Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Th
 
 5. V pravém dolním rohu okna stiskněte text modré barvy '**Install or update MicroPython (esptool)**'.
 
-![ESP_Vzorkovna_LED_4](https://github.com/Azetbur/Martom/assets/47574514/5a9e1af2-1b41-40db-8253-64371c697c8e)
+![ESP_Vzorkovna_LED_4](https://github.com/Azetbur/Martom/assets/47574514/0cc25a01-176b-4332-81e0-ebc0e2abcd24)
 
 6. V nově zobrazeném okně vyberte pod řádkem '**MicroPython family**' typ ESP32 mikrokontroleru, který máte k počítači připojený. Typ mikrokontroleru je obvykle vytištěný na ESP32 čipu samotném. Běžné vývojové desky jsou obvykle osazeny typem '**ESP32**'.
 
@@ -143,7 +143,9 @@ Type "help()" for more information.
 >>>
 ```
 
-V opačném připadě je třeba stisknout červené tlačítko '**Stop/Restart backend (Ctrl+F2)**'. Pokud se v okénku '**Shell**' po stisknutí červeného tlačítko **Stop** nezobrazí jeden ze dvou výše uvedených stavů, zmáčkněte tlačítko znovu. Pokud se stav stále nezobrazí, odpojet a znovu zapojet ESP32 mikrokontroler k počítači, načež znovu stiskněte červené tlačítko '**Stop**'. Pokud přesto nelze docílit žádoucího stavu v okenků '**Shell**' po několika opakovaných odpojení a připojení zařízení a stisknutí tlačítka **Stop**, znovu opakujte všechny kroky v sekci *Flash MicroPython Softwaru* tohoto dokumentcu.
+V opačném připadě je třeba stisknout červené tlačítko '**Stop/Restart backend (Ctrl+F2)**'. Pokud se v okénku '**Shell**' po stisknutí červeného tlačítko **Stop** nezobrazí jeden ze dvou výše uvedených stavů, zmáčkněte tlačítko znovu. Pokud se stav stále nezobrazí, odpojet a znovu zapojet ESP32 mikrokontroler k počítači, načež znovu stiskněte červené tlačítko '**Stop**'.
+
+Pokud přesto nelze docílit žádoucího stavu v okenků '**Shell**' po několika opakovaných odpojení a připojení zařízení a stisknutí tlačítka **Stop**, znovu opakujte všechny kroky v sekci *Flash MicroPython Softwaru* tohoto dokumentcu.
 
 2. V rozbalovacím menu vedle modrého textu **MicroPython device** vyberte možnost **New directory...**.
 
