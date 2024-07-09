@@ -1,6 +1,4 @@
-# ESP_Vzorkovna_LED
-
-**Ve zkratce: Tento repozitář obsahuje software na ovládání LED osvětlení vzorkovny za pomocí mikrokontroleru ESP32.**
+![ESP_Vzorkovna_LED_0](https://github.com/Azetbur/Martom/assets/47574514/e0093e7c-b54b-422c-9c22-f60a34a0ebe3)# ESP_Vzorkovna_LED
 
 Tento repozitář obsahuje software pro mikrokontroler ESP32, který slouží pro ovládní LED páskového osvětlení umístěného na regálech ve vzorkovně. Software zprostředkovává postupné zapínání jednotlivých LED okruhů za účelem minimalizace zátěže na elektroinsalaci budovy, rovněž umožňuje vypnutí osvětlení po vypršení nastaveného časového intervalu, konfiguraci průběhu zapnutí jednotlivých LED okruhů, apod. Průběh těchto funkcí, tj. např. interval vypínacího časovače,  je možné konfigurovat buď přímo ve zdrojovém kódu, či za pomocí rotačního enkodéru a displeje připojených k ESP32 mikrokontroleru zkrz zakázkově vyrobenou desku, v rámci které je mikrokontrolej zakomponován.
 
@@ -21,10 +19,9 @@ Software je již nakonfigurovaný pro  provoz se zakázkově vyrobenou deskou na
 
 1. Stáhněte si soubour `boot.py` z tohoto repozitáře do svého počítače.
 
-2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí, tedy např. v *Thonny IDE*. V následující sekci souboru, nacházející se hned na jeho začátku:
+2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí, tedy např. v *Thonny IDE*. V sekci souboru souboru vyobrazené pod tímto textem, nacházející se hned na jeho začátku, změňte čísla jednotlivých pinů tak, aby odpovídala skutečenému fyzickému připojení pinů k mikrokontroleru. Soubor uložte. Postup jeho nahrání do ESP32 mikrokontroleru je popsán v nadcházející sekci *Instalace* tohoto dokumentu.
 
 ```
-# Set the correct pin numbers for each of the connected peripherals in this section ####################
 # Set the correct pin numbers for each of the connected peripherals in this section ####################
 DISPLAY_SDA_PIN_NO    = 21
 DISPLAY_SCL_PIN_NO    = 22
@@ -43,14 +40,28 @@ BUTTON_3_PIN_NO       = 27
 PIN_NUMBER_ARRAY      = [15, 2, 0, 4, 16, 17, 5, 18, 19, 23]
 ```
 
-... změňte čísla jednotlivých pinů tak, aby odpovídala skutečenému fyzickému připojení pinů k mikrokontroleru.
-
 ### Konfigurace nastavení osvětlení
 
 Ačkoli lze jednoduše konfigurovat nastavení osvětlení ovládaného ESP32 mikrokontrolerem pomocí rotačního enkodéru a displeje připojeních jako periferní zařízení, toto nastavení je rovněž možné velmi snadno provést úpravou souboru `boot.py` před jeho nahráním na ESP32 dle postupu v sekci *Instalace* tohoto dokumentu. Tato konfigurace tedy není k funkčnosti softwaru na mikrokontroleru nutná, a tudíž lze sekci tohoto dokumentu při instalaci zcela přeskočit. Tato konfigurace je nicméně žádoucí např. při provozu mikrokontroleru bez displeje a rotačního enkodéru. Konfigurace v rámci souboru `boot.py` probíhá následovně:
 
 1. Stáhněte si soubour `boot.py` z tohoto repozitáře do svého počítače.
 
+2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí, tedy např. v *Thonny IDE*. V následující sekci souboru, začínající na řádku 18, změňte nastavení osvětlení dle potřeby. Soubor uložte. Postup jeho nahrání do ESP32 mikrokontroleru je popsán v nadcházející sekci *Instalace* tohoto dokumentu.
+
+```
+# Set the default setting for the LED lightning in this section ########################################
+
+BRIGHTNESS_PERCENTAGE_DEFAULT = 90
+TIMER_TIME_MIN_DEFAULT        = 60
+UPTIME_TIME_SEC_DEFAULT       = 1
+DOWNTIME_TIME_SEC_DEFAULT     = 2
+OVERLAP_PERCENTAGE_DEFAULT    = 50
+
+# Set this to True if you want the timer function to be active, False if not
+TIMER_ON_OFF_BOOL_DEFAULT     = True
+
+# End of section #######################################################################################
+```
 
 ## Instalace
 
@@ -66,20 +77,35 @@ Následujíci sekce je určena primárně pro osoby neználé těchto nástrojů
 
 1. **Propojte ESP32 s počítačem, na kterém je software *Thonny IDE* naistalovaný**. Toto propojení je bežně provedeno propojením Micro-USB či USB-C portu, který se nachází na vývojové desce mikrokontroleru s počítačem za pomocí vhodného kabelu. **Ujistěte se, že kabel neslouží pouze k nabíjení, tj. že obsahuje i datové propoje.**
 
-![IMG_2683](https://github.com/Azetbur/Martom/assets/47574514/b1790ea6-0c3a-460e-b10b-ea2a8cb330c3)
+![ESP_Vzorkovna_LED_0](https://github.com/Azetbur/Martom/assets/47574514/c727c0de-3a68-4a53-adfc-54ceb72e8d9d)
 
-3. V *Thonny IDE* klikněte v levém horním okraji obrazovky na **Run**, v rozbalené nabídce následně klikněte na položku **Configure interpreter...**
+2. V *Thonny IDE* klikněte v levém horním okraji obrazovky na **Run**, v rozbalené nabídce následně klikněte na položku **Configure interpreter...**
 
-4. Pod řádkem **Which kind of interpreter should Thonny use for running your code?** vyberte z rozbalovací nabídky možnost **MicroPython (ESP32)**.
+![ESP_Vzorkovna_LED_1](https://github.com/Azetbur/Martom/assets/47574514/4ec4c0c1-81d0-4c24-8f35-fe16968904aa)
 
-5. Pod řádkem **Port or WebREPL** vyberte port, přes který je ESP32 k počítači připojeno. Pravděpodobně půjde o možnost se slovy **USB to UART Bridge Controller** v názvu.
+3. Pod řádkem **Which kind of interpreter should Thonny use for running your code?** vyberte z rozbalovací nabídky možnost **MicroPython (ESP32)**.
 
-6. V pravém dolním rohu okna stiskněte text modré barvy **Install or update MicroPython (esptool)**.
-7. V nově zobrazeném okně vyberte pod řákem **MicroPython family** typ ESP32 mikrokontroleru, který máte k počítači připojený (typ zařízení je obvykle vytištění ESP32 čipu samotném, běžné vývojové desky jsou obvykle osazeny typem **ESP32**.
+![ESP_Vzorkovna_LED_2](https://github.com/Azetbur/Martom/assets/47574514/a729c2b5-c52e-418a-963c-c280719064bb)
 
-8. Pod řádkem variant vyberte výrobce - varianut ESP32 mikrokontroleru, která je připojená k počítači (tento údaj lze obvykle rovněž zjistit z textu vytištěném na čipu, pro běžné vývojové desky se bude obvykle jednat o možnost **Espressif • ESP32 / WROOM**.
+4. Pod řádkem **Port or WebREPL** vyberte port, přes který je ESP32 k počítači připojeno. Pravděpodobně půjde o možnost se slovy **USB to UART Bridge Controller** v názvu.
 
-9. Stiskněte tlačítko **Install**. Proces instalace může zabrat až několik minut.
+![ESP_Vzorkovna_LED_3](https://github.com/Azetbur/Martom/assets/47574514/3a6f3038-c4df-4462-9989-30266ada73a4)
+
+5. V pravém dolním rohu okna stiskněte text modré barvy **Install or update MicroPython (esptool)**.
+
+![ESP_Vzorkovna_LED_4](https://github.com/Azetbur/Martom/assets/47574514/5a9e1af2-1b41-40db-8253-64371c697c8e)
+
+6. V nově zobrazeném okně vyberte pod řákem **MicroPython family** typ ESP32 mikrokontroleru, který máte k počítači připojený (typ zařízení je obvykle vytištění ESP32 čipu samotném, běžné vývojové desky jsou obvykle osazeny typem **ESP32**.
+
+![ESP_Vzorkovna_LED_5](https://github.com/Azetbur/Martom/assets/47574514/87d35f86-d72e-44e5-ba62-946505216e4c)
+
+7. Pod řádkem variant vyberte výrobce - varianut ESP32 mikrokontroleru, která je připojená k počítači (tento údaj lze obvykle rovněž zjistit z textu vytištěném na čipu, pro běžné vývojové desky se bude obvykle jednat o možnost **Espressif • ESP32 / WROOM**.
+
+![ESP_Vzorkovna_LED_6](https://github.com/Azetbur/Martom/assets/47574514/4bec7afa-3f73-408f-a622-2dee30af7e45)
+
+8. Stiskněte tlačítko **Install**. Proces instalace může zabrat až několik minut.
+
+
 
 ### Flash jednotlivých souborů
 
