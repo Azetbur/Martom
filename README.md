@@ -17,17 +17,19 @@ Soubor `controller.py`  zajištuje fukční propejení všech výše zmíněníc
 
 ## Konfigurace
 
-V souboru `boot.py` se nachází dvě sekce prostého textu určené pro konfiguraci parametrů softwaru. První sekce slouží k nastavení čísel pinů připojeních periferních zařízení. Druhá sekce slouží k nastavení parametrů jednotlivých funkcí softwaru, tj. např. časového intervalu pro vypnutí osvětlení.
+V souboru `boot.py` se nachází dvě sekce prostého textu určené pro konfiguraci parametrů softwaru. První sekce slouží k nastavení čísel pinů připojeních periferních zařízení. Druhá sekce je určena pro nastavení parametrů jednotlivých funkcí softwaru, tj. např. časového intervalu pro vypnutí osvětlení.
 
 ### Konfigurace připojených LED okruhů a zařízení
 
-Software je již nakonfigurovaný pro  provoz se zakázkově vyrobenou deskou na vzorkovnu. V případě provozu mikrokontroleru ESP32 tímto způsobem není třeba konfigurace připojených LED okruhů a zařízení nijak měnit, a tuto sekci je tudíž v tomto případě žádoucí přeskočit. Pokud však dojde v konfigurace ESP32, či desky do které bude vývojové deska s ESP32 vkládána, ke změně, lze piny na která jsou jednotlivé zařízení a okruhy připojené konfigurovat následovně:
+Software obsažený v tomto repozitáři je již nakonfigurovaný pro provoz s deskou, která byla na vzorkovnu zakázkově vyrobena. V případě použití softwaru na vzorkovně s touto deskou tudíž není třeba konfigurace připojených LED okruhů ani ostatních zařízení nijak měnit. Za těchto okolností je vhodné četbu této sekci přeskočit.
 
-1. Stáhněte si soubour `boot.py` z tohoto repozitáře do svého počítače.
+Pokud však dojde v designu desky pro vzorkovnu ke změně, či bude-li kopie tohoto softwaru využívána s jiným hardwarem, lze piny na které jsou jednotlivé zařízení a okruhy připojené konfigurovat následovně:
 
-2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí, tedy např. v *Thonny IDE*. V sekci souboru souboru vyobrazené pod tímto textem, nacházející se hned na jeho začátku, změňte čísla jednotlivých pinů tak, aby odpovídala skutečenému fyzickému připojení pinů k mikrokontroleru. Soubor uložte. Postup jeho nahrání do ESP32 mikrokontroleru je popsán v nadcházející sekci *Instalace* tohoto dokumentu.
+1. Stáhněte soubour `boot.py` z tohoto repozitáře do svého počítače.
 
-```
+2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí. V sekci souboru vyobrazené pod tímto textem, nacházející se na jeho začátku, změňte čísla jednotlivých pinů. Čísla by měla odpovídat fyzickému zapojení pinů. 
+
+```python
 # Set the correct pin numbers for each of the connected peripherals in this section ####################
 DISPLAY_SDA_PIN_NO    = 21
 DISPLAY_SCL_PIN_NO    = 22
@@ -46,13 +48,17 @@ BUTTON_3_PIN_NO       = 27
 PIN_NUMBER_ARRAY      = [15, 2, 0, 4, 16, 17, 5, 18, 19, 23]
 ```
 
+3. Soubor uložte. Postup nahrání souboru do mikrokontroleru ESP32 je popsán v nadcházející sekci tohoto dokumentu nazvané *Instalace*.
+
 ### Konfigurace nastavení osvětlení
 
-Ačkoli lze jednoduše konfigurovat nastavení osvětlení ovládaného ESP32 mikrokontrolerem pomocí rotačního enkodéru a displeje připojeních jako periferní zařízení, toto nastavení je rovněž možné velmi snadno provést úpravou souboru `boot.py` před jeho nahráním na ESP32 dle postupu v sekci *Instalace* tohoto dokumentu. Tato konfigurace tedy není k funkčnosti softwaru na mikrokontroleru nutná, a tudíž lze sekci tohoto dokumentu při instalaci zcela přeskočit. Tato konfigurace je nicméně žádoucí např. při provozu mikrokontroleru bez displeje a rotačního enkodéru. Konfigurace v rámci souboru `boot.py` probíhá následovně:
+Ačkoli lze nastavení osvětlení jednoduše konfigurovat v rámci provozu softwaru za pomocí připojeného rotačního enkodéru a displeje, toto nastavení je rovněž možné snadno provést úpravou souboru `boot.py`. Tato úprava není k funkčnosti softwaru na mikrokontroleru nutná, software v tomto repozitáři již obsahuje správné výchozí nastavení.  V případě použití softwaru na vzorkovně s deskou pro toto použití určenou a výchozím nastavením tudíž není třeba nastavení osvětlení tímto způsobem nijak měnit. Za těchto okolností je vhodné četbu této sekci přeskočit.
+
+Tato konfigurace je nicméně žádoucí např. při provozu mikrokontroleru bez displeje a rotačního enkodéru. Konfigurace v rámci souboru `boot.py` probíhá následovně:
 
 1. Stáhněte si soubour `boot.py` z tohoto repozitáře do svého počítače.
 
-2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí, tedy např. v *Thonny IDE*. V následující sekci souboru, začínající na řádku 18, změňte nastavení osvětlení dle potřeby. Soubor uložte. Postup jeho nahrání do ESP32 mikrokontroleru je popsán v nadcházející sekci *Instalace* tohoto dokumentu.
+2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí, tedy např. v *Thonny IDE*. V následující sekci souboru, začínající na řádku 18, změňte nastavení osvětlení dle potřeby. Soubor uložte. Postup jeho nahrání do ESP32 mikrokontroleru je popsán v nadcházející sekci tohoto dokument s názvem *Instalace*.
 
 ```
 # Set the default setting for the LED lightning in this section ########################################
