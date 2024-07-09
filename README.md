@@ -65,6 +65,8 @@ Následujíci sekce je určena primárně pro osoby neználé těchto nástrojů
 *MicroPython* není v procesorech ESP32 naistalovaný z výroby, před instalací tohoto softwaru je tedy třeba na ESP32 jako první naistalovat _MicroPython_. Instalace probíhá následovně:
 
 1. **Propojte ESP32 s počítačem, na kterém je software *Thonny IDE* naistalovaný**. Toto propojení je bežně provedeno propojením Micro-USB či USB-C portu, který se nachází na vývojové desce mikrokontroleru s počítačem za pomocí vhodného kabelu. **Ujistěte se, že kabel neslouží pouze k nabíjení, tj. že obsahuje i datové propoje.**
+![IMG_2683](https://github.com/Azetbur/Martom/assets/47574514/b1790ea6-0c3a-460e-b10b-ea2a8cb330c3)
+
 
 2. V *Thonny IDE* klikněte v levém horním okraji obrazovky na **Run**, v rozbalené nabídce následně klikněte na položku **Configure interpreter...**
 
