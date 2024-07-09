@@ -89,7 +89,7 @@ Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Th
 
 ### Flash *MicroPython* firmwaru
 
-*MicroPython* není v procesorech ESP32 naistalovaný z výroby, před instalací tohoto softwaru je tedy třeba na ESP32 mikrokontroler nejdříve naistalovat _MicroPython_. Instalace probíhá následovně:
+*MicroPython* není v procesorech ESP32 instalovaný z výroby, před instalací tohoto softwaru je tedy třeba na ESP32 mikrokontroler nejdříve naistalovat _MicroPython_. Instalace probíhá následovně:
 
 1. **Propojte ESP32 s počítačem, na kterém je vývojové prostředí *Thonny IDE* naistalované**. Toto propojení je bežně realizováno pomocí Micro-USB či USB-C kabelu; typ kabelu závisí na portu na vývojové desce ESP32. **Ujistěte se, že vámi vybraný kabel neslouží pouze k nabíjení, tj. že obsahuje datové propoje.** V opačném případe se nebude možné k ESP32 mikrokontroleru skrz kabel připojit.
 
@@ -114,7 +114,7 @@ Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Th
 
 ![ESP_Vzorkovna_LED_5](https://github.com/Azetbur/Martom/assets/47574514/87d35f86-d72e-44e5-ba62-946505216e4c)
 
-7. Pod řádkem '**variant**' vyberte výrobce - variantu ESP32 mikrokontroleru, kterou máte připojenou k počítači. Tento údaj lze obvykle rovněž zjistit z textu vytištěném na ESP32 čipu samotném. U běžných vývojových desek se bude obvykle jednat o možnost '**Espressif • ESP32 / WROOM**'.
+7. Pod řádkem '**variant**' vyberte výrobce - variantu ESP32 mikrokontroleru, kterou máte připojenou k počítači. Tento údaj lze obvykle rovněž zjistit z textu vytištěného na ESP32 čipu samotném. U běžných vývojových desek se bude obvykle jednat o možnost '**Espressif • ESP32 / WROOM**'.
 
 ![ESP_Vzorkovna_LED_6](https://github.com/Azetbur/Martom/assets/47574514/4bec7afa-3f73-408f-a622-2dee30af7e45)
 
@@ -122,13 +122,13 @@ Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Th
 
 9. Po dokončení instalace zavřete aktivní okno stisknutím tlačítka '**Close**', následně rovněž zavřete zbylé aktivní okno stisknutím tlačítka '**Ok**'.
 
-Na vašem ESP32 mikrokontroleru je nyní nainstalovaný *MicroPython* firnware.
+Na vašem ESP32 mikrokontroleru je nyní nainstalovaný *MicroPython* firmware.
 
 ### Flash jednotlivých souborů
 
 Po instalaci *MicroPython* firmwaru na ESP32 mikrokontroler je na mikrokontroler nutné nahrát soubory tohoto softwaru. Nejdříve je však pro soubory třeba vytvořit příslušné adresáře. Vytvoření adresářů probíhá následovně:
 
-1. Ujistěte se, že je mikrokontroler ESP32 připojený k počítači a připravený přijímat data. Mikrokontroler je přiravený přijímat data, pokud v okénku **Shell** v *Thonny IDE* obsahují zprávu obdobné této:
+1. Ujistěte se, že je ESP32 mikrokontroler připojený k počítači a připravený přijímat data. Mikrokontroler je přiravený přijímat data, pokud okénko '**Shell**' v *Thonny IDE* obsahuje zprávu obdobné této:
 
 ```
 MPY: soft reboot
@@ -137,7 +137,7 @@ Type "help()" for more information.
 >>> 
 ```
 
-... či pokud se na posledních několika řádcích nachází pouze symboly `>>>`, tj.:
+Mikrokontroler je rovněž připravený přijímat data, pokud se na posledních několika řádcích okenká '**Shell**' nachází pouze symboly `>>>`, tj.:
 
 ```
 >>>
@@ -145,65 +145,63 @@ Type "help()" for more information.
 >>>
 ```
 
-V opačném připadě je třeba stisknout červené tlačítko '**Stop/Restart backend (Ctrl+F2)**'. Pokud se v okénku '**Shell**' po stisknutí červeného tlačítko **Stop** nezobrazí jeden ze dvou výše uvedených stavů, zmáčkněte tlačítko znovu. Pokud se stav stále nezobrazí, odpojet a znovu zapojet ESP32 mikrokontroler k počítači, načež znovu stiskněte červené tlačítko '**Stop**'.
+V opačném připadě je třeba stisknout červené tlačítko '**Stop/Restart backend (Ctrl+F2)**'. Pokud se v okénku '**Shell**' po stisknutí červeného tlačítko '**Stop**' nezobrazí jeden ze dvou výše uvedených textů, zmáčkněte tlačítko znovu. Pokud se jeden z textů stále nezobrazí, odpojte a znovu zapojet ESP32 mikrokontroler k počítači, načež znovu stiskněte červené tlačítko '**Stop**'.
 
-Pokud přesto nelze docílit žádoucího stavu v okenků '**Shell**' po několika opakovaných odpojení a připojení zařízení a stisknutí tlačítka **Stop**, znovu opakujte všechny kroky v sekci *Flash MicroPython Softwaru* tohoto dokumentcu.
+Pokud stále nelze docílit žádoucího stavu v okenků '**Shell**' po několika opakovaných odpojení a připojení mikrokontroleru a stisknutí tlačítka '**Stop**', znovu opakujte všechny kroky v sekci *Flash MicroPython Softwaru* tohoto dokumentu.
 
-2. V rozbalovacím menu vedle modrého textu **MicroPython device** vyberte možnost **New directory...**.
+2. V rozbalovacím menu vedle modrého textu '**MicroPython device**' vyberte možnost '**New directory...**'.
 
 ![ESP_Vzorkovna_LED_7](https://github.com/Azetbur/Martom/assets/47574514/e781a0a9-f4f2-4e1b-bd12-9ed74d9f3dd9)
 
-3. Pod řádkem **Enter name for new directory under /** napište do textového pole `my_drivers`,  načež stiskněte tlačítko **OK**.
+3. Pod řádkem '**Enter name for new directory under /**' napište do textového pole `my_drivers`,  načež stiskněte tlačítko '**OK**'.
 
 ![ESP_Vzorkovna_LED_8](https://github.com/Azetbur/Martom/assets/47574514/8fd73568-30a5-493a-99ae-14a53b92d8f8)
 
 4. Body 2 a 3 opakujte, při opakování bodu 3 však do textového pole nyní napiště ``third_party_drivers``.
 
-Nyní je třeba nahrát do ESP32 jednotlivé soubory softwaru, nacházející se v tomto repozitáři. Soubory musí být pro následující kroky již stažené na vašem počítači. Pokud nemáte soubory stažené, učiňte tak nyní
+Nyní je třeba nahrát do ESP32 jednotlivé soubory softwaru, nacházející se v tomto repozitáři. Soubory musí být pro následující kroky již stažené na vašem počítači. Pokud nemáte soubory stažené, učiňte tak nyní.
 
-5. Stiskněte **File**, v rozbalené nabídce následně stiskněte možnost **Open**.
+5. Stiskněte '**File**', v rozbalené nabídce následně stiskněte možnost '**Open**'.
 
 ![ESP_Vzorkovna_LED_9](https://github.com/Azetbur/Martom/assets/47574514/efc171c9-c826-4fa8-883d-dcb6112bbaac)
 
-6. V nově otevřeném okně stiskněte možnost **This computer**.
+6. V nově otevřeném okně stiskněte možnost '**This computer**'.
 
 ![ESP_Vzorkovna_LED_10](https://github.com/Azetbur/Martom/assets/47574514/fe0dda21-345a-4912-bccd-b3fcc33efb22)
 
-7. Opět v nově otevřeném okně najděte soubor `controller.py`, vyberte ho, načež stiskněte tlačítko **Open**. Vzhledm okna pro výběr souborů se bude dle operačního systému na vašem počítači lyšit, screenshot níže je z počítače s operačním systémem Mac OS.
+7. Opět v nově otevřeném okně najděte soubor `controller.py` stažený z tohoto repozitáře. Vyberte ho a stiskněte tlačítko '**Open**'.
 
 ![ESP_Vzorkovna_LED_11](https://github.com/Azetbur/Martom/assets/47574514/f2992f21-234f-4ec6-b2dd-b12f2ecb2e78)
 
-9. Opět stiskněte **File**, v rozbalené nabídce však nyní stiskněte možnost **Save copy...**.
+9. Opět stiskněte '**File**', v rozbalené nabídce však nyní stiskněte možnost '**Save copy...**'.
 
 ![ESP_Vzorkovna_LED_12](https://github.com/Azetbur/Martom/assets/47574514/80fa8477-225a-4bbd-b6dc-74d3b1be9f83)
 
-11. V nově otevřeném okně nyní stiskněte možnost **MicroPython device**.
+11. V nově otevřeném okně nyní stiskněte možnost '**MicroPython device**'.
 
 ![ESP_Vzorkovna_LED_13](https://github.com/Azetbur/Martom/assets/47574514/7c2e3de1-8cf0-49a8-9429-00db82946af6)
 
-13. Na řádku **File name:** napiště do textového pole `controller.py`, načež zmáčkněte tlačítko **OK**.
+13. Na řádku '**File name:**' napiště do textového pole `controller.py`, načež zmáčkněte tlačítko '**OK**'.
 
 ![ESP_Vzorkovna_LED_14](https://github.com/Azetbur/Martom/assets/47574514/55d84c07-991a-48ea-84b7-873da655f52d)
 
-15. Opakujte kroky 5. až 10. pro soubory, tj. `light_driver.py`, `display_driver.py`, `rotary.py`, `rotary_irq_esp.py` a oba soubory `__init__.py`. Pozor, tyto soubory musí být uloženy ve svých příslušných složkách, tak, jak jsou v tomto repozitáři. K tomuto je v kroku 10. potřeba před stisknutím tlačítka **Ok** nejdřív vybrat správný adresář, do kterého bude soubor vložen.
+15. Opakujte kroky 5. až 10. pro soubory `light_driver.py`, `display_driver.py`, `rotary.py`, `rotary_irq_esp.py` a oba soubory `__init__.py`. Pozor, tyto soubory musí být uloženy ve svých příslušných adresářích ve stejné adresářové sturktuře jako v tomto adresáři. K tomuto je v kroku 10. potřeba před stisknutím tlačítka '**Ok**' nejdřív vybrat odpovídající adresář, do kterého bude soubor vložen.
 
-V případě uložení souboru s jiným jménem či do špatné složky lze daný soubor vymazat stisknutím souboru pravým tlačítkem myši v okénku na pravé straně obrazovky pod řádkem **MicroPython device** a následným stisknutím možnosti **Delete**.
+V případě uložení souboru s jiným jménem či do špatné složky lze daný soubor vymazat v okénku na pravé straně obrazovky pod řádkem '**MicroPython device**' stisknutím jména souboru pravým tlačítkem a následným stisknutím možnosti '**Delete**'.
+
+![ESP_Vzorkovna_LED_15](https://github.com/Azetbur/Martom/assets/47574514/404a74e9-3fd4-4faa-89d7-b551a12088e3)
 
 12. Nyní opakujte kroky 5. až 10. pro soubor `boot.py`, který patří spolu se souborem `controller.py` do domovského adresáře na ESP32.
 
-13. ESP32 kontroler je nyní připraven k provozu. Program lze spustit pomocí stisknutí tlačítka **Stop**. Soubor `boot.py` se spustí při každém restartu ESP32, tj. i při každém stisknutí tlačítka **Stop**. K nahrání nových či přepsání existujících souborů po restartu ESP32 s funkčním souborem `boot.py` je tedy třeba průběh tohoto programu nejdříve přerušit. Tohoto může být možné dosáhnout několika opakovanými stisky tlačítka **Stop**, či dvěma stisky zeleného tlačítka **Run** s prodlevou zhruba jedné vteřiny, toto však nemusí vždy fungovat. V případě selhání těchto postupů je třeba znovu opakovat postup v sekci *Flash MicroPython Softwaru* tohoto dokumentu, načež je rovněž potřeba znovu nahrát všechny soubory opakováním postupu v sekci *Flash jednotlivých souborů*.
+13. ESP32 mikrokontroler je nyní připraven k provozu. Program lze spustit pomocí stisknutí červeného tlačítka '**Stop**' v *Thonny IDE* či stisknutím fyzického tlačítka '**RST**' na vývojové desce ESP32 mikrokontroleru.
 
-
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
-```bash
-pip install foobar
-```
+Soubor `boot.py` se spouští automaticky při každém restartu mikrokontroleru, tj. i při každém stisknutí tlačítka '**Stop**'. K nahrání nových či přepsání existujících souborů po restartu ESP32 s funkčním souborem `boot.py` je tedy potřeba nejdříve přerušit činnost tohoto souboru. To lze docílit stisknutím **'Shell** okénka v jakémkoli místě vně okénka a následným stisknutím klávesnicové zkratky '**Ctrl**' + '**D**'.
 
 ## Použití
 
+Práce se softwarem při jeho provozu je vzhledem k minimálnímu počtu ovládacích prvků a omezeném počtu funkcí zcela intuitivní.
 
+Osvětlení se zapíná a vypíná stisknutím tlačítek připojených na pinech nakonfigurova v rámci souboru `boot.py`, tj. `BUTTON_1_PIN_NO`, `BUTTON_2_PIN_NO` a `BUTTON_3_PIN_NO`. Stiskem jakéhokoli z těchto tlačítkem během procesu zapínání dojde k okamžitému zapnutí všechc LED okruhů, stisknutím při vypínání dojde k okamžitému vypnutí.
 
 ## Contributing
 
