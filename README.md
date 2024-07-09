@@ -120,13 +120,13 @@ Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Th
 
 8. Stiskněte tlačítko '**Install**'. Proces instalace může trvat až několik minut.
 
-Nyní je na vašem ESP32 mikrokontroleru naistalovaný *MicroPython* firnware.
+Na vašem ESP32 mikrokontroleru je nyní nainstalovaný *MicroPython* firnware.
 
 ### Flash jednotlivých souborů
 
-Nyní je třeba pomocí *Thonny IDE* na ESP32 mikrokontroler flashnout - nahrát všechny soubory tohoto softwaru. Nejdřív je však pro ně třeba vytvořit příslušné adresáře. 
+Po instalaci *MicroPython* firmwaru na ESP32 mikrokontroler je na mikrokontroler nutné nahrát soubory tohoto softwaru. Nejdříve je však pro soubory třeba vytvořit příslušné adresáře. Vytvoření adresářů probíhá následovně:
 
-1. Ujistěte se, že je mikrokontroler ESP32 připojený k počítači a připraven přijímat data. Mikrokontroler se v tomto stavu nachází, pokud v okénku **Shell** v *Thonny IDE* obsahují zprávu obdobné této:
+1. Ujistěte se, že je mikrokontroler ESP32 připojený k počítači a připravený přijímat data. Mikrokontroler je přiravený přijímat data, pokud v okénku **Shell** v *Thonny IDE* obsahují zprávu obdobné této:
 
 ```
 MPY: soft reboot
@@ -143,13 +143,15 @@ Type "help()" for more information.
 >>>
 ```
 
-V opačném připadě je třeba stisknout červené tlačítko **Stop/Restart backend (Ctrl+F2)**. Pokud se v okénku **Shell** po stisknutí červeného tlačítko **Stop** nezobrazí jedna z dvou výše uvedených možností, zkuste tlačítko zmáčknout znovu. Pokud se výsledek stále nedostaví, zkuste mikrokontroler odpojit a znovu připojit k počítači, načež znovu stiskněte červené tlačítko **Stop**. Pokud přesto nelze docílit žádoucího stavu v okenků **Shell** po několika opakovaných odpojení a připojení zařízení a zmáčknutích  tlačítka **Stop**, opakujte znovu všechny kroky v sekci *Flash MicroPython Softwaru*.
+V opačném připadě je třeba stisknout červené tlačítko '**Stop/Restart backend (Ctrl+F2)**'. Pokud se v okénku '**Shell**' po stisknutí červeného tlačítko **Stop** nezobrazí jeden ze dvou výše uvedených stavů, zmáčkněte tlačítko znovu. Pokud se stav stále nezobrazí, odpojet a znovu zapojet ESP32 mikrokontroler k počítači, načež znovu stiskněte červené tlačítko '**Stop**'. Pokud přesto nelze docílit žádoucího stavu v okenků '**Shell**' po několika opakovaných odpojení a připojení zařízení a stisknutí tlačítka **Stop**, znovu opakujte všechny kroky v sekci *Flash MicroPython Softwaru* tohoto dokumentcu.
 
 2. V rozbalovacím menu vedle modrého textu **MicroPython device** vyberte možnost **New directory...**.
 
-3. Pod řádkem **Enter name for new directory under /** napište do textového pole `my_drivers`,  načež stiskněte tlačítko **OK**. 
 
-4. Body 2 a 3 opakujte, při opakování bodu 3 však do textového pole nyní napiště ``third_party_drivers``.
+
+4. Pod řádkem **Enter name for new directory under /** napište do textového pole `my_drivers`,  načež stiskněte tlačítko **OK**. 
+
+5. Body 2 a 3 opakujte, při opakování bodu 3 však do textového pole nyní napiště ``third_party_drivers``.
 
 Nyní je třeba nahrát do ESP32 jednotlivé soubory v tomto repozitáři. Soubory musí být pro následující kroky již staženy na vašem počítači, pokud teda ještě nejsou, nyní si obsah tohoto repozitáře do počítače zkopírujte.
 
