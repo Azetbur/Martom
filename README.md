@@ -1,17 +1,23 @@
 # ESP_Vzorkovna_LED
 
-Tento repozitář obsahuje software pro mikrokontroler ESP32, který slouží pro ovládní LED páskového osvětlení umístěného na regálech ve vzorkovně. Software zprostředkovává postupné zapínání jednotlivých LED okruhů za účelem minimalizace zátěže na elektroinsalaci budovy, rovněž umožňuje vypnutí osvětlení po vypršení nastaveného časového intervalu, konfiguraci průběhu zapnutí jednotlivých LED okruhů, apod. Průběh těchto funkcí, tj. např. interval vypínacího časovače,  je možné konfigurovat buď přímo ve zdrojovém kódu, či za pomocí rotačního enkodéru a displeje připojených k ESP32 mikrokontroleru zkrz zakázkově vyrobenou desku, v rámci které je mikrokontrolej zakomponován.
+Tento repozitář obsahuje software pro mikrokontroler ESP32. Software slouží k ovládní LED osvětlení umístěného na regálech ve vzorkovně. Software zprostředkovává postupné zapínání jednotlivých LED okruhů za účelem minimalizace zátěže na elektroinsalaci budovy. Software rovněž umožňuje vypnutí osvětlení po vypršení nastaveného časového intervalu, konfiguraci průběhu zapínání jednotlivých LED okruhů, apod. Nastavení parametrů těchto funkcí, tj. např. časového intervalu pro vypnutí osvětlení, je možné změnit buď přímo ve zdrojovém kódu softwaru, či za pomocí rotačního enkodéru a displeje. Tyto periferní zařízení jsou připojené k mikrokontroleru ESP32 skrz zakázkově vyrobenou desku. V rámci této desky je ESP32 mikrokontroler, umístěný ve své vlastní vývojové desce, zapojený.
 
-Sowtware pro tento projekt je vyvíkjen pouze v jazyce *Micropython*. Jádro softwaru tvoří ovladače pro jednotlivé fyzické prvky instalace, rozdělené do dvou adresářů. V adresáři `/my_drivers` se nachází ovladače zakázkově vyvinuté přimo pro tento projekt, tj. jmenovitě:
+Sowtware je vyvíjen pouze v jazyce *Micropython*. Jádro softwaru tvoří ovladače pro jednotlivé fyzické prvky instalace, rozdělené do dvou adresářů. V adresáři `/my_drivers` se nachází ovladače zakázkově vyvinuté přimo pro tento projekt, tj. jmenovitě:
 
-* `light_driver.py` - PWM ovladač jak jednotlivých okruhů LED osvětlení, tak celého osvětlení jako celku.
-* `display_driver.py` - Jednoduchý ovladač běžného 4x20 LCD displeje ovládaného integrovaným obvodem *HD44780*.
+* `light_driver.py` - PWM ovladač jednotlivých LED okruhů osvětlení a celého osvětlení jako celku.
+* `display_driver.py` - Ovladač zajišťující komunikaci s 4x20 LCD displejem ovládaným integrovaným obvodem *HD44780* za pomocí *I2C* protokolu.
 
-Adresář `/third_party_drivers` je určen pro ovladače třetích stran. Momentálně obsahuje pouze ovladač rotačního enkodéru, skládající se ze dvou souborů, `rotary.py` a `rotary_irq_esp.py`.
+Adresář `/third_party_drivers` je určen pro ovladače třetích stran. Současně obsahuje pouze ovladač rotačního enkodéru, skládající se ze dvou souborů, `rotary.py` a `rotary_irq_esp.py`.
 
-Součástí softwaru jsou dále soubory `boot.py` a `controller.py` nacházející se v domovském adresáři repozitáře. Soubor `boot.py` slouží primárně ke konfiguraci pinů jednotlivých periferních zařízení, tj. displeje, LED obvodů apod. a inicializaci objektů reprezentujících tyto zařízení importovaných z jednotlivých výše zmíněných ovladačů. Soubor `controller.py`  propojuje všechny tyto jednotlivé prvky dohromady a zajišťuje jejich ovládání, tj. např. zapnutí osvětlení při stisknutí  vypínače, tisk nastavení na LCD displej apod.
+Součástí softwaru jsou dále soubory `boot.py` a `controller.py`. Tyto soubory se nachází v domovském adresáři repozitáře.
+
+Soubor `boot.py` slouží primárně ke konfiguraci čísel pinů jednotlivých periferních zařízení, tj. displeje, LED obvodů apod. V rámci souboru rovněž probíhá inicializaci objektů reprezentujících tyto zařízení. Tyto objekty jsou importovány z jednotlivých ovladačů zmíněných výše.
+
+Soubor `controller.py`  zajištuje fukční propejení všech výše zmíněních objektů a jejich ovládání, tj. např. zapnutí osvětlení při stisknutí  vypínače, tisk změny v nastavení na LCD displej při otočení rotačním enkodérem apod.
 
 ## Konfigurace
+
+V souboru `boot.py` se nachází dvě sekce prostého textu určené pro konfiguraci parametrů softwaru. První sekce slouží k nastavení čísel pinů připojeních periferních zařízení. Druhá sekce slouží k nastavení parametrů jednotlivých funkcí softwaru, tj. např. časového intervalu pro vypnutí osvětlení.
 
 ### Konfigurace připojených LED okruhů a zařízení
 
