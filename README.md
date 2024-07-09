@@ -65,21 +65,21 @@ Následujíci sekce je určena primárně pro osoby neználé těchto nástrojů
 *MicroPython* není v procesorech ESP32 naistalovaný z výroby, před instalací tohoto softwaru je tedy třeba na ESP32 jako první naistalovat _MicroPython_. Instalace probíhá následovně:
 
 1. **Propojte ESP32 s počítačem, na kterém je software *Thonny IDE* naistalovaný**. Toto propojení je bežně provedeno propojením Micro-USB či USB-C portu, který se nachází na vývojové desce mikrokontroleru s počítačem za pomocí vhodného kabelu. **Ujistěte se, že kabel neslouží pouze k nabíjení, tj. že obsahuje i datové propoje.**
+
 ![IMG_2683](https://github.com/Azetbur/Martom/assets/47574514/b1790ea6-0c3a-460e-b10b-ea2a8cb330c3)
 
+3. V *Thonny IDE* klikněte v levém horním okraji obrazovky na **Run**, v rozbalené nabídce následně klikněte na položku **Configure interpreter...**
 
-2. V *Thonny IDE* klikněte v levém horním okraji obrazovky na **Run**, v rozbalené nabídce následně klikněte na položku **Configure interpreter...**
+4. Pod řádkem **Which kind of interpreter should Thonny use for running your code?** vyberte z rozbalovací nabídky možnost **MicroPython (ESP32)**.
 
-3. Pod řádkem **Which kind of interpreter should Thonny use for running your code?** vyberte z rozbalovací nabídky možnost **MicroPython (ESP32)**.
+5. Pod řádkem **Port or WebREPL** vyberte port, přes který je ESP32 k počítači připojeno. Pravděpodobně půjde o možnost se slovy **USB to UART Bridge Controller** v názvu.
 
-4. Pod řádkem **Port or WebREPL** vyberte port, přes který je ESP32 k počítači připojeno. Pravděpodobně půjde o možnost se slovy **USB to UART Bridge Controller** v názvu.
+6. V pravém dolním rohu okna stiskněte text modré barvy **Install or update MicroPython (esptool)**.
+7. V nově zobrazeném okně vyberte pod řákem **MicroPython family** typ ESP32 mikrokontroleru, který máte k počítači připojený (typ zařízení je obvykle vytištění ESP32 čipu samotném, běžné vývojové desky jsou obvykle osazeny typem **ESP32**.
 
-5. V pravém dolním rohu okna stiskněte text modré barvy **Install or update MicroPython (esptool)**.
-6. V nově zobrazeném okně vyberte pod řákem **MicroPython family** typ ESP32 mikrokontroleru, který máte k počítači připojený (typ zařízení je obvykle vytištění ESP32 čipu samotném, běžné vývojové desky jsou obvykle osazeny typem **ESP32**.
+8. Pod řádkem variant vyberte výrobce - varianut ESP32 mikrokontroleru, která je připojená k počítači (tento údaj lze obvykle rovněž zjistit z textu vytištěném na čipu, pro běžné vývojové desky se bude obvykle jednat o možnost **Espressif • ESP32 / WROOM**.
 
-7. Pod řádkem variant vyberte výrobce - varianut ESP32 mikrokontroleru, která je připojená k počítači (tento údaj lze obvykle rovněž zjistit z textu vytištěném na čipu, pro běžné vývojové desky se bude obvykle jednat o možnost **Espressif • ESP32 / WROOM**.
-
-8. Stiskněte tlačítko **Install**. Proces instalace může zabrat až několik minut.
+9. Stiskněte tlačítko **Install**. Proces instalace může zabrat až několik minut.
 
 ### Flash jednotlivých souborů
 
