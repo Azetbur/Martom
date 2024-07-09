@@ -120,6 +120,8 @@ Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Th
 
 8. Stiskněte tlačítko '**Install**'. Proces instalace může trvat až několik minut.
 
+9. Po dokončení instalace zavřete aktivní okno stisknutím tlačítka '**Close**', následně rovněž zavřete zbylé aktivní okno stisknutím tlačítka '**Ok**'.
+
 Na vašem ESP32 mikrokontroleru je nyní nainstalovaný *MicroPython* firnware.
 
 ### Flash jednotlivých souborů
@@ -149,27 +151,41 @@ Pokud přesto nelze docílit žádoucího stavu v okenků '**Shell**' po několi
 
 2. V rozbalovacím menu vedle modrého textu **MicroPython device** vyberte možnost **New directory...**.
 
+![ESP_Vzorkovna_LED_7](https://github.com/Azetbur/Martom/assets/47574514/e781a0a9-f4f2-4e1b-bd12-9ed74d9f3dd9)
 
+3. Pod řádkem **Enter name for new directory under /** napište do textového pole `my_drivers`,  načež stiskněte tlačítko **OK**.
 
-4. Pod řádkem **Enter name for new directory under /** napište do textového pole `my_drivers`,  načež stiskněte tlačítko **OK**. 
+![ESP_Vzorkovna_LED_8](https://github.com/Azetbur/Martom/assets/47574514/8fd73568-30a5-493a-99ae-14a53b92d8f8)
 
-5. Body 2 a 3 opakujte, při opakování bodu 3 však do textového pole nyní napiště ``third_party_drivers``.
+4. Body 2 a 3 opakujte, při opakování bodu 3 však do textového pole nyní napiště ``third_party_drivers``.
 
-Nyní je třeba nahrát do ESP32 jednotlivé soubory v tomto repozitáři. Soubory musí být pro následující kroky již staženy na vašem počítači, pokud teda ještě nejsou, nyní si obsah tohoto repozitáře do počítače zkopírujte.
+Nyní je třeba nahrát do ESP32 jednotlivé soubory softwaru, nacházející se v tomto repozitáři. Soubory musí být pro následující kroky již stažené na vašem počítači. Pokud nemáte soubory stažené, učiňte tak nyní
 
 5. Stiskněte **File**, v rozbalené nabídce následně stiskněte možnost **Open**.
 
+![ESP_Vzorkovna_LED_9](https://github.com/Azetbur/Martom/assets/47574514/efc171c9-c826-4fa8-883d-dcb6112bbaac)
+
 6. V nově otevřeném okně stiskněte možnost **This computer**.
 
-6. Opět v nově otevřeném okně najděte soubor `controller.py`, vyberte ho, načež stiskněte tlačítko **Open**. Vzhledm okna pro výběr souborů se bude dle operačního systému na vašem počítači lyšit, screenshot níže je z počítače s operačním systémem Mac OS.
+![ESP_Vzorkovna_LED_10](https://github.com/Azetbur/Martom/assets/47574514/fe0dda21-345a-4912-bccd-b3fcc33efb22)
 
-8. Opět stiskněte **File**, v rozbalené nabídce však nyní stiskněte možnost **Save as...**. 
+7. Opět v nově otevřeném okně najděte soubor `controller.py`, vyberte ho, načež stiskněte tlačítko **Open**. Vzhledm okna pro výběr souborů se bude dle operačního systému na vašem počítači lyšit, screenshot níže je z počítače s operačním systémem Mac OS.
 
-9. V nově otevřeném okně nyní stiskněte možnost **MicroPython device**.
+![ESP_Vzorkovna_LED_11](https://github.com/Azetbur/Martom/assets/47574514/f2992f21-234f-4ec6-b2dd-b12f2ecb2e78)
 
-10. Na řádku **File name:** napiště do textového pole `controller.py`, načež zmáčkněte tlačítko **OK**.
+9. Opět stiskněte **File**, v rozbalené nabídce však nyní stiskněte možnost **Save copy...**.
 
-11. Opakujte kroky 5. až 10. pro soubory, tj. `light_driver.py`, `display_driver.py`, `rotary.py`, `rotary_irq_esp.py` a oba soubory `__init__.py`. Pozor, tyto soubory musí být uloženy ve svých příslušných složkách, tak, jak jsou v tomto repozitáři. K tomuto je v kroku 10. potřeba před stisknutím tlačítka **Ok** nejdřív vybrat správný adresář, do kterého bude soubor vložen.
+![ESP_Vzorkovna_LED_12](https://github.com/Azetbur/Martom/assets/47574514/80fa8477-225a-4bbd-b6dc-74d3b1be9f83)
+
+11. V nově otevřeném okně nyní stiskněte možnost **MicroPython device**.
+
+![ESP_Vzorkovna_LED_13](https://github.com/Azetbur/Martom/assets/47574514/7c2e3de1-8cf0-49a8-9429-00db82946af6)
+
+13. Na řádku **File name:** napiště do textového pole `controller.py`, načež zmáčkněte tlačítko **OK**.
+
+![ESP_Vzorkovna_LED_14](https://github.com/Azetbur/Martom/assets/47574514/55d84c07-991a-48ea-84b7-873da655f52d)
+
+15. Opakujte kroky 5. až 10. pro soubory, tj. `light_driver.py`, `display_driver.py`, `rotary.py`, `rotary_irq_esp.py` a oba soubory `__init__.py`. Pozor, tyto soubory musí být uloženy ve svých příslušných složkách, tak, jak jsou v tomto repozitáři. K tomuto je v kroku 10. potřeba před stisknutím tlačítka **Ok** nejdřív vybrat správný adresář, do kterého bude soubor vložen.
 
 V případě uložení souboru s jiným jménem či do špatné složky lze daný soubor vymazat stisknutím souboru pravým tlačítkem myši v okénku na pravé straně obrazovky pod řádkem **MicroPython device** a následným stisknutím možnosti **Delete**.
 
