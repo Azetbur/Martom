@@ -54,13 +54,13 @@ PIN_NUMBER_ARRAY      = [15, 2, 0, 4, 16, 17, 5, 18, 19, 23]
 
 Ačkoli lze nastavení osvětlení jednoduše konfigurovat v rámci provozu softwaru za pomocí připojeného rotačního enkodéru a displeje, toto nastavení je rovněž možné snadno provést úpravou souboru `boot.py`. Tato úprava není k funkčnosti softwaru na mikrokontroleru nutná, software v tomto repozitáři již obsahuje správné výchozí nastavení.  V případě použití softwaru na vzorkovně s deskou pro toto použití určenou a výchozím nastavením tudíž není třeba nastavení osvětlení tímto způsobem nijak měnit. Za těchto okolností je vhodné četbu této sekci přeskočit.
 
-Tato konfigurace je nicméně žádoucí např. při provozu mikrokontroleru bez displeje a rotačního enkodéru. Konfigurace v rámci souboru `boot.py` probíhá následovně:
+Tento postup je nicméně žádoucí např. při provozu mikrokontroleru bez displeje a rotačního enkodéru. Konfigurace probíhá následovně:
 
-1. Stáhněte si soubour `boot.py` z tohoto repozitáře do svého počítače.
+1. Stáhněte soubour `boot.py` z tohoto repozitáře do svého počítače. V případě, že máte soubor již stažený skrz postup v předchozí sekci tohoto dokumentu, použijte v následujícím bodě tento stažený soubor.
+  
+2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí. V následující sekci souboru, začínající na řádku 18, změňte nastavení osvětlení dle potřeby.
 
-2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí, tedy např. v *Thonny IDE*. V následující sekci souboru, začínající na řádku 18, změňte nastavení osvětlení dle potřeby. Soubor uložte. Postup jeho nahrání do ESP32 mikrokontroleru je popsán v nadcházející sekci tohoto dokument s názvem *Instalace*.
-
-```
+```python
 # Set the default setting for the LED lightning in this section ########################################
 
 BRIGHTNESS_PERCENTAGE_DEFAULT = 90
@@ -75,19 +75,23 @@ TIMER_ON_OFF_BOOL_DEFAULT     = True
 # End of section #######################################################################################
 ```
 
+3. Soubor uložte. Postup nahrání souboru do mikrokontroleru ESP32 je popsán v nadcházející sekci tohoto dokumentu nazvané *Instalace*.
+
 ## Instalace
 
-Instalační postup je zcela standardní pro *micropython* program na  mikrokontroleru ESP32, tj. k němu lze využít nezpočet běžně dostupných nástrojů jako např. *uPyCraft IDE*, *Thonny IDE*, či nástroje přímo v příkazové řádce.
+Instalační proces pro tento software je zcela standardním postupem, který se nijak nelyší od postupu instalace jakéhokoli jiného *Micropython* program na ESP32 mikrokontroler. K instalaci lze tudíž využít nespočet volně dostupných vývojových prostředí jako např. *uPyCraft IDE*, *Thonny IDE*, apod., či volně dostupné nástroje zabudované přímo do příkazové řádky.
 
-Následujíci sekce je určena primárně pro osoby neználé těchto nástrojů. Obsahuje detailní postup, jak naistalovat Micropython i tento software na ESP32 pomocí *Thonny IDE*.
+Následujíci sekce je určena primárně pro osoby neználé těchto nástrojů. Obsahuje detailní popis instalace *Micropythonu* a následně tohoto software na ESP32 mikrokontroler za pomocí vývojového prostředí *Thonny IDE*. Pokud se v tomto odvětví orientujete, můžete  zvolit jakýkoli jiný postup instalace bez očekávání žádných nadbytečných problémů.
 
-*Thonny IDE* je volně dostupné vývojové prostředí pro *Windows*, *Linux* i *Mac*. Zde je odkaz na [webové stránky Thonny IDE](https://thonny.org/ "Thonny").
+*Thonny IDE* je volně dostupné vývojové prostředí pro *Windows*, *Linux* i *Mac*. [Odkaz na webové stránky Thonny IDE](https://thonny.org/ "Thonny").
 
-### Flash *MicroPython* Softwaru
+Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Thonny*, stáhnout a naistalovat na váš počítač před provedením kroků popsaných v následujících sekcích tohoto dokumentu.
 
-*MicroPython* není v procesorech ESP32 naistalovaný z výroby, před instalací tohoto softwaru je tedy třeba na ESP32 jako první naistalovat _MicroPython_. Instalace probíhá následovně:
+### Flash *MicroPython* firmwaru
 
-1. **Propojte ESP32 s počítačem, na kterém je software *Thonny IDE* naistalovaný**. Toto propojení je bežně provedeno propojením Micro-USB či USB-C portu, který se nachází na vývojové desce mikrokontroleru s počítačem za pomocí vhodného kabelu. **Ujistěte se, že kabel neslouží pouze k nabíjení, tj. že obsahuje i datové propoje.**
+*MicroPython* není v procesorech ESP32 naistalovaný z výroby, před instalací tohoto softwaru je tedy třeba na ESP32 mikrokontroler nejdříve naistalovat _MicroPython_. Instalace probíhá následovně:
+
+1. **Propojte ESP32 s počítačem, na kterém je vývojové prostředí *Thonny IDE* naistalované**. Toto propojení je bežně realizováno pomocí Micro-USB či USB-C kabelu; typ kabelu závisí na portu na vývojové desce ESP32. **Ujistěte se, že vámi vybraný kabel neslouží pouze k nabíjení, tj. že obsahuje datové propoje.** V opačném případe se nebude možné k ESP32 mikrokontroleru skrz kabel připojit.
 
 ![ESP_Vzorkovna_LED_0](https://github.com/Azetbur/Martom/assets/47574514/c727c0de-3a68-4a53-adfc-54ceb72e8d9d)
 
