@@ -95,33 +95,32 @@ Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Th
 
 ![ESP_Vzorkovna_LED_0](https://github.com/Azetbur/Martom/assets/47574514/c727c0de-3a68-4a53-adfc-54ceb72e8d9d)
 
-2. V *Thonny IDE* klikněte v levém horním okraji obrazovky na **Run**, v rozbalené nabídce následně klikněte na položku **Configure interpreter...**
+2. Spusťte vývojové prostředí *Thonny IDE*. Po spuštění programu vyberte v levém horním okraji obrazovky '**Run**', v nově rozbalené nabídce následně stiskněte '**Configure interpreter...**'.
 
 ![ESP_Vzorkovna_LED_1](https://github.com/Azetbur/Martom/assets/47574514/4ec4c0c1-81d0-4c24-8f35-fe16968904aa)
 
-3. Pod řádkem **Which kind of interpreter should Thonny use for running your code?** vyberte z rozbalovací nabídky možnost **MicroPython (ESP32)**.
+3. Pod řádkem '**Which kind of interpreter should Thonny use for running your code?**' vyberte z rozbalovací nabídky možnost '**MicroPython (ESP32)**'.
 
 ![ESP_Vzorkovna_LED_2](https://github.com/Azetbur/Martom/assets/47574514/a729c2b5-c52e-418a-963c-c280719064bb)
 
-4. Pod řádkem **Port or WebREPL** vyberte port, přes který je ESP32 k počítači připojeno. Pravděpodobně půjde o možnost se slovy **USB to UART Bridge Controller** v názvu.
-
+4. Pod řádkem '**Port or WebREPL**' vyberte port, přes který je ESP32 mikrokontroler k počítači připojený. Pravděpodobně se bude jednat o možnost s názvem obsahujícím termín '**USB to UART Bridge Controller**'.
 ![ESP_Vzorkovna_LED_3](https://github.com/Azetbur/Martom/assets/47574514/3a6f3038-c4df-4462-9989-30266ada73a4)
 
-5. V pravém dolním rohu okna stiskněte text modré barvy **Install or update MicroPython (esptool)**.
+5. V pravém dolním rohu okna stiskněte text modré barvy '**Install or update MicroPython (esptool)**'.
 
 ![ESP_Vzorkovna_LED_4](https://github.com/Azetbur/Martom/assets/47574514/5a9e1af2-1b41-40db-8253-64371c697c8e)
 
-6. V nově zobrazeném okně vyberte pod řákem **MicroPython family** typ ESP32 mikrokontroleru, který máte k počítači připojený (typ zařízení je obvykle vytištění ESP32 čipu samotném, běžné vývojové desky jsou obvykle osazeny typem **ESP32**.
+6. V nově zobrazeném okně vyberte pod řádkem '**MicroPython family**' typ ESP32 mikrokontroleru, který máte k počítači připojený. Typ mikrokontroleru je obvykle vytištěný na ESP32 čipu samotném. Běžné vývojové desky jsou obvykle osazeny typem '**ESP32**'.
 
 ![ESP_Vzorkovna_LED_5](https://github.com/Azetbur/Martom/assets/47574514/87d35f86-d72e-44e5-ba62-946505216e4c)
 
-7. Pod řádkem variant vyberte výrobce - varianut ESP32 mikrokontroleru, která je připojená k počítači (tento údaj lze obvykle rovněž zjistit z textu vytištěném na čipu, pro běžné vývojové desky se bude obvykle jednat o možnost **Espressif • ESP32 / WROOM**.
+7. Pod řádkem '**variant**' vyberte výrobce - variantu ESP32 mikrokontroleru, kterou máte připojenou k počítači. Tento údaj lze obvykle rovněž zjistit z textu vytištěném na ESP32 čipu samotném. U běžných vývojových desek se bude obvykle jednat o možnost '**Espressif • ESP32 / WROOM**'.
 
 ![ESP_Vzorkovna_LED_6](https://github.com/Azetbur/Martom/assets/47574514/4bec7afa-3f73-408f-a622-2dee30af7e45)
 
-8. Stiskněte tlačítko **Install**. Proces instalace může zabrat až několik minut.
+8. Stiskněte tlačítko '**Install**'. Proces instalace může trvat až několik minut.
 
-
+Nyní je na vašem ESP32 mikrokontroleru naistalovaný *MicroPython* firnware.
 
 ### Flash jednotlivých souborů
 
