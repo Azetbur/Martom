@@ -221,4 +221,4 @@ Software vyvinul Jindřich Kocman pro firmu Holweka s.r.o. [Odkaz na Github str�
 
 ## Licence
 
-Software je vyvíjen pod licencí [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/).
+Software je vyvíjen pod licencí [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.html).
