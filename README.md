@@ -207,21 +207,18 @@ Soubor `boot.py` se spouští automaticky při každém restartu mikrokontroleru
 
 ## Použití
 
-Práce se softwarem při jeho provozu je vzhledem k minimálnímu počtu ovládacích prvků a omezeném počtu funkcí relativně intuitivní.
+Ovládání softwaru při jeho provozu je vzhledem k minimálnímu počtu ovládacích prvků a omezeném počtu funkcí relativně intuitivní.
 
-K zapnutí a vypnutí osvětlení slouží tlačítka připojená na pinech nakonfigurovaných v rámci souboru `boot.py`, tj. `BUTTON_1_PIN_NO`, `BUTTON_2_PIN_NO` a `BUTTON_3_PIN_NO`. Stiskem jakéhokoli z těchto tlačítkem během procesu zapínání osvětlení dojde k okamžitému zapnutí všech LED okruhů zároveň, stisknutím tlačítka při vypínání dojde k jejich okamžitému vypnutí.
+K zapnutí a vypnutí osvětlení slouží tlačítka připojená na pinech nakonfigurovaných v rámci souboru `boot.py`, tj. `BUTTON_1_PIN_NO`, `BUTTON_2_PIN_NO` a `BUTTON_3_PIN_NO`. Stiskem jakéhokoli z těchto tlačítkem během procesu zapínání osvětlení dojde k okamžitému zapnutí všech LED okruhů zároveň, stisknutím jakéhokoli tlačítka při vypínání dojde k jejich okamžitému vypnutí.
 
-Změny nastavení osvětlení lze při běhu softwaru jednoduše provést pomocí enkodéru a displeje. Otáčením enkodéru je možné přecházet mezi jednotlivými možnostmi nastavení. Kurzor tvořený symbolem `>>` indikuje, na kterém nastavení se uživatel právě nachází. Současně software umožňuje konfiguraci šesti různých nastavení rozprostřených na dvě stránky.
+Změny nastavení osvětlení lze při běhu softwaru jednoduše provést pomocí enkodéru a displeje. Software umožňuje konfiguraci šesti různých nastavení rozprostřených na dvě stránky. Otáčením enkodéru je možné přecházet mezi jednotlivými možnostmi nastavení. Kurzor tvořený symbolem `>>` indikuje, na kterém nastavení se uživatel právě nachází. 
 
-Stisknutím enkodéru je vybráno nastavení k editaci, načež se otáčením enkodéru mění hodnoty nastavení. Opětovaným stisknutím enkodéru je nové nastavení uloženo a enkodér přechází zpět do režimu výběru nastavení ke změně.
+Stisknutím enkodéru je vybráno nastavení k editaci, načež se otáčením enkodéru mění hodnoty nastavení. Opětovaným stisknutím enkodéru je nové nastavení uloženo a enkodér přechází zpět do režimu výběru nového nastavení ke změně.
 
-## Contributing
+## Autorství
 
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+Software vyvinul Jindřich Kocman pro firmu Holweka s.r.o. [Odkaz na Github stránku autora](https://github.com/Azetbur).
 
-Please make sure to update tests as appropriate.
+## Licence
 
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+Software je vyvíjen pod licencí [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/).
