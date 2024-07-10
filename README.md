@@ -27,7 +27,7 @@ Pokud však dojde v designu desky pro vzorkovnu ke změně, či bude-li kopie to
 
 1. Stáhněte soubour `boot.py` z tohoto repozitáře do svého počítače.
 
-2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí. V sekci souboru vyobrazené pod tímto textem, nacházející se na jeho začátku, změňte čísla jednotlivých pinů. Čísla by měla odpovídat fyzickému zapojení pinů. Způsob očíslování pinů na vaší vývojové pro ESP32 naleznete v dokumentaci výrobce dané desky.
+2. Otevřte soubor v jakémkoli textovém editoru či vývojovem prostředí. V sekci souboru vyobrazené pod tímto textem, nacházející se na jeho začátku, změňte čísla jednotlivých pinů. Čísla by měla odpovídat fyzickému zapojení pinů. Způsob očíslování pinů na vaší vývojové ESP32 desce naleznete v dokumentaci výrobce dané desky.
 
 ```python
 # Set the correct pin numbers for each of the connected peripherals in this section ####################
@@ -52,7 +52,7 @@ PIN_NUMBER_ARRAY      = [15, 2, 0, 4, 16, 17, 5, 18, 19, 23]
 
 ### Konfigurace nastavení osvětlení
 
-Ačkoli lze nastavení osvětlení jednoduše konfigurovat v rámci provozu softwaru za pomocí připojeného rotačního enkodéru a displeje, toto nastavení je rovněž možné snadno provést úpravou souboru `boot.py`. Tato úprava není k funkčnosti softwaru na mikrokontroleru nutná; software v tomto repozitáři již obsahuje správné výchozí nastavení.  V případě použití softwaru na vzorkovně s deskou pro toto použití určenou a výchozím nastavením tudíž není třeba nastavení osvětlení tímto způsobem nijak měnit. Za těchto okolností je vhodné četbu této sekce přeskočit.
+Ačkoli lze nastavení osvětlení jednoduše konfigurovat v rámci provozu softwaru za pomocí připojeného rotačního enkodéru a displeje, toto nastavení je rovněž možné snadno provést úpravou souboru `boot.py`. Tato úprava není k funkčnosti softwaru na mikrokontroleru nutná; software v tomto repozitáři již obsahuje vhodné výchozí nastavení.  V případě použití softwaru na vzorkovně s deskou pro toto použití určenou a výchozím nastavením tudíž není třeba nastavení osvětlení tímto způsobem nijak měnit. Za těchto okolností je vhodné četbu této sekce přeskočit.
 
 Tento postup je nicméně žádoucí např. při provozu mikrokontroleru bez displeje a rotačního enkodéru. Konfigurace probíhá následovně:
 
@@ -77,21 +77,21 @@ TIMER_ON_OFF_BOOL_DEFAULT     = True
 # End of section #######################################################################################
 ```
 
-* `BRIGHNTESS_PERCENTAGE_DEFAULT` - Nastavení jasu osvětlení v procentech. Lze nastavit na hodnotu `0` až `100`. Hodnota by měla být násobek pěti.
-* `UPTIME_TIME_SEC_DEFAULT` - Nastavení intervalu zapnutí jedno LED okruhu v sekundách. Nastavte hodnotu mezi `1` až `60`.
-* `DOWNTIME_TIME_SEC_DEFAULT` - Nastavení intervalu vypnutí jednoho LED okruhu v sekundách. Nastave hodnotu mezi `1` až `60`.
-* `OVERLAP_PERCENTAGE_DEFAULT` - Nastavení míry překrytí zapínání jednotlivých LED okruhů v procentech. Lze nastavit na hodnotu `0` až `100`. Hodnota by měla být násobek pěti. Při nastavení hodnoty `100` se všechny okruhy zapínají zároveň. Při nastavení hodnoty `0` se okruhy zapínají postupně, bez překrývání.
-* `TIMER_ON_OFF_DEFAULT_BOOL` - Nastavení zapnutí časovače. Nastave na hodnotu `True` pokud má být funkce časovače zapnutá, v opačném případě nastavte hodnotu `False`.
+* `BRIGHNTESS_PERCENTAGE_DEFAULT` - Nastavení jasu osvětlení v procentech. Lze nastavit na hodnotu `0` až `100`. Hodnota by měla být násobkem pěti.
+* `UPTIME_TIME_SEC_DEFAULT` - Nastavení intervalu zapnutí jedno LED okruhu v sekundách. Použijte hodnotu mezi `1` až `60`.
+* `DOWNTIME_TIME_SEC_DEFAULT` - Nastavení intervalu vypnutí jednoho LED okruhu v sekundách. Použijte hodnotu mezi `1` až `60`.
+* `OVERLAP_PERCENTAGE_DEFAULT` - Nastavení míry překrytí zapínání jednotlivých LED okruhů v procentech. Lze nastavit na hodnotu `0` až `100`. Hodnota by měla být násobkem pěti. Při nastavení hodnoty `100` se všechny okruhy zapínají zároveň. Při nastavení hodnoty `0` se okruhy zapínají postupně, bez překrývání.
+* `TIMER_ON_OFF_DEFAULT_BOOL` - Nastavení zapnutí časovače. Nastavte na hodnotu `True` pokud má být funkce časovače zapnutá, v opačném případě použijte hodnotu `False`.
 
 3. Soubor uložte. Postup nahrání souboru do mikrokontroleru ESP32 je popsán v nadcházející sekci tohoto dokumentu nazvané *Instalace*.
 
 ## Instalace
 
-Instalační proces pro tento software je zcela standardním postupem, který se nijak nelyší od postupu instalace jakéhokoli jiného *Micropython* program na ESP32 mikrokontroler. K instalaci lze tudíž využít nespočet volně dostupných vývojových prostředí jako např. *uPyCraft IDE*, *Thonny IDE*, apod., či volně dostupné nástroje zabudované přímo do příkazové řádky.
+Instalační proces pro tento software je shodný se standardním postupem instalace Micropython programu na platformu ESP32. K instalaci lze tudíž využít nespočet volně dostupných vývojových prostředí jako např. *uPyCraft IDE*, *Thonny IDE*, apod., či volně dostupné nástroje zabudované přímo do příkazové řádky.
 
-Následujíci sekce je určena primárně pro osoby neználé těchto nástrojů. Obsahuje detailní popis instalace *Micropythonu* a následně tohoto software na ESP32 mikrokontroler za pomocí vývojového prostředí *Thonny IDE*. Pokud se v této technologii orientujete, můžete  zvolit jakýkoli jiný postup instalace bez očekávání nadbytečných problémů a četbu této sekce přeskočit.
+Následujíci sekce je určena primárně pro osoby neznalé těchto nástrojů. Obsahuje detailní popis instalace *Micropythonu* a následně tohoto software na ESP32 mikrokontroler za pomocí vývojového prostředí *Thonny IDE*. Pokud se v této technologii orientujete, můžete zvolit jakýkoli jiný postup instalace bez očekávání nadbytečných problémů a četbu této sekce přeskočit.
 
-*Thonny IDE* je volně dostupné vývojové prostředí podporující operační systémy *Windows*, *Linux* i *Mac*. [Odkaz na webové stránky Thonny IDE](https://thonny.org/ "Thonny").
+*Thonny IDE* je volně dostupné vývojové prostředí podporující operační systémy *Windows*, *GNU/Linux* i *macOS*. [Odkaz na webové stránky Thonny IDE](https://thonny.org/ "Thonny").
 
 Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Thonny*, stáhnout a naistalovat na váš počítač, před provedením kroků popsaných v následujících sekcích tohoto dokumentu.
 
@@ -99,7 +99,7 @@ Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Th
 
 *MicroPython* není v procesorech ESP32 instalovaný z výroby, před instalací tohoto softwaru je tedy třeba na ESP32 mikrokontroler nejdříve naistalovat _MicroPython_. Instalace probíhá následovně:
 
-1. **Propojte ESP32 s počítačem, na kterém je vývojové prostředí *Thonny IDE* naistalované**. Toto propojení je bežně realizováno pomocí Micro-USB či USB-C kabelu; typ kabelu závisí na portu na vývojové desce ESP32. **Ujistěte se, že vámi vybraný kabel neslouží pouze k nabíjení, tj. že obsahuje datové propoje.** V opačném případe se nebude možné k ESP32 mikrokontroleru skrz kabel připojit.
+1. **Propojte ESP32 s počítačem, na kterém je vývojové prostředí *Thonny IDE* naistalované**. Toto propojení je bežně realizováno pomocí Micro-USB či USB-C kabelu: typ kabelu závisí na portu na vývojové desce ESP32. **Ujistěte se, že Vámi vybraný kabel neslouží pouze k nabíjení, tj. že obsahuje datové propoje.** V opačném případe se nebude možné k ESP32 mikrokontroleru skrz kabel připojit.
 
 ![ESP_Vzorkovna_LED_0](https://github.com/Azetbur/Martom/assets/47574514/c727c0de-3a68-4a53-adfc-54ceb72e8d9d)
 
@@ -111,7 +111,7 @@ Z těchto webových stránek je potřeba vývojové prostředí, tj. program *Th
 
 ![ESP_Vzorkovna_LED_2](https://github.com/Azetbur/Martom/assets/47574514/a729c2b5-c52e-418a-963c-c280719064bb)
 
-4. Pod řádkem '**Port or WebREPL**' vyberte port, přes který je ESP32 mikrokontroler k počítači připojený. Pravděpodobně se bude jednat o možnost s názvem obsahujícím termín '**USB to UART Bridge Controller**'.
+4. Pod řádkem '**Port or WebREPL**' vyberte port, přes který je ESP32 mikrokontroler k počítači připojený. Pravděpodobně půjde o možnost s názvem obsahujícím termín '**USB to UART Bridge Controller**'.
 ![ESP_Vzorkovna_LED_3](https://github.com/Azetbur/Martom/assets/47574514/3a6f3038-c4df-4462-9989-30266ada73a4)
 
 5. V pravém dolním rohu okna stiskněte text modré barvy '**Install or update MicroPython (esptool)**'.
@@ -136,7 +136,7 @@ Na vašem ESP32 mikrokontroleru je nyní nainstalovaný *MicroPython* firmware.
 
 Po instalaci *MicroPython* firmwaru na ESP32 mikrokontroler je na mikrokontroler nutné nahrát soubory tohoto softwaru. Nejdříve je však pro soubory třeba vytvořit příslušné adresáře. Vytvoření adresářů probíhá následovně:
 
-1. Ujistěte se, že je ESP32 mikrokontroler připojený k počítači a připravený přijímat data. Mikrokontroler je přiravený přijímat data, pokud okénko '**Shell**' v *Thonny IDE* obsahuje zprávu obdobné této:
+1. Ujistěte se, že je ESP32 mikrokontroler připojený k počítači a připravený přijímat data. Mikrokontroler je přiravený přijímat data, pokud okénko '**Shell**' v *Thonny IDE* obsahuje zprávu obdobnou této:
 
 ```
 MPY: soft reboot
@@ -145,7 +145,7 @@ Type "help()" for more information.
 >>> 
 ```
 
-Mikrokontroler je rovněž připravený přijímat data, pokud se na posledních několika řádcích okenká '**Shell**' nachází pouze symboly `>>>`, tj.:
+Mikrokontroler je rovněž připravený přijímat data, pokud se na posledních několika řádcích okenka '**Shell**' nachází pouze symboly `>>>`, tj.:
 
 ```
 >>>
@@ -155,7 +155,7 @@ Mikrokontroler je rovněž připravený přijímat data, pokud se na posledních
 
 V opačném připadě je třeba stisknout červené tlačítko '**Stop/Restart backend (Ctrl+F2)**'. Pokud se v okénku '**Shell**' po stisknutí červeného tlačítko '**Stop**' nezobrazí jeden ze dvou výše uvedených textů, zmáčkněte tlačítko znovu. Pokud se jeden z textů stále nezobrazí, odpojte a znovu zapojet ESP32 mikrokontroler k počítači, načež znovu stiskněte červené tlačítko '**Stop**'.
 
-Pokud stále nelze docílit žádoucího stavu v okenků '**Shell**' po několika opakovaných odpojení a připojení mikrokontroleru a stisknutí tlačítka '**Stop**', znovu opakujte všechny kroky v sekci *Flash MicroPython Softwaru* tohoto dokumentu.
+Pokud stále nelze docílit žádoucího stavu v okenku '**Shell**' po několika opakovaných odpojení a připojení mikrokontroleru a stisknutí tlačítka '**Stop**', znovu opakujte všechny kroky v sekci *Flash MicroPython Softwaru* tohoto dokumentu.
 
 2. V rozbalovacím menu vedle modrého textu '**MicroPython device**' vyberte možnost '**New directory...**'.
 
@@ -193,9 +193,9 @@ V tento okamžik je třeba nahrát do ESP32 jednotlivé soubory softwaru, nachá
 
 ![ESP_Vzorkovna_LED_14](https://github.com/Azetbur/Martom/assets/47574514/55d84c07-991a-48ea-84b7-873da655f52d)
 
-11. Opakujte kroky 5. až 10. pro soubory `light_driver.py`, `display_driver.py`, `rotary.py`, `rotary_irq_esp.py` a oba soubory `__init__.py`. Tyto soubory musí být uloženy ve svých příslušných adresářích ve stejné adresářové sturktuře jako v tomto repozitáři. K uložení souborů do odpovídajících adresářů je v kroku 10. potřeba před stisknutím tlačítka '**Ok**' nejdříve vybrat odpovídající adresář, do kterého bude soubor uložen.
+11. Opakujte kroky 5. až 10. pro soubory `light_driver.py`, `display_driver.py`, `rotary.py`, `rotary_irq_esp.py` a oba soubory `__init__.py`. Tyto soubory musí být uloženy ve svých příslušných adresářích ve stejné adresářové struktuře jako v tomto repozitáři. K uložení souborů do odpovídajících adresářů je v kroku 10. potřeba před stisknutím tlačítka '**Ok**' nejprve vybrat odpovídající adresář, do kterého bude soubor uložen.
 
-V případě uložení souboru pod chybním názvem či do neodpovídajícího adresáře lze tento soubor vymazat. K vymazání daného souboru stiskněte v okénku na pravé straně obrazovky pod řádkem '**MicroPython device**' jméno tohoto souboru pravým tlačítkem. Následným stisknutím možnosti '**Delete**' soubor vymažete.
+V případě uložení souboru pod chybným názvem či do neodpovídajícího adresáře lze tento soubor vymazat. K vymazání daného souboru stiskněte v okénku na pravé straně obrazovky pod řádkem '**MicroPython device**' jméno tohoto souboru pravým tlačítkem. Následným stisknutím možnosti '**Delete**' soubor vymažte.
 
 ![ESP_Vzorkovna_LED_15](https://github.com/Azetbur/Martom/assets/47574514/404a74e9-3fd4-4faa-89d7-b551a12088e3)
 
@@ -203,21 +203,21 @@ V případě uložení souboru pod chybním názvem či do neodpovídajícího a
 
 13. Software je nyní připraven ke spuštění. Software lze spustit stisknutím červeného tlačítka '**Stop**' v *Thonny IDE* či stisknutím fyzického tlačítka '**RST**' na vývojové desce ESP32 mikrokontroleru.
 
-Soubor `boot.py` se spouští automaticky při každém restartu mikrokontroleru, tj. i při každém stisknutí tlačítka '**Stop**'. Pokud je soubor `boot.py` v mikrokontroleru přítomen a software byl již spušťen, je k nahrání nových či přepsání existujících souborů v ESP32 mikrokontroleru nejdříve třeba přerušit činnost softwaru. Toto lze docílit stisknutím jakékoli části **'Shell** okénka a následným stisknutím klávesnicové zkratky '**Ctrl**' + '**D**'.
+Soubor `boot.py` se spouští automaticky při každém restartu mikrokontroleru, tedy i při každém stisknutí tlačítka '**Stop**'. Pokud je soubor `boot.py` v mikrokontroleru přítomen a software byl již spušťen, je k nahrání nových či přepsání existujících souborů v ESP32 mikrokontroleru nejdříve třeba přerušit činnost softwaru. Toto lze docílit stisknutím jakékoli části '**Shell**' okénka a následným stisknutím klávesnicové zkratky '**Ctrl**' + '**D**'.
 
 ## Použití
 
 Ovládání softwaru při jeho provozu je vzhledem k minimálnímu počtu ovládacích prvků a omezeném počtu funkcí relativně intuitivní.
 
-K zapnutí a vypnutí osvětlení slouží tlačítka připojená na pinech nakonfigurovaných v rámci souboru `boot.py`, tj. `BUTTON_1_PIN_NO`, `BUTTON_2_PIN_NO` a `BUTTON_3_PIN_NO`. Stiskem jakéhokoli z těchto tlačítkem během procesu zapínání osvětlení dojde k okamžitému zapnutí všech LED okruhů zároveň, stisknutím jakéhokoli tlačítka při vypínání dojde k jejich okamžitému vypnutí.
+K zapnutí a vypnutí osvětlení slouží tlačítka připojená na pinech nakonfigurovaných v rámci souboru `boot.py`, tj. `BUTTON_1_PIN_NO`, `BUTTON_2_PIN_NO` a `BUTTON_3_PIN_NO`. Stiskem kteréhokoliv z těchto tlačítek během procesu zapínání osvětlení dojde k okamžitému zapnutí všech LED okruhů zároveň, stiskem kteréhokoliv tlačítka při vypínání dojde k jejich okamžitému vypnutí.
 
 Změny nastavení osvětlení lze při běhu softwaru jednoduše provést pomocí enkodéru a displeje. Software umožňuje konfiguraci šesti různých nastavení rozprostřených na dvě stránky. Otáčením enkodéru je možné přecházet mezi jednotlivými možnostmi nastavení. Kurzor tvořený symbolem `>>` indikuje, na kterém nastavení se uživatel právě nachází. 
 
-Stisknutím enkodéru je vybráno nastavení k editaci, načež se otáčením enkodéru mění hodnoty nastavení. Opětovaným stisknutím enkodéru je nové nastavení uloženo a enkodér přechází zpět do režimu výběru nového nastavení ke změně.
+Stisknutím enkodéru je vybráno nastavení k editaci, hodnota nastavení se následně mění otáčením enkodéru. Opětovaným stisknutím enkodéru je nové nastavení uloženo a enkodér přechází zpět do režimu výběru nového nastavení ke změně.
 
 ## Autorství
 
-Software vyvinul Jindřich Kocman pro firmu Holweka s.r.o. [Odkaz na Github stránku autora](https://github.com/Azetbur).
+Software vyvinul Jindřich Kocman pro firmu Holweka s.r.o. [Odkaz na Github stránku autora](https://github.com/Azetbur)
 
 ## Licence
 
