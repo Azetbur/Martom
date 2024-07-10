@@ -13,11 +13,11 @@ Součástí softwaru jsou dále soubory `boot.py` a `controller.py`. Tyto soubor
 
 Soubor `boot.py` slouží primárně ke konfiguraci čísel pinů jednotlivých periferních zařízení, tj. displeje, LED obvodů apod. V rámci souboru rovněž probíhá inicializaci objektů reprezentujících tyto zařízení. Tyto objekty jsou importovány z jednotlivých ovladačů zmíněných výše.
 
-Soubor `controller.py`  zajištuje fukční propejení všech výše zmíněních objektů a jejich ovládání, tj. např. zapnutí osvětlení při stisknutí  vypínače, tisk změny v nastavení na LCD displej při otočení rotačním enkodérem apod.
+Soubor `controller.py`  zajištuje fukční propejení všech výše zmíněních objektů a jejich ovládání, tj. např. zapnutí osvětlení při stisknutí  vypínače, tisk změny v nastavení na LCD displej při otočení rotačního enkodéru apod.
 
 ## Konfigurace
 
-V souboru `boot.py` se nachází dvě sekce prostého textu určené pro konfiguraci parametrů softwaru. První sekce slouží k nastavení čísel pinů připojeních periferních zařízení. Druhá sekce je určena pro nastavení parametrů jednotlivých funkcí softwaru, tj. např. časového intervalu pro vypnutí osvětlení.
+V souboru `boot.py` se nachází dvě sekce prostého textu určené pro konfiguraci parametrů softwaru. První sekce slouží k nastavení čísel pinů připojených periferních zařízení. Druhá sekce je určena pro nastavení parametrů jednotlivých funkcí softwaru, tj. např. časového intervalu pro vypnutí osvětlení.
 
 ### Konfigurace připojených LED okruhů a zařízení
 
@@ -27,7 +27,7 @@ Pokud však dojde v designu desky pro vzorkovnu ke změně, či bude-li kopie to
 
 1. Stáhněte soubour `boot.py` z tohoto repozitáře do svého počítače.
 
-2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí. V sekci souboru vyobrazené pod tímto textem, nacházející se na jeho začátku, změňte čísla jednotlivých pinů. Čísla by měla odpovídat fyzickému zapojení pinů. 
+2. Otevřete soubor v jakémkoli textovém editoru či vývojovem prostředí. V sekci souboru vyobrazené pod tímto textem, nacházející se na jeho začátku, změňte čísla jednotlivých pinů. Čísla by měla odpovídat fyzickému zapojení pinů. Způsob očíslování pinů na vaší vývojové pro ESP32 naleznete v dokumentaci výrobce dané desky.
 
 ```python
 # Set the correct pin numbers for each of the connected peripherals in this section ####################
@@ -52,7 +52,7 @@ PIN_NUMBER_ARRAY      = [15, 2, 0, 4, 16, 17, 5, 18, 19, 23]
 
 ### Konfigurace nastavení osvětlení
 
-Ačkoli lze nastavení osvětlení jednoduše konfigurovat v rámci provozu softwaru za pomocí připojeného rotačního enkodéru a displeje, toto nastavení je rovněž možné snadno provést úpravou souboru `boot.py`. Tato úprava není k funkčnosti softwaru na mikrokontroleru nutná, software v tomto repozitáři již obsahuje správné výchozí nastavení.  V případě použití softwaru na vzorkovně s deskou pro toto použití určenou a výchozím nastavením tudíž není třeba nastavení osvětlení tímto způsobem nijak měnit. Za těchto okolností je vhodné četbu této sekci přeskočit.
+Ačkoli lze nastavení osvětlení jednoduše konfigurovat v rámci provozu softwaru za pomocí připojeného rotačního enkodéru a displeje, toto nastavení je rovněž možné snadno provést úpravou souboru `boot.py`. Tato úprava není k funkčnosti softwaru na mikrokontroleru nutná; software v tomto repozitáři již obsahuje správné výchozí nastavení.  V případě použití softwaru na vzorkovně s deskou pro toto použití určenou a výchozím nastavením tudíž není třeba nastavení osvětlení tímto způsobem nijak měnit. Za těchto okolností je vhodné četbu této sekce přeskočit.
 
 Tento postup je nicméně žádoucí např. při provozu mikrokontroleru bez displeje a rotačního enkodéru. Konfigurace probíhá následovně:
 
