@@ -1,6 +1,37 @@
+# Set the correct pin numbers for each of the connected peripherals in this section ####################
+DISPLAY_SDA_PIN_NO    = 21
+DISPLAY_SCL_PIN_NO    = 22
+
+ENCODER_DT_PIN_NO     = 34
+ENCODER_CLK_PIN_NO    = 35
+
+ENCODER_BUTTON_PIN_NO = 13
+
+BUTTON_1_PIN_NO       =	12
+BUTTON_2_PIN_NO       = 14
+BUTTON_3_PIN_NO       = 27
+
+# An array containing all the pins which belong to LED circuits.
+# Correct formating example: [11, 12, 13]
+PIN_NUMBER_ARRAY      = [15, 2, 0, 4, 16, 17, 5, 18, 19, 23]
+
+# Set the default setting for the LED lightning in this section ########################################
+
+BRIGHTNESS_PERCENTAGE_DEFAULT = 90
+TIMER_TIME_MIN_DEFAULT        = 60
+UPTIME_TIME_SEC_DEFAULT       = 1
+DOWNTIME_TIME_SEC_DEFAULT     = 2
+OVERLAP_PERCENTAGE_DEFAULT    = 50
+
+# Set this to True if you want the timer function to be active, False if not
+TIMER_ON_OFF_BOOL_DEFAULT     = True
+
+# End of section #######################################################################################
+
 import uasyncio
 import utime
 import gc
+import micropython
 from machine import Pin
 
 from controller import Controller
@@ -8,17 +39,17 @@ from my_drivers.light_driver import lightArray
 from my_drivers.display_driver import Display
 from third_party_drivers.rotary_irq_esp import RotaryIRQ
 
-# Global variable to track the last button press time
+# Variable to track the last button press time
 last_press_time = 0
 
 # Debounce period for buttons in milliseconds
-debounce_ms = 300
+DEBOUNCE_MS = 300
 
 # Stores the last known value of the encoder
 encoder_val_stored = 0
 
 # Garbage collection interval in seconds
-garbage_s = 600
+GARBAGE_S = 600
 
 def _log(message):
     print("\n" + "boot.py         : " + str(message))
@@ -34,7 +65,7 @@ def array_button_isr(pin, array):
     current_time = utime.ticks_ms()  # Use utime.ticks_ms() to get the current time
 
     # Check if current press is within the debounce period
-    if utime.ticks_diff(current_time, last_press_time) > debounce_ms:  # Use utime.ticks_diff() for time difference
+    if utime.ticks_diff(current_time, last_press_time) > DEBOUNCE_MS:  # Use utime.ticks_diff() for time difference
         last_press_time = current_time
         _log("Button press registered on " + str(pin))
         uasyncio.create_task(handle_button_press(array))
@@ -59,7 +90,9 @@ async def garbage_collector():
     while True:
         gc.collect()
         _log("Garbage collection performed")
-        await uasyncio.sleep(garbage_s)
+        #_log("Free Memory: " + str(gc.mem_free()))
+        #micropython.mem_info()
+        await uasyncio.sleep(GARBAGE_S)
 
 async def main():
     global encoder_val_stored
@@ -67,23 +100,23 @@ async def main():
     _log("Initializing program")
     
     # Create a Display instance
-    display = Display(sda_pin=21,
-                      scl_pin=22,
+    display = Display(sda_pin=DISPLAY_SDA_PIN_NO,
+                      scl_pin=DISPLAY_SCL_PIN_NO,
                       freq=10000,
                       address=0x27)
     
     # Create a Controller instance
-    controller = Controller(brightness_percentage=90,
-                            timer_on_off_bool=True,
-                            timer_time_min=60,
-                            uptime_time_sec=1,
-                            downtime_time_sec=2,
-                            overlap_percentage=50,
+    controller = Controller(brightness_percentage=BRIGHTNESS_PERCENTAGE_DEFAULT,
+                            timer_on_off_bool=TIMER_ON_OFF_BOOL_DEFAULT,
+                            timer_time_min=TIMER_TIME_MIN_DEFAULT,
+                            uptime_time_sec=UPTIME_TIME_SEC_DEFAULT,
+                            downtime_time_sec=DOWNTIME_TIME_SEC_DEFAULT,
+                            overlap_percentage=OVERLAP_PERCENTAGE_DEFAULT,
                             display=display)
     
     # Create a RotaryIRQ instance
-    encoder = RotaryIRQ(pin_num_clk=35, 
-                        pin_num_dt=34, 
+    encoder = RotaryIRQ(pin_num_clk=ENCODER_CLK_PIN_NO, 
+                        pin_num_dt=ENCODER_DT_PIN_NO, 
                         min_val=0, 
                         max_val=controller.no_lines - 1,
                         reverse=False, 
@@ -91,14 +124,14 @@ async def main():
                         half_step=True)
     encoder_val_stored = encoder.value()
     
-    encoder_button_pin = Pin(13, Pin.IN, Pin.PULL_UP)
+    encoder_button_pin = Pin(ENCODER_BUTTON_PIN_NO, Pin.IN, Pin.PULL_UP)
     encoder_button_pin.irq(trigger=Pin.IRQ_FALLING, handler=lambda pin: controller.encoder_pressed(array, encoder))
     _log("Encoder configured")
     
     # Create a lightArray instance
     array = lightArray(pin_number_array=[15, 2, 0, 4, 16, 17, 5, 18, 19, 23],
                        frequency=20000,
-                       fps=60,
+                       fps=40,
                        brightness_percentage=controller.settings_array[0],
                        timer_active_bool=controller.settings_array[1],
                        timer_time_minutes=controller.settings_array[2],
@@ -124,7 +157,7 @@ async def main():
         if check_encoder_turned(encoder):
             controller.encoder_turned(encoder.value())
             
-        display.check_connection(controller, encoder.value())
+        #display.check_connection(controller, encoder.value())
 
 
 # Run the main coroutine
