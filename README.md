@@ -203,6 +203,8 @@ Práce se softwarem při jeho provozu je vzhledem k minimálnímu počtu ovláda
 
 Osvětlení se zapíná a vypíná stisknutím tlačítek připojených na pinech nakonfigurova v rámci souboru `boot.py`, tj. `BUTTON_1_PIN_NO`, `BUTTON_2_PIN_NO` a `BUTTON_3_PIN_NO`. Stiskem jakéhokoli z těchto tlačítkem během procesu zapínání dojde k okamžitému zapnutí všechc LED okruhů, stisknutím při vypínání dojde k okamžitému vypnutí.
 
+Změny nastavení lze při běhu programu jednoduše provést pomocí enkodéru a displeje. Otáčením enkodéru je možné přecházet mezi jednotlivými možnosti nastavení. Stisknutím enkodéru je vybráno nastavení k editaci, načež se otáčením enkodéru mění hodnoty nastavení. Opětovaným stisknutím enkodéru je nové nastavení uloženo a enkodér přechází zpět do režimu výběru nastavení ke změně.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
