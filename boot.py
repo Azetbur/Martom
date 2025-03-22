@@ -17,7 +17,9 @@ PIN_NUMBER_ARRAY      = [15, 2, 0, 4, 16, 17, 5, 18, 19, 23]
 
 # Set the default setting for the LED lightning in this section ########################################
 
+# The brightness percentage value should be a multiple of 5
 BRIGHTNESS_PERCENTAGE_DEFAULT = 90
+
 TIMER_TIME_MIN_DEFAULT        = 60
 UPTIME_TIME_SEC_DEFAULT       = 1
 DOWNTIME_TIME_SEC_DEFAULT     = 2
