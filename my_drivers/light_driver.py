@@ -99,7 +99,7 @@ class lightArray:
                 bool_flag_to_break[0] = True;
         
     # Turns all light circuits on or off based on the value of 'self.state'.
-    def toggle(self):
+    async def toggle(self):
         
         # Prevents the function from executing if the state is already being changed
         # Present in case the function is toggled multiple times in short succession
